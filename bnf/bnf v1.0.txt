@@ -1,0 +1,37 @@
+BNF:
+
+S       -> D P
+
+D       -> VAR|var
+D       -> DECS
+D       -> ENDVAR|endvar
+DECS    -> [L]
+L       -> TD,L,id
+L       -> TD]:[id
+TD      -> int|INT|float|FLOAT|string|STRING
+
+P       -> P SENT
+SENT    -> ENT|SAL|CONDIC|ASIG|CCN
+ENT     -> PRINT cte_s|PRINT id
+SAL     -> READ id
+CONDIC  -> IF (C) THEN CUERPO ELSE CUERPO ENDIF
+C       -> CS | CM
+CS      -> NOT id
+CM      -> Cind O_L Cind
+O_L     -> AND | OR
+Cind    -> id O_C cte | cte O_C id
+O_C     -> > | < | == | >= | <= | <>
+CUERPO  -> ASIG
+ASIG    -> id := E | id := NT_MOD | id := NT_DIV
+CCN     -> CONST id = cte
+
+E       -> E + T | E - T | T
+T       -> T * F | T / F | F
+F       -> id | cte | MOD | DIV | (E)
+NT_MOD  -> E MOD E | E mod E
+NT_DIV  -> E DIV E | E div E
+
+
+
+Dudas:
+- Como hacemos formato del Repeat
