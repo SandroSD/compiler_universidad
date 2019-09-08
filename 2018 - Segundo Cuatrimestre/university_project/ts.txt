@@ -1,0 +1,31 @@
+Nombre                        Tipo        Valor                         Longitud    
+n                             REAL        
+a                             INTEGER     
+b                             INTEGER     
+d                             INTEGER     
+i                             INTEGER     
+c                             INTEGER     
+cadena                        STRING      
+s                             STRING      
+&cte1                        CONST_INT   1                                         
+&cte2                        CONST_INT   15                                        
+&cte3                        CONST_REAL  99.99                                     
+&cte4                        CONST_REAL  .99                                       
+&cte5                        CONST_REAL  99.                                       
+&cte6                        CONST_REAL  -542.43                                   
+&cte7                        CONST_STR   ""                            2           
+&cte8                        CONST_INT   2                                         
+&cte9                        CONST_INT   7                                         
+&cte10                       CONST_INT   5                                         
+&cte11                       CONST_INT   3                                         
+&cte12                       CONST_INT   6                                         
+&cte13                       CONST_INT   20                                        
+&cte14                       CONST_INT   4                                         
+&cte15                       CONST_INT   16                                        
+&cte16                       CONST_INT   30                                        
+&cte17                       CONST_INT   60                                        
+&cte18                       CONST_INT   32                                        
+&cte19                       CONST_STR   "HOLA"                        6           
+&cte20                       CONST_STR   "hello"                       7           
+&cte21                       CONST_STR   "mundo"                       7           
+&cte22                       CONST_STR   "world"                       7           
