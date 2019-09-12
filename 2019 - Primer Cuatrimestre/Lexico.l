@@ -32,11 +32,12 @@ endif|ENDIF				{ return ENDIF; }
 int|INT					{ return INT; }
 float|FLOAT				{ return FLOAT; }
 string|STRING			{ return STRING; }
-":="					{ return OP_ASIG; }
+
 "+"						{ return OP_SUM; }
 "-"						{ return OP_RES; }
 "/"						{ return OP_DIV; }
 "*"						{ return OP_MUL; }
+":="					{ return OP_ASIG; }
 ":"						{ return OP_DOSP; }
 ","						{ return CAR_COMA; }
 ";"						{ return CAR_PYC; }
@@ -52,6 +53,9 @@ string|STRING			{ return STRING; }
 "<="					{ return CMP_MENORIGUAL; }
 "!="					{ return CMP_DISTINTO; }
 "=="					{ return CMP_IGUAL; }
+"&&"					{ return AND; }
+"||"					{ return OR; }
+
 {CONST_INT}				{
 							yylval.str_val = strdup(yytext);
 							int num = atoi(yylval.str_val); 
