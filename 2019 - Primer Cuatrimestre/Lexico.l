@@ -56,6 +56,9 @@ string|STRING			{ return STRING; }
 "&&"					{ return AND; }
 "||"					{ return OR; }
 
+PRINT           		{return PRINT;}
+READ            		{return READ;}
+
 {CONST_INT}				{
 							yylval.str_val = strdup(yytext);
 							int num = atoi(yylval.str_val); 
