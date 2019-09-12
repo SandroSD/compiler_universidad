@@ -1,12 +1,17 @@
 %{
-    #include <stdio.h>
-    #include <stdlib.h>
+	#include <stdio.h>
+	#include <stdlib.h>
+	#include <string.h>
     #include "y.tab.h"
     #include "ts.h"
     
-    #define COTA_INT 2147483647
-    #define COTA_FLOAT 3.402823E+38
+	#define STR_VALUE 255
+	#define COTA_STR 50
+	#define COTA_INT 65535
+	#define COTA_FLOAT 9999999.9999999999
+	#define COTA_ID 32
 %}
+
 
 %option noyywrap
 %option yylineno
@@ -14,11 +19,16 @@
 DIGITO_CON_CERO			[0-9]
 DIGITO_SIN_CERO			[1-9]
 LETRA					[a-zA-Z]
-ID						{LETRA}({LETRA}|{DIGITO}|_)*
+ID						{LETRA}({LETRA}|{DIGITO_CON_CERO}|_)*
 CONST_INT				"-"{DIGITO_SIN_CERO}+|{DIGITO_CON_CERO}+
 CONST_REAL				"-"?{DIGITO_SIN_CERO}*"."{DIGITO_CON_CERO}*|{DIGITO_CON_CERO}*"."{DIGITO_CON_CERO}*
-COMENTARIO				"*/"([^*/]|\n)*?"/*"
-COMENTARIO_ANIDADO		"*/"([^*/]|\n|{COMENTARIO})*?"/*"
+CONST_STR          		"\""({CARACTER}+|{ESPACIO})*"\""
+CARACTER        		[a-z,A-Z,0-9,=,>,<,!,:,+,-,*,/,@]
+ESPACIO         		[" "]
+A_COMENTARIO			"--/"
+C_COMENTARIO			"/--"
+CONTENIDO				[a-zA-Z0-9 "",=,>,<,!,:,+,-,*,/,@]*
+COMENTARIO 				({A_COMENTARIO}{CONTENIDO}{C_COMENTARIO})	
 
 %%
 VAR|var					{ return VAR; }
@@ -60,53 +70,47 @@ PRINT           		{return PRINT;}
 READ            		{return READ;}
 
 {CONST_INT}				{
-							yylval.str_val = strdup(yytext);
-							int num = atoi(yylval.str_val); 
-							if(num >= COTA_INT*(-1) && num <= COTA_INT){
-								insertarTokenEnTS("CONST_INT", yylval.str_val);
-								return CONST_INT; 
-							} else {
-								char msg[300];
-								sprintf(msg, "ERROR Lexico - Constante entera \'%d\' fuera de rango. Debe estar entre [-+ %d]", num, COTA_INT);
-								yyerror(msg);
+							if (atoi(yytext) > COTA_INT) {
+								printf( "El entero ingresado supera la cantidad maxima permitida. Cantidad: %d\n", COTA_INT);
+								exit(1);
 							}
+							yylval.intValue = atoi(yytext); 
+							printf( "Entero en lexico: %d\n", yylval.intValue); 
+							//insertarTokenEnTS(strdup(yytext), "&");
+							return CONST_INT;
 						}
 {CONST_REAL}      		{
-							yylval.str_val = strdup(yytext);
-                            double n = atof(yylval.str_val);
-				            if(n >= COTA_FLOAT*(-1) && n <= COTA_FLOAT){
-					            insertarTokenEnTS("CONST_REAL", yylval.str_val);
-					            return CONST_REAL; 
-				            } else {
-                                char msg[300];
-                                sprintf(msg, "ERROR Lexico - Constante real \'%f\' fuera de rango. Debe estar entre [-+ %f]", n, COTA_FLOAT);
-								yyerror(msg);
-				            }
+							if (atof(yytext) > COTA_FLOAT) {
+								printf( "El flotante ingresado supera la cantidad maxima permitida. Cantidad: %f\n", COTA_FLOAT);
+								exit(1);
+							}  
+							yylval.floatValue = atof(yytext);
+							//insertarTokenEnTS(strdup(yytext), "$"); 
+							printf( "Float en lexico: %f\n", yylval.floatValue); 
+							return CONST_REAL;
 						}
 {CONST_STR}    			{	
-							yylval.str_val = strdup(yytext);
-							int cantCaracteres = strlen(yylval.str_val);
-					        if(cantCaracteres <= COTA_STR) { // Se cuentan las comillas tambien
-						        insertarTokenEnTS("CONST_STR", yylval.str_val);
-						        return CONST_STR;
+					        if(strlen(yytext) > COTA_STR) { 
+							    printf( "El string ingresado supera la cantidad maxima permitida. Cantidad: %d\n", COTA_STR);
+								exit(1);
 					        } else {
-                                char msg[300];
-                                sprintf(msg, "ERROR Lexico - Constante string \'%s\' demasiado larga. Maximo de 30 caracteres y contiene: %d", yytext, cantCaracteres-2);
-                                yyerror(msg);
+							    yylval.stringValue = strdup(yytext);
+								printf( "String en lexico: %s\n", yylval.stringValue);
+								//insertarTokenEnTS("CONST_STR", yylval.stringValue);
+								return CONST_STR; 
 					        }
 						}
-{ID}        			{	yylval.str_val = strdup(yytext);
-							int cantCaracteres = strlen(yylval.str_val);
-					        if(cantCaracteres <= COTA_ID) {
-						        return ID; 
-					        } else {
-                                char msg[300];
-                                sprintf(msg, "ERROR Lexico - ID: \'%s\' demasiado largo. Maximo de 20 caracteres y contiene: %d", yytext, cantCaracteres);
-								yyerror(msg);
-					        }	
+{ID}        			{	
+							if (strlen(yytext) > COTA_ID) {
+								printf( "El string ingresado supera la cantidad maxima permitida. Cantidad: %d\n", COTA_ID);
+								exit(1);
+							}
+							yylval.stringValue = strdup(yytext);
+							printf( "Identificador en lexico: %s\n",yylval.stringValue);
+							//insertarTokenEnTS(yylval.stringValue, "_");
+							return ID;
                         }
 {COMENTARIO} 			{ }
-{COMENTARIO_ANIDADO}	{ }
 "\n"					{ }
 "\r\n"					{ }
 "\t"					{ }

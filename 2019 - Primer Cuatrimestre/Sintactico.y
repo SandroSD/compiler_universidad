@@ -2,14 +2,19 @@
 	#include <stdio.h>
 	#include <stdlib.h>
 	#include <string.h>
+	#include <math.h>
 	#include "y.tab.h"
 
-	int yylineno
-	FILE *yyin;
-	int yylex();
-	int yyerror(char *msg);
-	int yyparse();
+	FILE  *yyin;
+	extern int yylex();
+	void yyerror(char *msg);
 %}
+
+%union {
+	int intValue;
+	float floatValue;
+	char *stringValue;
+}
 
 //Start Symbol
 %start programa
@@ -47,31 +52,119 @@
 %token INT
 %token FLOAT
 %token STRING
+%token AND
+%token OR
+%token READ 
+%token PRINT
+
+%token CONST_INT
+%token CONST_REAL
+%token CONST_STR
 
 //Empezamos a definir la gramática
 %%
-programa:
-	{print_f("Inicia el compilador")}
-	definiciones logica
+
+programa:  declaracion sentencias;
+
+declaracion: 
+		VAR linea_declaracion ENDVAR 		{printf("Regla de declaracion de variables\n");}
+	;
+	
+linea_declaracion: 
+		CAR_CA lista CAR_CC
+	;
+	
+lista:	
+		dec_tipo CAR_COMA lista CAR_COMA ID 
+		|dec_tipo CAR_CC OP_DOSP CAR_CA ID 
+	;
+	
+dec_tipo:
+		INT | STRING | FLOAT
 	;
 
-definiciones:
-	VAR {print_f("Empieza la declaración de variables")}
-	declaraciones
-	ENDVAR {print_f("Finaliza la declaración de variables")}
+sentencias: sentencias sent | sent;
+
+sent: iteracion|decision|entrada_salida|asignacion {printf("Inicia el compilador\n");};
+
+iteracion:
+		REPEAT CAR_PA condiciones CAR_PC CAR_LA sentencias CAR_LC   {printf("Regla de iteracion repeat\n");}
 	;
 
-declaraciones:
-	CAR_CA lista CAR_CC
+condiciones:
+		condiciones operador condicion		{printf("Condicion multiple\n");}
+		|condicion							{printf("Condicion Individual\n");}
+	;
+		
+operador:
+		AND			{printf("and\n");}
+		|OR			{printf("or\n");}
+	;
+	
+condicion:
+		expresion  CMP_MAYOR expresion				{printf("MAYOR\n");}
+		|expresion CMP_MAYORIGUAL expresion			{printf("MAYOR IGUAL\n");}
+		|expresion CMP_MENOR expresion				{printf("MENOR\n");}
+		|expresion CMP_MENORIGUAL expresion			{printf("MENOR IGUAL\n");}
+		|expresion CMP_IGUAL expresion				{printf("IGUAL\n");}
+		|expresion CMP_DISTINTO expresion			{printf("DISTINTO\n");}
+	;
+	
+expresion:
+		expresion OP_RES termino					{printf("Esto es una resta\n");}
+		|expresion OP_SUM termino					{printf("Esto es una suma\n");}
+		|termino									{printf("Termino\n");}
+	;
+	
+termino:
+		termino OP_MUL factor		   		{printf("Esto es una multiplicacion\n");}
+		|termino OP_DIV factor			    {printf("Esto es una division\n");}
+		|factor								{printf("Factor\n");}
+	; 
+	
+factor:     
+		ID 									   {printf("Esto es un ID\n");}									
+		|tipo 								   {printf("Esto es una cte\n");}
+		|CAR_PA expresion CAR_PC         	   {printf("Esto es una expresion\n");}
 	;
 
-lista:
-	TD CAR_COMA lista CAR_COMA ID
-	|
-	TD CAR_CC OP_DOSP CAR_CA ID
+tipo: 
+		CONST_INT    	{printf("Esto es un entero\n");}
+		|CONST_REAL    	{printf("Esto es un real\n");}
 	;
 
-TD:
-	INT | FLOAT | STRING
+decision:
+		IF CAR_PA condiciones CAR_PC CAR_LA sentencias CAR_LC   {printf("Regla de condicion: IF\n");}
+	   |IF CAR_PA condiciones CAR_PC CAR_LA sentencias CAR_LC ELSE CAR_LA sentencias CAR_LC	{printf("Regla de condicion: IF Y ELSE\n");}
 	;
+	
+entrada_salida:
+		READ ID 			{printf("Regla de lectura de entrada READ\n");}
+		|PRINT ID 			{printf("Regla de escritura de salida PRINT de variable\n");}
+		|PRINT CONST_STR    {printf("Regla de escritura de salida PRINT de constante\n");}
+	;
+	
+asignacion: lista expresion {printf("Regla de asignacion\n");};
+
 %%
+
+int main(int argc,char *argv[])
+{
+  if ((yyin = fopen(argv[1], "rt")) == NULL)
+  {
+	printf("\nNo se pudo abrir el archivo: %s\n", argv[1]);
+  }
+  else
+  {
+	yyparse();
+	//EscribirArchivo();
+  }
+  fclose(yyin);
+  return 0;
+}
+//---------------------------------------- Validaciones ------------------------------------------//
+
+void yyerror(char *msg){
+    fprintf(stderr, "%s\n", msg);
+    exit(1);
+}
