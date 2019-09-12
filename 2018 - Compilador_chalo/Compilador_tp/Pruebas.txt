@@ -1,0 +1,48 @@
+-/Prueba de comentario/-
+
+-/Asignacion multiple/-
+a:=b:= 4
+
+-/Asignacion simple/-
+a:=4
+
+-/Promedio/-
+AVG([144,4,5,2,3,(2+2)])
+
+-/Prueba de iteraciones/-
+while(10>9)
+{
+a:=5
+}
+
+-/Prueba de condicional 1/-
+if(10>9)
+{
+a:=5
+}
+
+-/Prueba de condicional 2/-
+if(8>9)
+{
+a:=5
+}else{
+a:=4
+}
+
+-/Asignaciones con tipo de dato/-
+c := 20
+a := b := c := 2.22
+a := b := c := "esto es un string"
+
+-/Declaracion de variables/-
+DECVAR
+    variable1, a2,a3 FLOAT
+    s1,s2,s3 STRING
+    I1,I2,I3 INT
+ENDDEC
+
+-/Entrada Salida/-
+WRITE "hola mundo"
+READ a
+READ b
+WRITE a

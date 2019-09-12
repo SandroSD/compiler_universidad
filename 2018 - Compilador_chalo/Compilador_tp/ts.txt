@@ -1,0 +1,31 @@
+******Tabla de Simbolos******
+***El tipo del simbolo lo identificamos con el caracter que precede al nombre. Siendo estos:
+	_ --> variable
+	$ --> cte float
+	& --> cte int
+	# --> cte string
+
+_a
+_b
+&4
+&144
+&5
+&2
+&3
+&10
+&9
+&8
+_c
+&20
+$2.22
+#"esto es un string"
+_variable1
+_a2
+_a3
+_s1
+_s2
+_s3
+_I1
+_I2
+_I3
+#"hola mundo"

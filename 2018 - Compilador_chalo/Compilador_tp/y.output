@@ -1,0 +1,1244 @@
+Terminales no usados en la gramática
+
+   DOS_PUNTOS
+   P_COMA
+
+
+Gramática
+
+    0 $accept: raiz $end
+
+    1 raiz: programa
+
+    2 programa: sentencias
+
+    3 sentencias: sentencias sent
+    4           | sent
+
+    5 sent: asignacion
+    6     | promedio
+    7     | declaracion
+    8     | decision
+    9     | iteracion
+   10     | comentario
+
+   11 comentario: COMENTARIO
+
+   12 promedio: AVG P_ABIERTO C_ABIERTO f_promedio C_CERRADO P_CERRADO
+
+   13 f_promedio: expresion
+   14           | expresion COMA f_promedio
+
+   15 asignacion: lista expresion
+
+   16 lista: lista ID ASIG
+   17      | ID ASIG
+
+   18 declaracion: DECVAR linea_declaracion ENDDEC
+
+   19 linea_declaracion: linea_declaracion lista_var dec_tipo
+   20                  | lista_var dec_tipo
+
+   21 lista_var: lista_var COMA ID
+   22          | ID
+
+   23 decision: IF P_ABIERTO condiciones P_CERRADO LL_ABIERTA sentencias LL_CERRADA
+   24         | IF P_ABIERTO condiciones P_CERRADO LL_ABIERTA sentencias LL_CERRADA ELSE LL_ABIERTA sentencias LL_CERRADA
+
+   25 iteracion: WHILE P_ABIERTO condiciones P_CERRADO LL_ABIERTA sentencias LL_CERRADA
+
+   26 condiciones: condiciones operador condicion
+   27            | condicion
+
+   28 operador: AND
+   29         | OR
+
+   30 condicion: expresion MAYOR expresion
+   31          | expresion MAYOR_IGUAL expresion
+   32          | expresion MENOR expresion
+   33          | expresion MENOR_IGUAL expresion
+   34          | expresion IGUAL expresion
+   35          | expresion DISTINTO expresion
+
+   36 expresion: expresion RESTA termino
+   37          | expresion SUMA termino
+   38          | termino
+
+   39 termino: termino MULTIPLICACION factor
+   40        | termino DIVISION factor
+   41        | factor
+
+   42 factor: ID
+   43       | tipo
+   44       | P_ABIERTO expresion P_CERRADO
+
+   45 tipo: T_ENTERO
+   46     | T_FLOAT
+   47     | T_STRING
+
+   48 dec_tipo: INT
+   49         | FLOAT
+   50         | STRING
+
+
+Terminales con las reglas donde aparecen
+
+$end (0) 0
+error (256)
+ID (258) 16 17 21 22 42
+COMENTARIO (259) 11
+DECVAR (260) 18
+ENDDEC (261) 18
+ASIG (262) 16 17
+MAYOR (263) 30
+MAYOR_IGUAL (264) 31
+MENOR (265) 32
+MENOR_IGUAL (266) 33
+IGUAL (267) 34
+DISTINTO (268) 35
+SUMA (269) 37
+RESTA (270) 36
+MULTIPLICACION (271) 39
+DIVISION (272) 40
+AVG (273) 12
+INT (274) 48
+FLOAT (275) 49
+STRING (276) 50
+T_ENTERO (277) 45
+T_FLOAT (278) 46
+T_STRING (279) 47
+IF (280) 23 24
+ELSE (281) 24
+WHILE (282) 25
+C_ABIERTO (283) 12
+C_CERRADO (284) 12
+LL_ABIERTA (285) 23 24 25
+LL_CERRADA (286) 23 24 25
+P_ABIERTO (287) 12 23 24 25 44
+P_CERRADO (288) 12 23 24 25 44
+DOS_PUNTOS (289)
+P_COMA (290)
+COMA (291) 14 21
+AND (292) 28
+OR (293) 29
+
+
+No terminales con las reglas donde aparecen
+
+$accept (39)
+    en la izquierda: 0
+raiz (40)
+    en la izquierda: 1, en la derecha: 0
+programa (41)
+    en la izquierda: 2, en la derecha: 1
+sentencias (42)
+    en la izquierda: 3 4, en la derecha: 2 3 23 24 25
+sent (43)
+    en la izquierda: 5 6 7 8 9 10, en la derecha: 3 4
+comentario (44)
+    en la izquierda: 11, en la derecha: 10
+promedio (45)
+    en la izquierda: 12, en la derecha: 6
+f_promedio (46)
+    en la izquierda: 13 14, en la derecha: 12 14
+asignacion (47)
+    en la izquierda: 15, en la derecha: 5
+lista (48)
+    en la izquierda: 16 17, en la derecha: 15 16
+declaracion (49)
+    en la izquierda: 18, en la derecha: 7
+linea_declaracion (50)
+    en la izquierda: 19 20, en la derecha: 18 19
+lista_var (51)
+    en la izquierda: 21 22, en la derecha: 19 20 21
+decision (52)
+    en la izquierda: 23 24, en la derecha: 8
+iteracion (53)
+    en la izquierda: 25, en la derecha: 9
+condiciones (54)
+    en la izquierda: 26 27, en la derecha: 23 24 25 26
+operador (55)
+    en la izquierda: 28 29, en la derecha: 26
+condicion (56)
+    en la izquierda: 30 31 32 33 34 35, en la derecha: 26 27
+expresion (57)
+    en la izquierda: 36 37 38, en la derecha: 13 14 15 30 31 32 33
+    34 35 36 37 44
+termino (58)
+    en la izquierda: 39 40 41, en la derecha: 36 37 38 39 40
+factor (59)
+    en la izquierda: 42 43 44, en la derecha: 39 40 41
+tipo (60)
+    en la izquierda: 45 46 47, en la derecha: 43
+dec_tipo (61)
+    en la izquierda: 48 49 50, en la derecha: 19 20
+
+
+Estado 0
+
+    0 $accept: . raiz $end
+
+    ID          desplazar e ir al estado 1
+    COMENTARIO  desplazar e ir al estado 2
+    DECVAR      desplazar e ir al estado 3
+    AVG         desplazar e ir al estado 4
+    IF          desplazar e ir al estado 5
+    WHILE       desplazar e ir al estado 6
+
+    raiz         ir al estado 7
+    programa     ir al estado 8
+    sentencias   ir al estado 9
+    sent         ir al estado 10
+    comentario   ir al estado 11
+    promedio     ir al estado 12
+    asignacion   ir al estado 13
+    lista        ir al estado 14
+    declaracion  ir al estado 15
+    decision     ir al estado 16
+    iteracion    ir al estado 17
+
+
+Estado 1
+
+   17 lista: ID . ASIG
+
+    ASIG  desplazar e ir al estado 18
+
+
+Estado 2
+
+   11 comentario: COMENTARIO .
+
+    $default  reduce usando la regla 11 (comentario)
+
+
+Estado 3
+
+   18 declaracion: DECVAR . linea_declaracion ENDDEC
+
+    ID  desplazar e ir al estado 19
+
+    linea_declaracion  ir al estado 20
+    lista_var          ir al estado 21
+
+
+Estado 4
+
+   12 promedio: AVG . P_ABIERTO C_ABIERTO f_promedio C_CERRADO P_CERRADO
+
+    P_ABIERTO  desplazar e ir al estado 22
+
+
+Estado 5
+
+   23 decision: IF . P_ABIERTO condiciones P_CERRADO LL_ABIERTA sentencias LL_CERRADA
+   24         | IF . P_ABIERTO condiciones P_CERRADO LL_ABIERTA sentencias LL_CERRADA ELSE LL_ABIERTA sentencias LL_CERRADA
+
+    P_ABIERTO  desplazar e ir al estado 23
+
+
+Estado 6
+
+   25 iteracion: WHILE . P_ABIERTO condiciones P_CERRADO LL_ABIERTA sentencias LL_CERRADA
+
+    P_ABIERTO  desplazar e ir al estado 24
+
+
+Estado 7
+
+    0 $accept: raiz . $end
+
+    $end  desplazar e ir al estado 25
+
+
+Estado 8
+
+    1 raiz: programa .
+
+    $default  reduce usando la regla 1 (raiz)
+
+
+Estado 9
+
+    2 programa: sentencias .
+    3 sentencias: sentencias . sent
+
+    ID          desplazar e ir al estado 1
+    COMENTARIO  desplazar e ir al estado 2
+    DECVAR      desplazar e ir al estado 3
+    AVG         desplazar e ir al estado 4
+    IF          desplazar e ir al estado 5
+    WHILE       desplazar e ir al estado 6
+
+    $default  reduce usando la regla 2 (programa)
+
+    sent         ir al estado 26
+    comentario   ir al estado 11
+    promedio     ir al estado 12
+    asignacion   ir al estado 13
+    lista        ir al estado 14
+    declaracion  ir al estado 15
+    decision     ir al estado 16
+    iteracion    ir al estado 17
+
+
+Estado 10
+
+    4 sentencias: sent .
+
+    $default  reduce usando la regla 4 (sentencias)
+
+
+Estado 11
+
+   10 sent: comentario .
+
+    $default  reduce usando la regla 10 (sent)
+
+
+Estado 12
+
+    6 sent: promedio .
+
+    $default  reduce usando la regla 6 (sent)
+
+
+Estado 13
+
+    5 sent: asignacion .
+
+    $default  reduce usando la regla 5 (sent)
+
+
+Estado 14
+
+   15 asignacion: lista . expresion
+   16 lista: lista . ID ASIG
+
+    ID         desplazar e ir al estado 27
+    T_ENTERO   desplazar e ir al estado 28
+    T_FLOAT    desplazar e ir al estado 29
+    T_STRING   desplazar e ir al estado 30
+    P_ABIERTO  desplazar e ir al estado 31
+
+    expresion  ir al estado 32
+    termino    ir al estado 33
+    factor     ir al estado 34
+    tipo       ir al estado 35
+
+
+Estado 15
+
+    7 sent: declaracion .
+
+    $default  reduce usando la regla 7 (sent)
+
+
+Estado 16
+
+    8 sent: decision .
+
+    $default  reduce usando la regla 8 (sent)
+
+
+Estado 17
+
+    9 sent: iteracion .
+
+    $default  reduce usando la regla 9 (sent)
+
+
+Estado 18
+
+   17 lista: ID ASIG .
+
+    $default  reduce usando la regla 17 (lista)
+
+
+Estado 19
+
+   22 lista_var: ID .
+
+    $default  reduce usando la regla 22 (lista_var)
+
+
+Estado 20
+
+   18 declaracion: DECVAR linea_declaracion . ENDDEC
+   19 linea_declaracion: linea_declaracion . lista_var dec_tipo
+
+    ID      desplazar e ir al estado 19
+    ENDDEC  desplazar e ir al estado 36
+
+    lista_var  ir al estado 37
+
+
+Estado 21
+
+   20 linea_declaracion: lista_var . dec_tipo
+   21 lista_var: lista_var . COMA ID
+
+    INT     desplazar e ir al estado 38
+    FLOAT   desplazar e ir al estado 39
+    STRING  desplazar e ir al estado 40
+    COMA    desplazar e ir al estado 41
+
+    dec_tipo  ir al estado 42
+
+
+Estado 22
+
+   12 promedio: AVG P_ABIERTO . C_ABIERTO f_promedio C_CERRADO P_CERRADO
+
+    C_ABIERTO  desplazar e ir al estado 43
+
+
+Estado 23
+
+   23 decision: IF P_ABIERTO . condiciones P_CERRADO LL_ABIERTA sentencias LL_CERRADA
+   24         | IF P_ABIERTO . condiciones P_CERRADO LL_ABIERTA sentencias LL_CERRADA ELSE LL_ABIERTA sentencias LL_CERRADA
+
+    ID         desplazar e ir al estado 44
+    T_ENTERO   desplazar e ir al estado 28
+    T_FLOAT    desplazar e ir al estado 29
+    T_STRING   desplazar e ir al estado 30
+    P_ABIERTO  desplazar e ir al estado 31
+
+    condiciones  ir al estado 45
+    condicion    ir al estado 46
+    expresion    ir al estado 47
+    termino      ir al estado 33
+    factor       ir al estado 34
+    tipo         ir al estado 35
+
+
+Estado 24
+
+   25 iteracion: WHILE P_ABIERTO . condiciones P_CERRADO LL_ABIERTA sentencias LL_CERRADA
+
+    ID         desplazar e ir al estado 44
+    T_ENTERO   desplazar e ir al estado 28
+    T_FLOAT    desplazar e ir al estado 29
+    T_STRING   desplazar e ir al estado 30
+    P_ABIERTO  desplazar e ir al estado 31
+
+    condiciones  ir al estado 48
+    condicion    ir al estado 46
+    expresion    ir al estado 47
+    termino      ir al estado 33
+    factor       ir al estado 34
+    tipo         ir al estado 35
+
+
+Estado 25
+
+    0 $accept: raiz $end .
+
+    $default  aceptar
+
+
+Estado 26
+
+    3 sentencias: sentencias sent .
+
+    $default  reduce usando la regla 3 (sentencias)
+
+
+Estado 27
+
+   16 lista: lista ID . ASIG
+   42 factor: ID .
+
+    ASIG  desplazar e ir al estado 49
+
+    $default  reduce usando la regla 42 (factor)
+
+
+Estado 28
+
+   45 tipo: T_ENTERO .
+
+    $default  reduce usando la regla 45 (tipo)
+
+
+Estado 29
+
+   46 tipo: T_FLOAT .
+
+    $default  reduce usando la regla 46 (tipo)
+
+
+Estado 30
+
+   47 tipo: T_STRING .
+
+    $default  reduce usando la regla 47 (tipo)
+
+
+Estado 31
+
+   44 factor: P_ABIERTO . expresion P_CERRADO
+
+    ID         desplazar e ir al estado 44
+    T_ENTERO   desplazar e ir al estado 28
+    T_FLOAT    desplazar e ir al estado 29
+    T_STRING   desplazar e ir al estado 30
+    P_ABIERTO  desplazar e ir al estado 31
+
+    expresion  ir al estado 50
+    termino    ir al estado 33
+    factor     ir al estado 34
+    tipo       ir al estado 35
+
+
+Estado 32
+
+   15 asignacion: lista expresion .
+   36 expresion: expresion . RESTA termino
+   37          | expresion . SUMA termino
+
+    SUMA   desplazar e ir al estado 51
+    RESTA  desplazar e ir al estado 52
+
+    $default  reduce usando la regla 15 (asignacion)
+
+
+Estado 33
+
+   38 expresion: termino .
+   39 termino: termino . MULTIPLICACION factor
+   40        | termino . DIVISION factor
+
+    MULTIPLICACION  desplazar e ir al estado 53
+    DIVISION        desplazar e ir al estado 54
+
+    $default  reduce usando la regla 38 (expresion)
+
+
+Estado 34
+
+   41 termino: factor .
+
+    $default  reduce usando la regla 41 (termino)
+
+
+Estado 35
+
+   43 factor: tipo .
+
+    $default  reduce usando la regla 43 (factor)
+
+
+Estado 36
+
+   18 declaracion: DECVAR linea_declaracion ENDDEC .
+
+    $default  reduce usando la regla 18 (declaracion)
+
+
+Estado 37
+
+   19 linea_declaracion: linea_declaracion lista_var . dec_tipo
+   21 lista_var: lista_var . COMA ID
+
+    INT     desplazar e ir al estado 38
+    FLOAT   desplazar e ir al estado 39
+    STRING  desplazar e ir al estado 40
+    COMA    desplazar e ir al estado 41
+
+    dec_tipo  ir al estado 55
+
+
+Estado 38
+
+   48 dec_tipo: INT .
+
+    $default  reduce usando la regla 48 (dec_tipo)
+
+
+Estado 39
+
+   49 dec_tipo: FLOAT .
+
+    $default  reduce usando la regla 49 (dec_tipo)
+
+
+Estado 40
+
+   50 dec_tipo: STRING .
+
+    $default  reduce usando la regla 50 (dec_tipo)
+
+
+Estado 41
+
+   21 lista_var: lista_var COMA . ID
+
+    ID  desplazar e ir al estado 56
+
+
+Estado 42
+
+   20 linea_declaracion: lista_var dec_tipo .
+
+    $default  reduce usando la regla 20 (linea_declaracion)
+
+
+Estado 43
+
+   12 promedio: AVG P_ABIERTO C_ABIERTO . f_promedio C_CERRADO P_CERRADO
+
+    ID         desplazar e ir al estado 44
+    T_ENTERO   desplazar e ir al estado 28
+    T_FLOAT    desplazar e ir al estado 29
+    T_STRING   desplazar e ir al estado 30
+    P_ABIERTO  desplazar e ir al estado 31
+
+    f_promedio  ir al estado 57
+    expresion   ir al estado 58
+    termino     ir al estado 33
+    factor      ir al estado 34
+    tipo        ir al estado 35
+
+
+Estado 44
+
+   42 factor: ID .
+
+    $default  reduce usando la regla 42 (factor)
+
+
+Estado 45
+
+   23 decision: IF P_ABIERTO condiciones . P_CERRADO LL_ABIERTA sentencias LL_CERRADA
+   24         | IF P_ABIERTO condiciones . P_CERRADO LL_ABIERTA sentencias LL_CERRADA ELSE LL_ABIERTA sentencias LL_CERRADA
+   26 condiciones: condiciones . operador condicion
+
+    P_CERRADO  desplazar e ir al estado 59
+    AND        desplazar e ir al estado 60
+    OR         desplazar e ir al estado 61
+
+    operador  ir al estado 62
+
+
+Estado 46
+
+   27 condiciones: condicion .
+
+    $default  reduce usando la regla 27 (condiciones)
+
+
+Estado 47
+
+   30 condicion: expresion . MAYOR expresion
+   31          | expresion . MAYOR_IGUAL expresion
+   32          | expresion . MENOR expresion
+   33          | expresion . MENOR_IGUAL expresion
+   34          | expresion . IGUAL expresion
+   35          | expresion . DISTINTO expresion
+   36 expresion: expresion . RESTA termino
+   37          | expresion . SUMA termino
+
+    MAYOR        desplazar e ir al estado 63
+    MAYOR_IGUAL  desplazar e ir al estado 64
+    MENOR        desplazar e ir al estado 65
+    MENOR_IGUAL  desplazar e ir al estado 66
+    IGUAL        desplazar e ir al estado 67
+    DISTINTO     desplazar e ir al estado 68
+    SUMA         desplazar e ir al estado 51
+    RESTA        desplazar e ir al estado 52
+
+
+Estado 48
+
+   25 iteracion: WHILE P_ABIERTO condiciones . P_CERRADO LL_ABIERTA sentencias LL_CERRADA
+   26 condiciones: condiciones . operador condicion
+
+    P_CERRADO  desplazar e ir al estado 69
+    AND        desplazar e ir al estado 60
+    OR         desplazar e ir al estado 61
+
+    operador  ir al estado 62
+
+
+Estado 49
+
+   16 lista: lista ID ASIG .
+
+    $default  reduce usando la regla 16 (lista)
+
+
+Estado 50
+
+   36 expresion: expresion . RESTA termino
+   37          | expresion . SUMA termino
+   44 factor: P_ABIERTO expresion . P_CERRADO
+
+    SUMA       desplazar e ir al estado 51
+    RESTA      desplazar e ir al estado 52
+    P_CERRADO  desplazar e ir al estado 70
+
+
+Estado 51
+
+   37 expresion: expresion SUMA . termino
+
+    ID         desplazar e ir al estado 44
+    T_ENTERO   desplazar e ir al estado 28
+    T_FLOAT    desplazar e ir al estado 29
+    T_STRING   desplazar e ir al estado 30
+    P_ABIERTO  desplazar e ir al estado 31
+
+    termino  ir al estado 71
+    factor   ir al estado 34
+    tipo     ir al estado 35
+
+
+Estado 52
+
+   36 expresion: expresion RESTA . termino
+
+    ID         desplazar e ir al estado 44
+    T_ENTERO   desplazar e ir al estado 28
+    T_FLOAT    desplazar e ir al estado 29
+    T_STRING   desplazar e ir al estado 30
+    P_ABIERTO  desplazar e ir al estado 31
+
+    termino  ir al estado 72
+    factor   ir al estado 34
+    tipo     ir al estado 35
+
+
+Estado 53
+
+   39 termino: termino MULTIPLICACION . factor
+
+    ID         desplazar e ir al estado 44
+    T_ENTERO   desplazar e ir al estado 28
+    T_FLOAT    desplazar e ir al estado 29
+    T_STRING   desplazar e ir al estado 30
+    P_ABIERTO  desplazar e ir al estado 31
+
+    factor  ir al estado 73
+    tipo    ir al estado 35
+
+
+Estado 54
+
+   40 termino: termino DIVISION . factor
+
+    ID         desplazar e ir al estado 44
+    T_ENTERO   desplazar e ir al estado 28
+    T_FLOAT    desplazar e ir al estado 29
+    T_STRING   desplazar e ir al estado 30
+    P_ABIERTO  desplazar e ir al estado 31
+
+    factor  ir al estado 74
+    tipo    ir al estado 35
+
+
+Estado 55
+
+   19 linea_declaracion: linea_declaracion lista_var dec_tipo .
+
+    $default  reduce usando la regla 19 (linea_declaracion)
+
+
+Estado 56
+
+   21 lista_var: lista_var COMA ID .
+
+    $default  reduce usando la regla 21 (lista_var)
+
+
+Estado 57
+
+   12 promedio: AVG P_ABIERTO C_ABIERTO f_promedio . C_CERRADO P_CERRADO
+
+    C_CERRADO  desplazar e ir al estado 75
+
+
+Estado 58
+
+   13 f_promedio: expresion .
+   14           | expresion . COMA f_promedio
+   36 expresion: expresion . RESTA termino
+   37          | expresion . SUMA termino
+
+    SUMA   desplazar e ir al estado 51
+    RESTA  desplazar e ir al estado 52
+    COMA   desplazar e ir al estado 76
+
+    $default  reduce usando la regla 13 (f_promedio)
+
+
+Estado 59
+
+   23 decision: IF P_ABIERTO condiciones P_CERRADO . LL_ABIERTA sentencias LL_CERRADA
+   24         | IF P_ABIERTO condiciones P_CERRADO . LL_ABIERTA sentencias LL_CERRADA ELSE LL_ABIERTA sentencias LL_CERRADA
+
+    LL_ABIERTA  desplazar e ir al estado 77
+
+
+Estado 60
+
+   28 operador: AND .
+
+    $default  reduce usando la regla 28 (operador)
+
+
+Estado 61
+
+   29 operador: OR .
+
+    $default  reduce usando la regla 29 (operador)
+
+
+Estado 62
+
+   26 condiciones: condiciones operador . condicion
+
+    ID         desplazar e ir al estado 44
+    T_ENTERO   desplazar e ir al estado 28
+    T_FLOAT    desplazar e ir al estado 29
+    T_STRING   desplazar e ir al estado 30
+    P_ABIERTO  desplazar e ir al estado 31
+
+    condicion  ir al estado 78
+    expresion  ir al estado 47
+    termino    ir al estado 33
+    factor     ir al estado 34
+    tipo       ir al estado 35
+
+
+Estado 63
+
+   30 condicion: expresion MAYOR . expresion
+
+    ID         desplazar e ir al estado 44
+    T_ENTERO   desplazar e ir al estado 28
+    T_FLOAT    desplazar e ir al estado 29
+    T_STRING   desplazar e ir al estado 30
+    P_ABIERTO  desplazar e ir al estado 31
+
+    expresion  ir al estado 79
+    termino    ir al estado 33
+    factor     ir al estado 34
+    tipo       ir al estado 35
+
+
+Estado 64
+
+   31 condicion: expresion MAYOR_IGUAL . expresion
+
+    ID         desplazar e ir al estado 44
+    T_ENTERO   desplazar e ir al estado 28
+    T_FLOAT    desplazar e ir al estado 29
+    T_STRING   desplazar e ir al estado 30
+    P_ABIERTO  desplazar e ir al estado 31
+
+    expresion  ir al estado 80
+    termino    ir al estado 33
+    factor     ir al estado 34
+    tipo       ir al estado 35
+
+
+Estado 65
+
+   32 condicion: expresion MENOR . expresion
+
+    ID         desplazar e ir al estado 44
+    T_ENTERO   desplazar e ir al estado 28
+    T_FLOAT    desplazar e ir al estado 29
+    T_STRING   desplazar e ir al estado 30
+    P_ABIERTO  desplazar e ir al estado 31
+
+    expresion  ir al estado 81
+    termino    ir al estado 33
+    factor     ir al estado 34
+    tipo       ir al estado 35
+
+
+Estado 66
+
+   33 condicion: expresion MENOR_IGUAL . expresion
+
+    ID         desplazar e ir al estado 44
+    T_ENTERO   desplazar e ir al estado 28
+    T_FLOAT    desplazar e ir al estado 29
+    T_STRING   desplazar e ir al estado 30
+    P_ABIERTO  desplazar e ir al estado 31
+
+    expresion  ir al estado 82
+    termino    ir al estado 33
+    factor     ir al estado 34
+    tipo       ir al estado 35
+
+
+Estado 67
+
+   34 condicion: expresion IGUAL . expresion
+
+    ID         desplazar e ir al estado 44
+    T_ENTERO   desplazar e ir al estado 28
+    T_FLOAT    desplazar e ir al estado 29
+    T_STRING   desplazar e ir al estado 30
+    P_ABIERTO  desplazar e ir al estado 31
+
+    expresion  ir al estado 83
+    termino    ir al estado 33
+    factor     ir al estado 34
+    tipo       ir al estado 35
+
+
+Estado 68
+
+   35 condicion: expresion DISTINTO . expresion
+
+    ID         desplazar e ir al estado 44
+    T_ENTERO   desplazar e ir al estado 28
+    T_FLOAT    desplazar e ir al estado 29
+    T_STRING   desplazar e ir al estado 30
+    P_ABIERTO  desplazar e ir al estado 31
+
+    expresion  ir al estado 84
+    termino    ir al estado 33
+    factor     ir al estado 34
+    tipo       ir al estado 35
+
+
+Estado 69
+
+   25 iteracion: WHILE P_ABIERTO condiciones P_CERRADO . LL_ABIERTA sentencias LL_CERRADA
+
+    LL_ABIERTA  desplazar e ir al estado 85
+
+
+Estado 70
+
+   44 factor: P_ABIERTO expresion P_CERRADO .
+
+    $default  reduce usando la regla 44 (factor)
+
+
+Estado 71
+
+   37 expresion: expresion SUMA termino .
+   39 termino: termino . MULTIPLICACION factor
+   40        | termino . DIVISION factor
+
+    MULTIPLICACION  desplazar e ir al estado 53
+    DIVISION        desplazar e ir al estado 54
+
+    $default  reduce usando la regla 37 (expresion)
+
+
+Estado 72
+
+   36 expresion: expresion RESTA termino .
+   39 termino: termino . MULTIPLICACION factor
+   40        | termino . DIVISION factor
+
+    MULTIPLICACION  desplazar e ir al estado 53
+    DIVISION        desplazar e ir al estado 54
+
+    $default  reduce usando la regla 36 (expresion)
+
+
+Estado 73
+
+   39 termino: termino MULTIPLICACION factor .
+
+    $default  reduce usando la regla 39 (termino)
+
+
+Estado 74
+
+   40 termino: termino DIVISION factor .
+
+    $default  reduce usando la regla 40 (termino)
+
+
+Estado 75
+
+   12 promedio: AVG P_ABIERTO C_ABIERTO f_promedio C_CERRADO . P_CERRADO
+
+    P_CERRADO  desplazar e ir al estado 86
+
+
+Estado 76
+
+   14 f_promedio: expresion COMA . f_promedio
+
+    ID         desplazar e ir al estado 44
+    T_ENTERO   desplazar e ir al estado 28
+    T_FLOAT    desplazar e ir al estado 29
+    T_STRING   desplazar e ir al estado 30
+    P_ABIERTO  desplazar e ir al estado 31
+
+    f_promedio  ir al estado 87
+    expresion   ir al estado 58
+    termino     ir al estado 33
+    factor      ir al estado 34
+    tipo        ir al estado 35
+
+
+Estado 77
+
+   23 decision: IF P_ABIERTO condiciones P_CERRADO LL_ABIERTA . sentencias LL_CERRADA
+   24         | IF P_ABIERTO condiciones P_CERRADO LL_ABIERTA . sentencias LL_CERRADA ELSE LL_ABIERTA sentencias LL_CERRADA
+
+    ID          desplazar e ir al estado 1
+    COMENTARIO  desplazar e ir al estado 2
+    DECVAR      desplazar e ir al estado 3
+    AVG         desplazar e ir al estado 4
+    IF          desplazar e ir al estado 5
+    WHILE       desplazar e ir al estado 6
+
+    sentencias   ir al estado 88
+    sent         ir al estado 10
+    comentario   ir al estado 11
+    promedio     ir al estado 12
+    asignacion   ir al estado 13
+    lista        ir al estado 14
+    declaracion  ir al estado 15
+    decision     ir al estado 16
+    iteracion    ir al estado 17
+
+
+Estado 78
+
+   26 condiciones: condiciones operador condicion .
+
+    $default  reduce usando la regla 26 (condiciones)
+
+
+Estado 79
+
+   30 condicion: expresion MAYOR expresion .
+   36 expresion: expresion . RESTA termino
+   37          | expresion . SUMA termino
+
+    SUMA   desplazar e ir al estado 51
+    RESTA  desplazar e ir al estado 52
+
+    $default  reduce usando la regla 30 (condicion)
+
+
+Estado 80
+
+   31 condicion: expresion MAYOR_IGUAL expresion .
+   36 expresion: expresion . RESTA termino
+   37          | expresion . SUMA termino
+
+    SUMA   desplazar e ir al estado 51
+    RESTA  desplazar e ir al estado 52
+
+    $default  reduce usando la regla 31 (condicion)
+
+
+Estado 81
+
+   32 condicion: expresion MENOR expresion .
+   36 expresion: expresion . RESTA termino
+   37          | expresion . SUMA termino
+
+    SUMA   desplazar e ir al estado 51
+    RESTA  desplazar e ir al estado 52
+
+    $default  reduce usando la regla 32 (condicion)
+
+
+Estado 82
+
+   33 condicion: expresion MENOR_IGUAL expresion .
+   36 expresion: expresion . RESTA termino
+   37          | expresion . SUMA termino
+
+    SUMA   desplazar e ir al estado 51
+    RESTA  desplazar e ir al estado 52
+
+    $default  reduce usando la regla 33 (condicion)
+
+
+Estado 83
+
+   34 condicion: expresion IGUAL expresion .
+   36 expresion: expresion . RESTA termino
+   37          | expresion . SUMA termino
+
+    SUMA   desplazar e ir al estado 51
+    RESTA  desplazar e ir al estado 52
+
+    $default  reduce usando la regla 34 (condicion)
+
+
+Estado 84
+
+   35 condicion: expresion DISTINTO expresion .
+   36 expresion: expresion . RESTA termino
+   37          | expresion . SUMA termino
+
+    SUMA   desplazar e ir al estado 51
+    RESTA  desplazar e ir al estado 52
+
+    $default  reduce usando la regla 35 (condicion)
+
+
+Estado 85
+
+   25 iteracion: WHILE P_ABIERTO condiciones P_CERRADO LL_ABIERTA . sentencias LL_CERRADA
+
+    ID          desplazar e ir al estado 1
+    COMENTARIO  desplazar e ir al estado 2
+    DECVAR      desplazar e ir al estado 3
+    AVG         desplazar e ir al estado 4
+    IF          desplazar e ir al estado 5
+    WHILE       desplazar e ir al estado 6
+
+    sentencias   ir al estado 89
+    sent         ir al estado 10
+    comentario   ir al estado 11
+    promedio     ir al estado 12
+    asignacion   ir al estado 13
+    lista        ir al estado 14
+    declaracion  ir al estado 15
+    decision     ir al estado 16
+    iteracion    ir al estado 17
+
+
+Estado 86
+
+   12 promedio: AVG P_ABIERTO C_ABIERTO f_promedio C_CERRADO P_CERRADO .
+
+    $default  reduce usando la regla 12 (promedio)
+
+
+Estado 87
+
+   14 f_promedio: expresion COMA f_promedio .
+
+    $default  reduce usando la regla 14 (f_promedio)
+
+
+Estado 88
+
+    3 sentencias: sentencias . sent
+   23 decision: IF P_ABIERTO condiciones P_CERRADO LL_ABIERTA sentencias . LL_CERRADA
+   24         | IF P_ABIERTO condiciones P_CERRADO LL_ABIERTA sentencias . LL_CERRADA ELSE LL_ABIERTA sentencias LL_CERRADA
+
+    ID          desplazar e ir al estado 1
+    COMENTARIO  desplazar e ir al estado 2
+    DECVAR      desplazar e ir al estado 3
+    AVG         desplazar e ir al estado 4
+    IF          desplazar e ir al estado 5
+    WHILE       desplazar e ir al estado 6
+    LL_CERRADA  desplazar e ir al estado 90
+
+    sent         ir al estado 26
+    comentario   ir al estado 11
+    promedio     ir al estado 12
+    asignacion   ir al estado 13
+    lista        ir al estado 14
+    declaracion  ir al estado 15
+    decision     ir al estado 16
+    iteracion    ir al estado 17
+
+
+Estado 89
+
+    3 sentencias: sentencias . sent
+   25 iteracion: WHILE P_ABIERTO condiciones P_CERRADO LL_ABIERTA sentencias . LL_CERRADA
+
+    ID          desplazar e ir al estado 1
+    COMENTARIO  desplazar e ir al estado 2
+    DECVAR      desplazar e ir al estado 3
+    AVG         desplazar e ir al estado 4
+    IF          desplazar e ir al estado 5
+    WHILE       desplazar e ir al estado 6
+    LL_CERRADA  desplazar e ir al estado 91
+
+    sent         ir al estado 26
+    comentario   ir al estado 11
+    promedio     ir al estado 12
+    asignacion   ir al estado 13
+    lista        ir al estado 14
+    declaracion  ir al estado 15
+    decision     ir al estado 16
+    iteracion    ir al estado 17
+
+
+Estado 90
+
+   23 decision: IF P_ABIERTO condiciones P_CERRADO LL_ABIERTA sentencias LL_CERRADA .
+   24         | IF P_ABIERTO condiciones P_CERRADO LL_ABIERTA sentencias LL_CERRADA . ELSE LL_ABIERTA sentencias LL_CERRADA
+
+    ELSE  desplazar e ir al estado 92
+
+    $default  reduce usando la regla 23 (decision)
+
+
+Estado 91
+
+   25 iteracion: WHILE P_ABIERTO condiciones P_CERRADO LL_ABIERTA sentencias LL_CERRADA .
+
+    $default  reduce usando la regla 25 (iteracion)
+
+
+Estado 92
+
+   24 decision: IF P_ABIERTO condiciones P_CERRADO LL_ABIERTA sentencias LL_CERRADA ELSE . LL_ABIERTA sentencias LL_CERRADA
+
+    LL_ABIERTA  desplazar e ir al estado 93
+
+
+Estado 93
+
+   24 decision: IF P_ABIERTO condiciones P_CERRADO LL_ABIERTA sentencias LL_CERRADA ELSE LL_ABIERTA . sentencias LL_CERRADA
+
+    ID          desplazar e ir al estado 1
+    COMENTARIO  desplazar e ir al estado 2
+    DECVAR      desplazar e ir al estado 3
+    AVG         desplazar e ir al estado 4
+    IF          desplazar e ir al estado 5
+    WHILE       desplazar e ir al estado 6
+
+    sentencias   ir al estado 94
+    sent         ir al estado 10
+    comentario   ir al estado 11
+    promedio     ir al estado 12
+    asignacion   ir al estado 13
+    lista        ir al estado 14
+    declaracion  ir al estado 15
+    decision     ir al estado 16
+    iteracion    ir al estado 17
+
+
+Estado 94
+
+    3 sentencias: sentencias . sent
+   24 decision: IF P_ABIERTO condiciones P_CERRADO LL_ABIERTA sentencias LL_CERRADA ELSE LL_ABIERTA sentencias . LL_CERRADA
+
+    ID          desplazar e ir al estado 1
+    COMENTARIO  desplazar e ir al estado 2
+    DECVAR      desplazar e ir al estado 3
+    AVG         desplazar e ir al estado 4
+    IF          desplazar e ir al estado 5
+    WHILE       desplazar e ir al estado 6
+    LL_CERRADA  desplazar e ir al estado 95
+
+    sent         ir al estado 26
+    comentario   ir al estado 11
+    promedio     ir al estado 12
+    asignacion   ir al estado 13
+    lista        ir al estado 14
+    declaracion  ir al estado 15
+    decision     ir al estado 16
+    iteracion    ir al estado 17
+
+
+Estado 95
+
+   24 decision: IF P_ABIERTO condiciones P_CERRADO LL_ABIERTA sentencias LL_CERRADA ELSE LL_ABIERTA sentencias LL_CERRADA .
+
+    $default  reduce usando la regla 24 (decision)
