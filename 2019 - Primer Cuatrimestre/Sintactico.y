@@ -43,3 +43,35 @@
 %token CMP_MENORIGUAL
 %token CMP_DISTINTO
 %token CMP_IGUAL
+%token ID
+%token INT
+%token FLOAT
+%token STRING
+
+//Empezamos a definir la gramática
+%%
+programa:
+	{print_f("Inicia el compilador")}
+	definiciones logica
+	;
+
+definiciones:
+	VAR {print_f("Empieza la declaración de variables")}
+	declaraciones
+	ENDVAR {print_f("Finaliza la declaración de variables")}
+	;
+
+declaraciones:
+	CAR_CA lista CAR_CC
+	;
+
+lista:
+	TD CAR_COMA lista CAR_COMA ID
+	|
+	TD CAR_CC OP_DOSP CAR_CA ID
+	;
+
+TD:
+	INT | FLOAT | STRING
+	;
+%%
