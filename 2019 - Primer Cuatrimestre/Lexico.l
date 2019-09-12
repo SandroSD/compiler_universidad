@@ -14,11 +14,11 @@
 DIGITO_CON_CERO			[0-9]
 DIGITO_SIN_CERO			[1-9]
 LETRA					[a-zA-Z]
-ID                      {LETRA}({LETRA}|{DIGITO}|_)*
-CONST_INT               "-"{DIGITO_SIN_CERO}+|{DIGITO_CON_CERO}+
-CONST_REAL              "-"?{DIGITO_SIN_CERO}*"."{DIGITO_CON_CERO}*|{DIGITO_CON_CERO}*"."{DIGITO_CON_CERO}*
-COMENTARIO              "*/"([^*/]|\n)*?"/*"
-COMENTARIO_ANIDADO      "*/"([^*/]|\n|{COMENTARIO})*?"/*"
+ID						{LETRA}({LETRA}|{DIGITO}|_)*
+CONST_INT				"-"{DIGITO_SIN_CERO}+|{DIGITO_CON_CERO}+
+CONST_REAL				"-"?{DIGITO_SIN_CERO}*"."{DIGITO_CON_CERO}*|{DIGITO_CON_CERO}*"."{DIGITO_CON_CERO}*
+COMENTARIO				"*/"([^*/]|\n)*?"/*"
+COMENTARIO_ANIDADO		"*/"([^*/]|\n|{COMENTARIO})*?"/*"
 
 %%
 VAR|var					{ return VAR; }
