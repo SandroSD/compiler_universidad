@@ -2,24 +2,11 @@ VAR
     [int, float]:[var1, var2]
 ENDVAR
 
---/Prueba de cte con nombre/--
-CONST valE=2
-CONST valS="Hola mundo"
-CONST valR=2.5
-
---/Prueba de DIV/--
-var1:=2 DIV 1
-
---/Prueba de MOD/--
-var1:=valE MOD valE 
-
 --/Prueba de iteraciones/--
 repeat(10>9)
 {
 a:=5
 }
-
-
 
 --/Prueba de condicional 1/--
 if(10>9)
@@ -34,8 +21,6 @@ a:=5
 }else{
 a:=4
 }
-
-
 
 --/Asignaciones con tipo de dato/--
 c := 20

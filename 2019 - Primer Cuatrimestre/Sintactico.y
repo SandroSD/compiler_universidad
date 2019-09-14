@@ -57,6 +57,10 @@
 %token READ 
 %token PRINT
 
+%token OP_MOD
+%token OP_IGUAL
+%token CONST
+
 %token CONST_INT
 %token CONST_REAL
 %token CONST_STR
@@ -80,12 +84,12 @@ lista:
 	;
 	
 dec_tipo:
-		INT | STRING | FLOAT
+		INT | STRING | FLOAT 
 	;
 
 sentencias: sentencias sent | sent;
 
-sent: iteracion|decision|entrada_salida|asignacion {printf("Inicia el compilador\n");};
+sent: iteracion|decision|entrada_salida|asignacion|sent_div|sent_mod|cte_nombre {printf("Inicia el compilador\n");};
 
 iteracion:
 		REPEAT CAR_PA condiciones CAR_PC CAR_LA sentencias CAR_LC   {printf("Regla de iteracion repeat\n");}
@@ -145,6 +149,19 @@ entrada_salida:
 	;
 	
 asignacion: lista expresion {printf("Regla de asignacion\n");};
+
+sent_div: ID OP_ASIG expresion DIV expresion {printf("Regla de division entre expresiones\n");};
+
+sent_mod: ID OP_ASIG expresion MOD expresion {printf("Regla de mod entre expresiones\n");};
+
+DIV: OP_DIV {printf("Operador Div\n");};
+
+MOD: OP_MOD {printf("Operador Mod\n");};
+
+cte_nombre: CONST ID OP_IGUAL CONST_STR {printf("Asignacion de cte string con nombre\n");}
+			| CONST ID OP_IGUAL CONST_REAL {printf("Asignacion de cte real con nombre\n");}
+			| CONST ID OP_IGUAL CONST_INT {printf("Asignacion de cte entera con nombre\n");}
+		;
 
 %%
 

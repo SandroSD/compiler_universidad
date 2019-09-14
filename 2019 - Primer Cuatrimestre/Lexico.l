@@ -42,12 +42,15 @@ endif|ENDIF				{ return ENDIF; }
 int|INT					{ return INT; }
 float|FLOAT				{ return FLOAT; }
 string|STRING			{ return STRING; }
+const|CONST				{ return CONST; }
 
 "+"						{ return OP_SUM; }
 "-"						{ return OP_RES; }
 "/"						{ return OP_DIV; }
 "*"						{ return OP_MUL; }
+"%"						{ return OP_MOD; }
 ":="					{ return OP_ASIG; }
+"="						{ return OP_IGUAL; }
 ":"						{ return OP_DOSP; }
 ","						{ return CAR_COMA; }
 ";"						{ return CAR_PYC; }
