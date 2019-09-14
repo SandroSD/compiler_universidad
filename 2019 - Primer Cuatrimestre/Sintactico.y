@@ -158,7 +158,7 @@ DIV: OP_DIV {printf("Operador Div\n");};
 
 MOD: OP_MOD {printf("Operador Mod\n");};
 
-cte_nombre: CONST ID OP_IGUAL CONST_STR {printf("Regla de signacion de cte string con nombre\n");}
+cte_nombre: CONST ID OP_IGUAL CONST_STR {printf("Regla de asignacion de cte string con nombre\n");}
 			| CONST ID OP_IGUAL CONST_REAL {printf("Regla de asignacion de cte real con nombre\n");}
 			| CONST ID OP_IGUAL CONST_INT {printf("Regla de asignacion de cte entera con nombre\n");}
 		;
