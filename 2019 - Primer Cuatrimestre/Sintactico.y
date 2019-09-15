@@ -28,6 +28,8 @@
 %token THEN
 %token ELSE
 %token ENDIF
+%token DIV
+%token MOD
 %token OP_ASIG
 %token OP_SUM
 %token OP_RES
@@ -89,7 +91,12 @@ dec_tipo:
 
 sentencias: sentencias sent | sent;
 
-sent: iteracion|decision|entrada_salida|asignacion|sent_div|sent_mod|cte_nombre {printf("Inicia el compilador\n");};
+sent: iteracion|decision|entrada_salida|asignacion|cte_nombre {printf("Inicia el compilador\n");};
+
+decision:
+		IF CAR_PA condiciones CAR_PC CAR_LA sentencias CAR_LC   {printf("Regla de condicion: IF\n");}
+	   |IF CAR_PA condiciones CAR_PC CAR_LA sentencias CAR_LC ELSE CAR_LA sentencias CAR_LC	{printf("Regla de condicion: IF Y ELSE\n");}
+	;
 
 iteracion:
 		REPEAT CAR_PA condiciones CAR_PC CAR_LA sentencias CAR_LC   {printf("Regla de iteracion repeat\n");}
@@ -113,11 +120,19 @@ condicion:
 		|expresion CMP_IGUAL expresion				{printf("IGUAL\n");}
 		|expresion CMP_DISTINTO expresion			{printf("DISTINTO\n");}
 	;
-	
+
+asignacion: ID OP_ASIG expresion {printf("Regla de asignacion\n");};
+
+sent_div: expresion DIV expresion {printf("Regla de DIV entre expresiones\n");};
+
+sent_mod: expresion MOD expresion {printf("Regla de MOD entre expresiones\n");};
+
 expresion:
 		expresion OP_RES termino					{printf("Esto es una resta\n");}
 		|expresion OP_SUM termino					{printf("Esto es una suma\n");}
 		|termino									{printf("Termino\n");}
+		|sent_div									{printf("Esto es una sentencia DIV\n");}
+		|sent_mod									{printf("Esto es una sentencia MOD\n");}
 	;
 	
 termino:
@@ -137,26 +152,11 @@ tipo:
 		|CONST_REAL    	{printf("Esto es un real\n");}
 	;
 
-decision:
-		IF CAR_PA condiciones CAR_PC CAR_LA sentencias CAR_LC   {printf("Regla de condicion: IF\n");}
-	   |IF CAR_PA condiciones CAR_PC CAR_LA sentencias CAR_LC ELSE CAR_LA sentencias CAR_LC	{printf("Regla de condicion: IF Y ELSE\n");}
-	;
-	
 entrada_salida:
 		READ ID 			{printf("Regla de lectura de entrada READ\n");}
 		|PRINT ID 			{printf("Regla de escritura de salida PRINT de variable\n");}
 		|PRINT CONST_STR    {printf("Regla de escritura de salida PRINT de constante\n");}
 	;
-	
-asignacion: ID OP_ASIG expresion {printf("Regla de asignacion\n");};
-
-sent_div: ID OP_ASIG expresion DIV expresion {printf("Regla de division entre expresiones\n");};
-
-sent_mod: ID OP_ASIG expresion MOD expresion {printf("Regla de mod entre expresiones\n");};
-
-DIV: OP_DIV {printf("Operador Div\n");};
-
-MOD: OP_MOD {printf("Operador Mod\n");};
 
 cte_nombre: CONST ID OP_IGUAL CONST_STR {printf("Regla de asignacion de cte string con nombre\n");}
 			| CONST ID OP_IGUAL CONST_REAL {printf("Regla de asignacion de cte real con nombre\n");}

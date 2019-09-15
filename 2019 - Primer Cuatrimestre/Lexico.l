@@ -43,6 +43,8 @@ int|INT					{ return INT; }
 float|FLOAT				{ return FLOAT; }
 string|STRING			{ return STRING; }
 const|CONST				{ return CONST; }
+div|DIV					{ return DIV;}
+mod|MOD					{ return MOD;}
 
 "+"						{ return OP_SUM; }
 "-"						{ return OP_RES; }
