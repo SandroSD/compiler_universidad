@@ -30,7 +30,7 @@ int EscribirArchivo(void){
     int i = 0;
 
     fprintf(tsFile,"******Tabla de Simbolos******\n");
-    fprintf(tsFile,"***El tipo del simbolo lo identificamos con el caracter que precede al nombre. Siendo estos:\n\t_ --> variable\n\t$ --> cte float\n\t& --> cte int\n\t# --> cte string\n\n");
+    fprintf(tsFile,"***El tipo del simbolo lo identificamos con el caracter que precede al nombre. Siendo estos:\n\t_ --> variable\n\t$ --> cte real\n\t& --> cte int\n\t# --> cte string\n\n");
     for (i = 0; i < cantSimbolos; ++i) {
         fprintf(tsFile, "%s\n", Simbolos[i].Nombre);
     }
