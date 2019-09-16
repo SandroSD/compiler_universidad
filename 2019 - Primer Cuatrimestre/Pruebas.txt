@@ -38,12 +38,8 @@ a:=5
 a:=4
 }
 
-
-
 --/Asignaciones con tipo de dato/--
 c := 20
-a := b := c := 2.22
-a := b := c := "esto es un string"
 
 --/Entrada Salida/--
 PRINT"hola mundo"
