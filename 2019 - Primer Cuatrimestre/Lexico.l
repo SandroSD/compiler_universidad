@@ -79,9 +79,9 @@ READ            		{return READ;}
 								printf( "El entero ingresado supera la cantidad maxima permitida. Cantidad: %d\n", COTA_INT);
 								exit(1);
 							}
+							AgregarTokenTS(strdup(yytext), "&");
 							yylval.intValue = atoi(yytext); 
 							printf( "Entero en lexico: %d\n", yylval.intValue); 
-							//insertarTokenEnTS(strdup(yytext), "&");
 							return CONST_INT;
 						}
 {CONST_REAL}      		{
@@ -90,7 +90,7 @@ READ            		{return READ;}
 								exit(1);
 							}  
 							yylval.floatValue = atof(yytext);
-							//insertarTokenEnTS(strdup(yytext), "$"); 
+							AgregarTokenTS(strdup(yytext), "$");
 							printf( "Float en lexico: %f\n", yylval.floatValue); 
 							return CONST_REAL;
 						}
@@ -101,7 +101,7 @@ READ            		{return READ;}
 					        } else {
 							    yylval.stringValue = strdup(yytext);
 								printf( "String en lexico: %s\n", yylval.stringValue);
-								//insertarTokenEnTS("CONST_STR", yylval.stringValue);
+								AgregarTokenTS(yylval.stringValue, "#");
 								return CONST_STR; 
 					        }
 						}
@@ -112,7 +112,7 @@ READ            		{return READ;}
 							}
 							yylval.stringValue = strdup(yytext);
 							printf( "Identificador en lexico: %s\n",yylval.stringValue);
-							//insertarTokenEnTS(yylval.stringValue, "_");
+							AgregarTokenTS(yylval.stringValue, "_");
 							return ID;
                         }
 {COMENTARIO} 			{ }

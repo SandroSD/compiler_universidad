@@ -4,6 +4,7 @@
 	#include <string.h>
 	#include <math.h>
 	#include "y.tab.h"
+	#include "ts.h"
 
 	FILE  *yyin;
 	extern int yylex();
@@ -158,10 +159,11 @@ entrada_salida:
 		|PRINT CONST_STR    {printf("Regla de escritura de salida PRINT de constante\n");}
 	;
 
-cte_nombre: CONST ID OP_IGUAL CONST_STR {printf("Regla de asignacion de cte string con nombre\n");}
-			| CONST ID OP_IGUAL CONST_REAL {printf("Regla de asignacion de cte real con nombre\n");}
-			| CONST ID OP_IGUAL CONST_INT {printf("Regla de asignacion de cte entera con nombre\n");}
-		;
+cte_nombre: 
+		CONST ID OP_IGUAL CONST_STR {printf("Regla de asignacion de cte string con nombre\n");}
+		| CONST ID OP_IGUAL CONST_REAL {printf("Regla de asignacion de cte real con nombre\n");}
+		| CONST ID OP_IGUAL CONST_INT {printf("Regla de asignacion de cte entera con nombre\n");}
+	;
 
 %%
 
@@ -174,7 +176,7 @@ int main(int argc,char *argv[])
   else
   {
 	yyparse();
-	//EscribirArchivo();
+	EscribirArchivo();
   }
   fclose(yyin);
   return 0;

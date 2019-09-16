@@ -1,20 +1,19 @@
-#ifndef TS_H
-#define TS_H
-
-#include <stdlib.h>
-#include <string.h>
-#include <stdio.h>
-
-// TABLA DE SIMBOLOS
-struct struct_tablaSimbolos
+struct TablaSimbolos
 {
-    char nombre[100];
-    char tipo[100];
-    char valor[100];
-    char longitud[100];
+    char *Nombre;
+    char *Tipo;
+
+    int IntVal;
+    float FloatVal;
+    char StrVal[30];
+
+    char *Valor;
+    int Longitud;
+
+      //nombre tipo valor longitud
 };
-struct struct_tablaSimbolos tablaSimbolos[10000];
 
-void insertarTokenEnTS(char *, char *);
 
-#endif
+void AgregarTokenTS(char *Nombre, char *Prefijo);
+int BuscarTokenTS(char *Nombre);
+int EscribirArchivo(void);
