@@ -4,11 +4,13 @@
 	#include <string.h>
 	#include <math.h>
 	#include "y.tab.h"
-	#include "ts.h"
+	#include "punto_h/ts.h"
 
+	int yylineno;
 	FILE  *yyin;
-	extern int yylex();
+	int yylex();
 	void yyerror(char *msg);
+	int yyparse();
 %}
 
 %union {
@@ -71,7 +73,12 @@
 //Empezamos a definir la gramática
 %%
 
-programa:  declaracion sentencias;
+programa:  
+	declaracion sentencias
+	{
+		crearArchivoTS();
+	}
+;
 
 declaracion: 
 		VAR linea_declaracion ENDVAR 		{printf("Regla de declaracion de variables\n");}
@@ -176,7 +183,7 @@ int main(int argc,char *argv[])
   else
   {
 	yyparse();
-	EscribirArchivo();
+	//EscribirArchivo();
   }
   fclose(yyin);
   return 0;
@@ -184,6 +191,7 @@ int main(int argc,char *argv[])
 //---------------------------------------- Validaciones ------------------------------------------//
 
 void yyerror(char *msg){
+	fflush(stderr);
     fprintf(stderr, "%s\n", msg);
     exit(1);
 }

@@ -22,8 +22,6 @@ repeat(10>9)
 a:=5
 }
 
-
-
 --/Prueba de condicional 1/--
 if(10>9)
 {

@@ -3,15 +3,9 @@
 	#include <stdlib.h>
 	#include <string.h>
     #include "y.tab.h"
-    #include "ts.h"
-    
-	#define STR_VALUE 255
-	#define COTA_STR 30
-	#define COTA_INT 65535
-	#define COTA_FLOAT 9999999.9999999999
-	#define COTA_ID 32
+	#include "punto_h/constantes.h"
+    #include "punto_h/ts.h"
 %}
-
 
 %option noyywrap
 %option yylineno
@@ -79,7 +73,7 @@ READ            		{return READ;}
 								printf( "El entero ingresado supera la cantidad maxima permitida. Cantidad: %d\n", COTA_INT);
 								exit(1);
 							}
-							AgregarTokenTS(strdup(yytext), "&");
+							insertarTokenEnTS("CONST_INT", strdup(yytext));
 							yylval.intValue = atoi(yytext); 
 							printf( "Entero en lexico: %d\n", yylval.intValue); 
 							return CONST_INT;
@@ -90,7 +84,7 @@ READ            		{return READ;}
 								exit(1);
 							}  
 							yylval.floatValue = atof(yytext);
-							AgregarTokenTS(strdup(yytext), "$");
+							insertarTokenEnTS("CONST_REAL", strdup(yytext));
 							printf( "Float en lexico: %f\n", yylval.floatValue); 
 							return CONST_REAL;
 						}
@@ -101,18 +95,18 @@ READ            		{return READ;}
 					        } else {
 							    yylval.stringValue = strdup(yytext);
 								printf( "String en lexico: %s\n", yylval.stringValue);
-								AgregarTokenTS(yylval.stringValue, "#");
+								insertarTokenEnTS("CONST_STR", yylval.stringValue);
 								return CONST_STR; 
 					        }
 						}
-{ID}        			{	
+{ID}        			{
 							if (strlen(yytext) > COTA_ID) {
 								printf( "El string ingresado supera la cantidad maxima permitida. Cantidad: %d\n", COTA_ID);
 								exit(1);
 							}
 							yylval.stringValue = strdup(yytext);
 							printf( "Identificador en lexico: %s\n",yylval.stringValue);
-							AgregarTokenTS(yylval.stringValue, "_");
+							insertarTokenEnTS("ID", yylval.stringValue);
 							return ID;
                         }
 {COMENTARIO} 			{ }
