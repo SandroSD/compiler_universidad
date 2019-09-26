@@ -99,11 +99,16 @@ dec_tipo:
 
 sentencias: sentencias sent | sent;
 
-sent: iteracion|decision|entrada_salida|asignacion|cte_nombre {printf("Inicia el compilador\n");};
+sent:	iteracion |
+		decision |
+		entrada_salida |
+		asignacion |
+		cte_nombre {printf("Inicia el compilador\n");}
+	;
 
 decision:
-		IF CAR_PA condiciones CAR_PC CAR_LA sentencias CAR_LC   {printf("Regla de condicion: IF\n");}
-	   |IF CAR_PA condiciones CAR_PC CAR_LA sentencias CAR_LC ELSE CAR_LA sentencias CAR_LC	{printf("Regla de condicion: IF Y ELSE\n");}
+		IF CAR_PA condiciones CAR_PC CAR_LA sentencias CAR_LC     {printf("Regla de condicion: IF\n");}
+		// |IF CAR_PA condiciones CAR_PC CAR_LA sentencias CAR_LC ELSE CAR_LA sentencias CAR_LC	{printf("Regla de condicion: IF Y ELSE\n");}
 	;
 
 iteracion:
@@ -111,8 +116,8 @@ iteracion:
 	;
 
 condiciones:
-		condiciones operador condicion		{printf("Condicion multiple\n");}
-		|condicion							{printf("Condicion Individual\n");}
+		condiciones operador condicion |	{printf("Condicion multiple\n");}
+		condicion							{printf("Condicion Individual\n");}
 	;
 		
 operador:
@@ -139,8 +144,8 @@ expresion:
 		expresion OP_RES termino					{printf("Esto es una resta\n");}
 		|expresion OP_SUM termino					{printf("Esto es una suma\n");}
 		|termino									{printf("Termino\n");}
-		|sent_div									{printf("Esto es una sentencia DIV\n");}
-		|sent_mod									{printf("Esto es una sentencia MOD\n");}
+		//|sent_div									{printf("Esto es una sentencia DIV\n");}
+		//|sent_mod									{printf("Esto es una sentencia MOD\n");}
 	;
 	
 termino:
@@ -149,10 +154,10 @@ termino:
 		|factor								{printf("Factor\n");}
 	; 
 	
-factor:     
-		ID 									   {printf("Esto es un ID\n");}									
-		|tipo 								   {printf("Esto es una cte\n");}
-		|CAR_PA expresion CAR_PC         	   {printf("Esto es una expresion\n");}
+factor:
+		ID 										{printf("Esto es un ID\n");}
+		|tipo 									{printf("Esto es una cte\n");}
+		|CAR_PA expresion CAR_PC				{printf("Esto es una expresion\n");}
 	;
 
 tipo: 
