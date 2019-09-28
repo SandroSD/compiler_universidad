@@ -77,6 +77,7 @@ programa:
 	declaracion sentencias
 	{
 		crearArchivoTS();
+		printf("Fin del parsing!\n");
 	}
 ;
 
@@ -117,7 +118,7 @@ iteracion:
 
 condiciones:
 			condicion
-		|	condicion operador condicion
+		|	condicion operador condicion  {printf("Esto es una condicion compuesta\n");}
 	;
 		
 operador:
