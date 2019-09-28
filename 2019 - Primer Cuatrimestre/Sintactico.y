@@ -99,16 +99,16 @@ dec_tipo:
 
 sentencias: sentencias sent | sent;
 
-sent:	iteracion |
-		decision |
-		entrada_salida |
-		asignacion |
+sent:	iteracion			|
+		decision			|
+		entrada_salida		|
+		asignacion			|
 		cte_nombre {printf("Inicia el compilador\n");}
 	;
 
 decision:
-		IF CAR_PA condiciones CAR_PC CAR_LA sentencias CAR_LC     {printf("Regla de condicion: IF\n");}
-		// |IF CAR_PA condiciones CAR_PC CAR_LA sentencias CAR_LC ELSE CAR_LA sentencias CAR_LC	{printf("Regla de condicion: IF Y ELSE\n");}
+		IF CAR_PA condiciones CAR_PC CAR_LA sentencias CAR_LC {printf("IF\n");} |
+		IF CAR_PA condiciones CAR_PC CAR_LA sentencias CAR_LC ELSE CAR_LA sentencias CAR_LC {printf("IF y ELSE\n");}
 	;
 
 iteracion:
@@ -116,29 +116,28 @@ iteracion:
 	;
 
 condiciones:
-		condiciones operador condicion |	{printf("Condicion multiple\n");}
-		condicion							{printf("Condicion Individual\n");}
+			condicion
+		|	condicion operador condicion
 	;
 		
 operador:
-		AND			{printf("and\n");}
-		|OR			{printf("or\n");}
+			AND			{printf("and\n");}
+		|	OR			{printf("or\n");}
 	;
 	
 condicion:
-		expresion  CMP_MAYOR expresion				{printf("MAYOR\n");}
-		|expresion CMP_MAYORIGUAL expresion			{printf("MAYOR IGUAL\n");}
-		|expresion CMP_MENOR expresion				{printf("MENOR\n");}
-		|expresion CMP_MENORIGUAL expresion			{printf("MENOR IGUAL\n");}
-		|expresion CMP_IGUAL expresion				{printf("IGUAL\n");}
-		|expresion CMP_DISTINTO expresion			{printf("DISTINTO\n");}
+			expresion CMP_MAYOR expresion				{printf("MAYOR\n");}
+		|	expresion CMP_MAYORIGUAL expresion			{printf("MAYOR IGUAL\n");}
+		|	expresion CMP_MENOR expresion				{printf("MENOR\n");}
+		|	expresion CMP_MENORIGUAL expresion			{printf("MENOR IGUAL\n");}
+		|	expresion CMP_IGUAL expresion				{printf("IGUAL\n");}
+		|	expresion CMP_DISTINTO expresion			{printf("DISTINTO\n");}
 	;
 
 asignacion: ID OP_ASIG expresion {printf("Regla de asignacion\n");};
 
-sent_div: expresion DIV expresion {printf("Regla de DIV entre expresiones\n");};
-
-sent_mod: expresion MOD expresion {printf("Regla de MOD entre expresiones\n");};
+//sent_div: expresion DIV expresion {printf("Regla de DIV entre expresiones\n");};
+//sent_mod: expresion MOD expresion {printf("Regla de MOD entre expresiones\n");};
 
 expresion:
 		expresion OP_RES termino					{printf("Esto es una resta\n");}

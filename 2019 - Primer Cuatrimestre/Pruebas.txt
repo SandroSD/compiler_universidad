@@ -14,10 +14,10 @@ CONST valR=2.5
 a2:=1
 
 --/Prueba de DIV/--
-var1:=2 DIV 1
+--/var1:=2 DIV 1/--
 
 --/Prueba de MOD/--
-var1:=valE MOD valE 
+--/var1:=valE MOD valE/-- 
 
 --/Prueba de iteraciones/--
 repeat(10>9)
@@ -28,16 +28,21 @@ a:=5
 --/Prueba de condicional 1/--
 if(10>9)
 {
-a:=5
+var1 := 5 + 1
 }
 
 --/Prueba de condicional 2/--
 if(8>9)
 {
-a:=5
-}else{
-a:=4
+var1 := 5 + 1
 }
+else
+{
+a := 1
+}
+
+PRINT "VEMOS"
+PRINT a
 
 --/Asignaciones con tipo de dato/--
 c := 20
