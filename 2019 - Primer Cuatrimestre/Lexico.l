@@ -22,7 +22,8 @@ ESPACIO         		[" "]
 A_COMENTARIO			"--/"
 C_COMENTARIO			"/--"
 CONTENIDO				[a-zA-Z0-9 "",=,>,<,!,:,+,-,*,/,@]*
-COMENTARIO 				({A_COMENTARIO}{CONTENIDO}{C_COMENTARIO})	
+COMENTARIO 				{A_COMENTARIO}{CONTENIDO}{C_COMENTARIO}
+COMENTARIO_ANIDADO		{A_COMENTARIO}({COMENTARIO}|{CONTENIDO})*?{C_COMENTARIO}
 
 %%
 VAR|var					{ return VAR; }
@@ -110,9 +111,9 @@ READ            		{return READ;}
 							return ID;
                         }
 {COMENTARIO} 			{ }
+{COMENTARIO_ANIDADO} 	{ }
 "\n"					{ }
 "\r\n"					{ }
 "\t"					{ }
 " "						{ }
 %%
-
