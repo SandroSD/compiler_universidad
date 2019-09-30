@@ -1,0 +1,39 @@
+﻿﻿program  
+DECVAR	
+ i,b,a : INTEGER
+ cadena, s : STRING
+ v: REAL
+ENDDEC
+
+
+beginp 
+i:=1
+b:=1
+i:=b:=8+5+2
+
+-/ i:=s /-
+
+-/ i:=s:=8+5+2 /-
+-/ s:=1+1 /-
+
+
+WRITE "comienzo de Programa"
+
+
+-/ IF SIMPLE /-
+if (v=4) THEN
+	write "IF Afirmativo"
+	write i
+ENDIF
+
+while (i<30)
+	write i
+	i:=i+1
+endw
+
+-/ BETWEEN /-
+BETWEEN(a,[2;b])
+
+write "Fin de Programa"
+
+endp

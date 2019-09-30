@@ -1,0 +1,114 @@
+-/Lenguajes y Compiladores /-
+
+program  
+DEFVAR	
+ n : FLOAT
+ a,b,i : INTEGER
+ cadena, s : STRING
+enddef
+
+
+beginp 
+i:=1	
+a:=15
+n:= 99.99
+n:= .99
+n:= 99.
+n:=-542.43
+s:=""
+
+while (a<7)
+	i:=5 + b
+endw
+
+-/ COMENTARIO SIMPLE MAS DE UNA LINEA
+-//-
+/-
+
+-/COMENTARIOS CON CARACTER ESPECIAL "·$"% /-
+
+-//-
+
+
+
+-/ CONDICION 1 /-
+if (i=15 && a=4) THEN
+	i:=16
+ENDIF
+
+-/ CONDICION 2 /-
+if (i=15 AND a=4) THEN
+	i:=16
+ENDIF
+
+-/ CONDICION 3 /-
+if (i=15 and a=4) THEN
+	i:=16
+ENDIF
+
+-/ CONDICION 4 /-
+if (i=15 || a=4) THEN
+	i:=16
+ENDIF
+
+-/ CONDICION 5 /-
+if (i=15 OR a=4) THEN
+	i:=16
+ENDIF
+
+-/ CONDICION 6 /-
+if (i=15 or a=4) THEN
+	i:=16
+ENDIF
+
+-/ CONDICION 7 /-
+if (NOT(i=15 or a=4)) THEN
+	i:=16
+ENDIF
+
+-/ CONDICION 7 /-
+if (NOT BETWEEN (a,[2;a*(b+4)])) THEN
+	i:=n
+ENDIF
+
+-/ CONDICION 7 /-
+if (NOT i=15) THEN
+	i:=n
+ENDIF
+
+-/ ASIGNACION MULTIPLE /-
+
+a:=b:=c:=8
+
+
+-/ BETWEEN  /-
+a:=15
+b:=30
+BETWEEN (a,[2;a*(b+4)])
+
+-/ BETWEEN EN SELECCION /-
+if(BETWEEN (a,[2;a*(b+4)])) then
+	i:=i+2
+endif
+
+-/ BETWEEN EN CICLO /-
+while(BETWEEN (a,[2;a*(b+4)]))
+	i:=n+1
+	n:=3
+endw
+
+
+
+-/ WRITE Y READ /-
+
+READ n
+WRITE b
+WRITE "ewr"
+write "ewr"
+read n
+write i1
+write "@%asdr"
+write "@% > = FA <asdr"
+
+
+endp

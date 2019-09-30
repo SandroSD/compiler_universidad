@@ -1,0 +1,21 @@
+﻿program  
+DECVAR	
+ n : FLOAT 
+ i, a, b: INTEGER
+ cadena, s : STRING
+ENDDEC
+
+
+beginp 
+i:=1	
+b:=10
+
+-/ CONDICION 7 /-
+if (NOT i=15) THEN
+	i:=16
+ENDIF
+
+
+
+endp
+

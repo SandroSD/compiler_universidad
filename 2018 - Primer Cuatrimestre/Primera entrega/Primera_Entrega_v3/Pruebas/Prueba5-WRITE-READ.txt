@@ -1,0 +1,27 @@
+program  
+DEFVAR	
+ n : FLOAT
+ a,b,i1 : INTEGER
+ cadena, s : STRING
+ENDDEC
+
+
+beginp 
+
+-/ CASO 1 /-
+
+READ n
+WRITE b
+WRITE "ewr"
+
+-/ CASO 2 /-
+write "ewr"
+read n
+write i1
+
+-/ CASO 3 /-
+write "@%asdr"
+write "@% > = FA <asdr"
+
+
+endp

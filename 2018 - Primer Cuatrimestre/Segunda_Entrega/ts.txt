@@ -1,0 +1,22 @@
+Nombre                        Tipo                  Valor                Longitud
+n                             REAL      
+i                             INTEGER   
+a                             INTEGER   
+b                             INTEGER   
+cadena                        STRING    
+s                             STRING    
+_1                            CONST_INT            1                             
+_10                           CONST_INT            10                            
+_15                           CONST_INT            15                            
+_16                           CONST_INT            16                            
+_17                           CONST_INT            17                            
+_4                            CONST_INT            4                             
+_7                            CONST_INT            7                             
+_5                            CONST_INT            5                             
+_8                            CONST_INT            8                             
+_2                            CONST_INT            2                             
+_99.99                        CONST_REAL           99.99                         
+_.99                          CONST_REAL           .99                           
+_99.                          CONST_REAL           99.                           
+_-542.43                      CONST_REAL           -542.43                       
+""                           CONST_STR                                     2                             

@@ -1,0 +1,227 @@
+i
+1
+:=
+b
+10
+:=
+i
+15
+CMP
+BNE
+CELDA 19
+BI
+CELDA 14
+i
+16
+:=
+BI
+CELDA 19
+i
+15
+CMP
+BNE
+CELDA 31
+BI
+CELDA 26
+i
+16
+:=
+BI
+CELDA 34
+i
+17
+:=
+i
+15
+CMP
+BNE
+CELDA 53
+BI
+CELDA 41
+a
+4
+CMP
+BNE
+CELDA 53
+BI
+CELDA 48
+i
+16
+:=
+BI
+CELDA 56
+i
+17
+:=
+i
+15
+CMP
+BNE
+CELDA 63
+BI
+CELDA 70
+a
+4
+CMP
+BNE
+CELDA 75
+BI
+CELDA 70
+i
+16
+:=
+BI
+CELDA 78
+i
+17
+:=
+a
+7
+CMP
+BGE
+CELDA 90
+BI
+CELDA 85
+i
+5
+b
++
+:=
+a
+7
+CMP
+BGE
+CELDA 109
+BI
+CELDA 97
+b
+8
+CMP
+BLE
+CELDA 109
+BI
+CELDA 104
+i
+5
+b
++
+:=
+a
+7
+CMP
+BGE
+CELDA 116
+BI
+CELDA 123
+b
+8
+CMP
+BLE
+CELDA 128
+BI
+CELDA 123
+i
+5
+b
++
+:=
+a
+8
+:=
+b
+8
+:=
+i
+8
+:=
+i
+a
+2
+CMP
+BLT
+CELDA 159
+BI
+CELDA 145
+a
+a
+b
+4
++
+*
+CMP
+BGT
+CELDA 159
+BI
+CELDA 156
+1
+BI
+CELDA 160
+0
+i
+1
+:=
+a
+15
+:=
+n
+99.99
+:=
+n
+.99
+:=
+n
+99.
+:=
+n
+-542.43
+:=
+s
+""
+:=
+a
+2
+CMP
+BLT
+CELDA 202
+BI
+CELDA 188
+a
+a
+b
+4
++
+*
+CMP
+BGT
+CELDA 202
+BI
+CELDA 199
+1
+BI
+CELDA 203
+0
+1
+CMP
+BLE
+CELDA 216
+BI
+CELDA 209
+i
+i
+2
++
+:=
+BI
+CELDA 216
+a
+a
+2
++
+:=
+a
+10
+CMP
+BGT
+CELDA 228
+BI
+CELDA 216
