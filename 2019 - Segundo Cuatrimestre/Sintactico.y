@@ -113,9 +113,9 @@ linea_declaracion:
 		CAR_CA lista CAR_CC
 	;
 	
-lista:	
-		dec_tipo CAR_COMA lista CAR_COMA ID 
-		|dec_tipo CAR_CC OP_DOSP CAR_CA ID 
+lista:
+			dec_tipo CAR_COMA lista CAR_COMA ID 
+		|	dec_tipo CAR_CC OP_DOSP CAR_CA ID 
 	;
 	
 dec_tipo:
@@ -128,7 +128,7 @@ sent:	iteracion			|
 		decision			|
 		entrada_salida		|
 		asignacion			|
-		cte_nombre {printf("Inicia el compilador\n");}
+		cte_nombre
 	;
 
 decision:
@@ -183,29 +183,26 @@ operador:
 	;
 
 asignacion:
-		ID { insertarEnLista(yylval.stringValue); }
-		OP_ASIG
-		expresion { insertarEnLista(":="); }
+			ID { insertarEnLista(yylval.stringValue); }
+			OP_ASIG
+			expresion { insertarEnLista(":="); }
 	;
 
-//sent_div: expresion DIV expresion {printf("Regla de DIV entre expresiones\n");};
-//sent_mod: expresion MOD expresion {printf("Regla de MOD entre expresiones\n");};
+
+//sent_div: expresion DIV expresion	{ insertarEnLista("%"); }
+//sent_mod: expresion MOD expresion	{ insertarEnLista("/"); }
 
 expresion:
 			expresion OP_RES termino	{ insertarEnLista("-"); }
 		|	expresion OP_SUM termino	{ insertarEnLista("+"); }
 		|	termino
-		//|sent_div									{printf("Esto es una sentencia DIV\n");}
-		//|sent_mod									{printf("Esto es una sentencia MOD\n");}
+		//|	sent_div
+		//|	sent_mod
 	;
 	
 termino:
-			termino OP_MUL factor	{
-										//insertarEnLista("*");
-									}
-		|	termino OP_DIV factor	{
-										//insertarEnLista("/");
-									}
+			termino OP_MUL factor	{ insertarEnLista("*"); }
+		|	termino OP_DIV factor	{ insertarEnLista("/"); }
 		|	factor
 	; 
 	

@@ -42,7 +42,7 @@ div|DIV					{ return DIV;}
 mod|MOD					{ return MOD;}
 
 "+"						{ return OP_SUM; }
-"-"						{ return OP_RES; }
+"--"					{ return OP_RES; }
 "/"						{ return OP_DIV; }
 "*"						{ return OP_MUL; }
 "%"						{ return OP_MOD; }
