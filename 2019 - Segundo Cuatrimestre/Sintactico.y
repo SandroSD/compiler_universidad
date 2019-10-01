@@ -189,15 +189,15 @@ asignacion:
 	;
 
 
-//sent_div: expresion DIV expresion	{ insertarEnLista("%"); }
-//sent_mod: expresion MOD expresion	{ insertarEnLista("/"); }
+sent_div: expresion DIV expresion	{ insertarEnLista("%"); }
+sent_mod: expresion MOD expresion	{ insertarEnLista("/"); }
 
 expresion:
 			expresion OP_RES termino	{ insertarEnLista("-"); }
 		|	expresion OP_SUM termino	{ insertarEnLista("+"); }
 		|	termino
-		//|	sent_div
-		//|	sent_mod
+		|	sent_div
+		|	sent_mod
 	;
 	
 termino:
