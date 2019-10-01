@@ -29,6 +29,7 @@
 	int puntero_tokens = 1;
 	char * pila[100];
 	int tope_pila_polaca = 0;
+	char * comparador;
 %}
 
 %union {
@@ -131,8 +132,27 @@ sent:	iteracion			|
 	;
 
 decision:
-			IF CAR_PA condiciones CAR_PC CAR_LA sentencias CAR_LC
-		|	IF CAR_PA condiciones CAR_PC CAR_LA sentencias CAR_LC ELSE CAR_LA sentencias CAR_LC
+			IF CAR_PA condiciones CAR_PC then_ CAR_LA sentencias CAR_LC
+			{
+				int x;
+				char sPosActual[5];
+				x = desapilar();
+				sprintf(sPosActual, "Celda %d", puntero_tokens);
+				escribirEnLista(x, sPosActual);
+			}
+		|	IF CAR_PA condiciones CAR_PC then_ CAR_LA sentencias CAR_LC ELSE CAR_LA sentencias CAR_LC
+	;
+
+then_:
+	THEN
+		{
+			char sPosActual[5];
+			insertarEnLista("CMP");
+			insertarEnLista(comparador);
+			insertarEnLista("###");
+			sprintf(sPosActual, "%d", puntero_tokens - 1);
+			apilar(sPosActual);
+		}
 	;
 
 iteracion:
@@ -154,38 +174,26 @@ condicion:
 	;
 
 operador:
-			CMP_MAYOR		{
-								//insertarEnLista("BLE");
-							}
-		|	CMP_MAYORIGUAL	{
-								//insertarEnLista("BLT");
-							}
-		|	CMP_MENOR		{
-								//insertarEnLista("BGE");
-							}
-		|	CMP_MENORIGUAL	{	
-								//insertarEnLista("BGT");
-							}
-		|	CMP_IGUAL		{
-								//insertarEnLista("BNE");
-							}
-		|	CMP_DISTINTO	{
-								//insertarEnLista("BEQ");
-							}
+			CMP_MAYOR		{ comparador = "BLE"; }
+		|	CMP_MAYORIGUAL	{ comparador = "BLT"; }
+		|	CMP_MENOR		{ comparador = "BGE"; }
+		|	CMP_MENORIGUAL	{ comparador = "BGT"; }
+		|	CMP_IGUAL		{ comparador = "BNE"; }
+		|	CMP_DISTINTO	{ comparador = "BEQ"; }
 	;
 
-asignacion: ID OP_ASIG expresion {printf("Regla de asignacion\n");};
+asignacion:
+		ID { insertarEnLista(yylval.stringValue); }
+		OP_ASIG
+		expresion { insertarEnLista(":="); }
+	;
 
 //sent_div: expresion DIV expresion {printf("Regla de DIV entre expresiones\n");};
 //sent_mod: expresion MOD expresion {printf("Regla de MOD entre expresiones\n");};
 
 expresion:
-			expresion OP_RES termino	{
-											//insertarEnLista("-");
-										}
-		|	expresion OP_SUM termino	{
-											//insertarEnLista("+");
-										}
+			expresion OP_RES termino	{ insertarEnLista("-"); }
+		|	expresion OP_SUM termino	{ insertarEnLista("+"); }
 		|	termino
 		//|sent_div									{printf("Esto es una sentencia DIV\n");}
 		//|sent_mod									{printf("Esto es una sentencia MOD\n");}
