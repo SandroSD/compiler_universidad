@@ -75,7 +75,7 @@ READ            		{return READ;}
 								exit(1);
 							}
 							insertarTokenEnTS("CONST_INT", strdup(yytext));
-							yylval.intValue = atoi(yytext); 
+							yylval.intValue = yytext; 
 							printf( "Entero en lexico: %d\n", yylval.intValue); 
 							return CONST_INT;
 						}
@@ -84,7 +84,7 @@ READ            		{return READ;}
 								printf( "El flotante ingresado supera la cantidad maxima permitida. Cantidad: %f\n", COTA_FLOAT);
 								exit(1);
 							}  
-							yylval.floatValue = atof(yytext);
+							yylval.floatValue = yytext;
 							insertarTokenEnTS("CONST_REAL", strdup(yytext));
 							printf( "Float en lexico: %f\n", yylval.floatValue); 
 							return CONST_REAL;

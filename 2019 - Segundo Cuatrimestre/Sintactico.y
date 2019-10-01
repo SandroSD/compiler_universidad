@@ -5,18 +5,36 @@
 	#include <math.h>
 	#include "y.tab.h"
 	#include "punto_h/ts.h"
+	#include "punto_h/pila.h"
+	#include "punto_h/constantes.h"
 
 	int yylineno;
 	FILE  *yyin;
 	int yylex();
 	void yyerror(char *msg);
 	int yyparse();
+
+	int crearArchivoIntermedia();
+	int insertarEnLista(char *);
+	void escribirEnLista(int , char *);
+
+	int desapilar();
+	void apilar(char * dato);
+	int pilaVacia(int tope);
+	int pilaLlena(int tope);
+	
+	//Para funcionamiento de la Polaca
+	char * listaTokens[10000];
+	char * aux;
+	int puntero_tokens = 1;
+	char * pila[100];
+	int tope_pila_polaca = 0;
 %}
 
 %union {
-	int intValue;
-	float floatValue;
-	char *stringValue;
+	char * intValue;
+	char * floatValue;
+	char * stringValue;
 }
 
 //Start Symbol
@@ -77,6 +95,11 @@ programa:
 	declaracion sentencias
 	{
 		crearArchivoTS();
+		if(crearArchivoIntermedia() == 1){
+			printf("Archivo de intermedia generado correctamente \n");
+		} else {
+			printf("Hubo un error al generar el archivo de intermedia \n");
+		}
 		printf("Fin del parsing!\n");
 	}
 ;
@@ -108,8 +131,8 @@ sent:	iteracion			|
 	;
 
 decision:
-		IF CAR_PA condiciones CAR_PC CAR_LA sentencias CAR_LC {printf("IF\n");} |
-		IF CAR_PA condiciones CAR_PC CAR_LA sentencias CAR_LC ELSE CAR_LA sentencias CAR_LC {printf("IF y ELSE\n");}
+			IF CAR_PA condiciones CAR_PC CAR_LA sentencias CAR_LC
+		|	IF CAR_PA condiciones CAR_PC CAR_LA sentencias CAR_LC ELSE CAR_LA sentencias CAR_LC
 	;
 
 iteracion:
@@ -127,12 +150,28 @@ operador:
 	;
 	
 condicion:
-			expresion CMP_MAYOR expresion				{printf("MAYOR\n");}
-		|	expresion CMP_MAYORIGUAL expresion			{printf("MAYOR IGUAL\n");}
-		|	expresion CMP_MENOR expresion				{printf("MENOR\n");}
-		|	expresion CMP_MENORIGUAL expresion			{printf("MENOR IGUAL\n");}
-		|	expresion CMP_IGUAL expresion				{printf("IGUAL\n");}
-		|	expresion CMP_DISTINTO expresion			{printf("DISTINTO\n");}
+		expresion operador expresion
+	;
+
+operador:
+			CMP_MAYOR		{
+								//insertarEnLista("BLE");
+							}
+		|	CMP_MAYORIGUAL	{
+								//insertarEnLista("BLT");
+							}
+		|	CMP_MENOR		{
+								//insertarEnLista("BGE");
+							}
+		|	CMP_MENORIGUAL	{	
+								//insertarEnLista("BGT");
+							}
+		|	CMP_IGUAL		{
+								//insertarEnLista("BNE");
+							}
+		|	CMP_DISTINTO	{
+								//insertarEnLista("BEQ");
+							}
 	;
 
 asignacion: ID OP_ASIG expresion {printf("Regla de asignacion\n");};
@@ -141,43 +180,158 @@ asignacion: ID OP_ASIG expresion {printf("Regla de asignacion\n");};
 //sent_mod: expresion MOD expresion {printf("Regla de MOD entre expresiones\n");};
 
 expresion:
-		expresion OP_RES termino					{printf("Esto es una resta\n");}
-		|expresion OP_SUM termino					{printf("Esto es una suma\n");}
-		|termino									{printf("Termino\n");}
+			expresion OP_RES termino	{
+											//insertarEnLista("-");
+										}
+		|	expresion OP_SUM termino	{
+											//insertarEnLista("+");
+										}
+		|	termino
 		//|sent_div									{printf("Esto es una sentencia DIV\n");}
 		//|sent_mod									{printf("Esto es una sentencia MOD\n");}
 	;
 	
 termino:
-		termino OP_MUL factor		   		{printf("Esto es una multiplicacion\n");}
-		|termino OP_DIV factor			    {printf("Esto es una division\n");}
-		|factor								{printf("Factor\n");}
+			termino OP_MUL factor	{
+										//insertarEnLista("*");
+									}
+		|	termino OP_DIV factor	{
+										//insertarEnLista("/");
+									}
+		|	factor
 	; 
 	
 factor:
-		ID 										{printf("Esto es un ID\n");}
-		|tipo 									{printf("Esto es una cte\n");}
-		|CAR_PA expresion CAR_PC				{printf("Esto es una expresion\n");}
+			ID						{
+										insertarEnLista(yylval.stringValue);
+									}
+		|	tipo
+		|	CAR_PA expresion CAR_PC
 	;
 
 tipo: 
-		CONST_INT    	{printf("Esto es un entero\n");}
-		|CONST_REAL    	{printf("Esto es un real\n");}
+			CONST_INT	{
+							insertarEnLista(yylval.intValue);
+						}
+		|	CONST_REAL	{
+							insertarEnLista(yylval.floatValue);
+						}
 	;
 
 entrada_salida:
-		READ ID 			{printf("Regla de lectura de entrada READ\n");}
-		|PRINT ID 			{printf("Regla de escritura de salida PRINT de variable\n");}
-		|PRINT CONST_STR    {printf("Regla de escritura de salida PRINT de constante\n");}
+			READ ID 			{printf("Regla de lectura de entrada READ\n");}
+		|	PRINT ID 			{printf("Regla de escritura de salida PRINT de variable\n");}
+		|	PRINT CONST_STR    {printf("Regla de escritura de salida PRINT de constante\n");}
 	;
 
 cte_nombre: 
-		CONST ID OP_IGUAL CONST_STR {printf("Regla de asignacion de cte string con nombre\n");}
-		| CONST ID OP_IGUAL CONST_REAL {printf("Regla de asignacion de cte real con nombre\n");}
-		| CONST ID OP_IGUAL CONST_INT {printf("Regla de asignacion de cte entera con nombre\n");}
+			CONST ID	{
+							insertarEnLista(yylval.stringValue);
+						}
+			OP_IGUAL	
+			tipo_const	{
+							insertarEnLista(":=");
+						}
 	;
 
+tipo_const:
+			CONST_STR	{
+							insertarEnLista(yylval.stringValue);
+						}
+		|	CONST_INT	{
+							insertarEnLista(yylval.intValue);
+						}
+		|	CONST_REAL	{
+							insertarEnLista(yylval.floatValue);
+						}
+
 %%
+
+
+int crearArchivoIntermedia() {
+	FILE * archivo; 
+	int i;
+	archivo = fopen("intermedia.txt", "wt");
+
+	if (!archivo) {
+		return 0;
+	}
+
+	for (i = 1; i < puntero_tokens; i++) {
+		fprintf(archivo,"%s\n", listaTokens[i]);
+	}
+	fclose(archivo); 
+
+	return 1;
+}
+
+int insertarEnLista(char * val) {
+	// Convierto en CHAR *
+	aux = (char *) malloc(sizeof(char) * (strlen(val) + 1));
+    strcpy(aux, val);
+	
+	// Agrego al array de tokens
+	listaTokens[puntero_tokens] = aux;
+	puntero_tokens++;
+	
+	//escribo en archivo
+	//fprintf(fintermedia,"%s\n",aux);
+	
+	// DEBUG por consola
+	if(strcmp(aux,"###")!=0){
+		printf("\tinsertar_en_polaca(%s)\n", aux);
+	}
+	return (puntero_tokens-1); // devuelvo posicion
+}
+
+void escribirEnLista(int pos, char * val) {
+	// Convierto en CHAR *
+	aux = (char *) malloc(sizeof(char) * (strlen(val) + 1));
+    strcpy(aux, val);
+	
+	// escribo en vector
+	listaTokens[pos] = aux;
+	
+	printf("\tEscribio en %i el valor %s\n",pos,aux);
+}
+
+int desapilar(){
+	if(pilaVacia(tope_pila_polaca) == 0){
+		char * dato = pila[tope_pila_polaca - 1];
+		tope_pila_polaca--;
+		printf("\tDESAPILAR #CELDA -> %s\n",dato);
+		return atoi(dato);
+	}else{
+		printf("Error: La pila esta vacia.\n");
+		system ("Pause");
+		exit (1);
+	}
+}
+
+void apilar(char * dato) {
+	if(pilaLlena(tope_pila_polaca) == 1){
+		printf("Error: Se exedio el tamano de la pila.\n");
+		system ("Pause");
+		exit (1);
+	}
+	pila[tope_pila_polaca] = dato;
+	printf("\tAPILAR #CELDA ACTUAL -> %s\n",dato);
+	tope_pila_polaca++;
+}
+
+int pilaVacia(int tope) {
+	if (tope-1 == -1){
+		return 1;
+	} 
+	return 0;
+}
+
+int pilaLlena(int tope) {
+	if (tope-1 == 100-1){
+		return 1;
+	} 
+	return 0;
+}
 
 int main(int argc,char *argv[])
 {
