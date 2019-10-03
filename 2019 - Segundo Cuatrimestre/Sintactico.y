@@ -140,7 +140,14 @@ decision:
 				sprintf(sPosActual, "Celda %d", puntero_tokens);
 				escribirEnLista(x, sPosActual);
 			}
-		|	IF CAR_PA condiciones CAR_PC then_ CAR_LA sentencias CAR_LC ELSE CAR_LA sentencias CAR_LC
+		|	IF CAR_PA condiciones CAR_PC then_ CAR_LA sentencias CAR_LC else_ CAR_LA sentencias CAR_LC
+			{
+				int x;
+				char sPosActual[5];
+				x = desapilar();
+				sprintf(sPosActual, "Celda %d", puntero_tokens);
+				escribirEnLista(x, sPosActual);
+			}
 	;
 
 then_:
@@ -154,9 +161,36 @@ then_:
 			apilar(sPosActual);
 		}
 	;
+else_:
+	ELSE
+		{
+			int x;
+			char sPosActual[5];
+			x = desapilar();
+			sprintf(sPosActual, "Celda %d", puntero_tokens);
+			escribirEnLista(x, sPosActual);
+			apilar(sPosActual + 1);
+		}
+	;
 
 iteracion:
-		REPEAT CAR_PA condiciones CAR_PC CAR_LA sentencias CAR_LC   {printf("Regla de iteracion repeat\n");}
+		REPEAT { 
+			char sPosActual[5];
+			sprintf(sPosActual, "%d", puntero_tokens - 1);
+			apilar(sPosActual); } CAR_PA condiciones CAR_PC {
+				char sPosActual[5];
+				sprintf(sPosActual, "%d", puntero_tokens - 1);
+				apilar(sPosActual); } CAR_LA sentencias CAR_LC   {
+					int x;
+					char sPosActual[5];
+					x = desapilar() + 1;
+					sprintf(sPosActual, "Celda %d", puntero_tokens);
+					escribirEnLista(x, sPosActual);
+
+					x = desapilar();
+					sprintf(sPosActual, "Celda %d", puntero_tokens);
+					escribirEnLista(x, sPosActual);
+				}
 	;
 
 condiciones:
