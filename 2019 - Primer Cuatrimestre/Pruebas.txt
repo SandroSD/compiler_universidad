@@ -7,7 +7,7 @@ CONST valE=2
 CONST valS="Hola mundo"
 CONST valR=2.5
 
---/Prueba de DIV/--
+--/Prueba de asignacion/--
 a2:=1
 
 --/Prueba de DIV/--
