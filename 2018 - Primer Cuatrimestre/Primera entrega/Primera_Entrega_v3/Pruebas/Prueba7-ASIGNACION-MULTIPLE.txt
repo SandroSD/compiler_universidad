@@ -1,0 +1,17 @@
+program  
+DEFVAR	
+ n : FLOAT
+ a,b,c,i1,e : INTEGER
+ cadena, s : STRING
+ENDDEC	
+
+
+beginp 
+
+a:=b:=c:=2*(5+4)
+
+a:=b:=c:=8
+
+a:=c:=i11:=e:=15
+
+endp

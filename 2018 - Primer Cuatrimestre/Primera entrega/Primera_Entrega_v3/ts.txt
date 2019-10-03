@@ -1,0 +1,12 @@
+Nombre 	 	 Tipo 	 	 Valor 	 	 Longitud
+n
+a
+b
+i
+cadena
+s
+c
+_"ewr"
+i1
+_"@%asdr"
+_"@% > = FA <asdr"

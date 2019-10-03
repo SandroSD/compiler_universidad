@@ -1,0 +1,102 @@
+program  
+DECVAR	
+ n : FLOAT 
+ i, a, b: INTEGER
+ cadena, s : STRING
+ENDDEC
+
+
+beginp 
+i:=1	
+b:=10
+
+-/ IF SIMPLE /-
+if (i=15) THEN
+	i:=16
+ENDIF
+
+-/ IF SIMPLE con ELSE /-
+if (i=15) THEN
+	i:=16
+else 
+    i:=17
+ENDIF
+
+-/ IF DOBLE CON AND Y ELSE /-
+if (i=15 AND a=4) THEN
+	i:=16
+else 
+    i:=17	
+ENDIF
+
+-/ IF DOBLE CON AND Y ELSE /-
+if (i=15 or a=4) THEN
+	i:=16
+else 
+    i:=17	
+ENDIF
+
+-/ WHILE SIMPLE /-
+while (a<7)
+	i:=5 + b
+endw
+
+-/ WHILE DOBLE CON AND /-
+while (a<7 and b>8)
+	i:=5 + b
+endw
+
+-/ WHILE DOBLE CON OR /-
+while (a<7 or b>8)
+	i:=5 + b
+endw
+
+-/ ASIGNACION MULTIPLE /-
+
+a:=b:=i:=8
+
+-/ BETWEEN /-
+
+i:= BETWEEN(a,[2;a*(b+4)])
+
+-/ ASIGNACIONES VARIAS /-
+i:=1	
+a:=15
+n:= 99.99
+n:= .99
+n:= 99.
+n:=-542.43
+s:=""
+
+
+-/ COMENTARIO SIMPLE MAS DE UNA LINEA
+-//-
+/-
+
+-/COMENTARIOS CON CARACTER ESPECIAL "·$"% /-
+
+-//-
+
+-/ WRITE Y READ /-
+
+READ n
+WRITE b
+WRITE "ewr"
+write "ewr"
+read n
+write i1
+write "@%asdr"
+write "@% > = FA <asdr"
+
+
+-/ BETWEEN EN SELECCION /-
+if(BETWEEN (a,[2;a*(b+4)])) then
+	i:=i+2
+endif
+
+
+-/ REPEAT /- 
+REPEAT a:=a+2 UNTIL a <= 10
+
+endp
+

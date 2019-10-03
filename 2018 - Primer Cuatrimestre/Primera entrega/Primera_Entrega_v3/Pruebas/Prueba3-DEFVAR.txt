@@ -1,0 +1,16 @@
+program  
+DEFVAR	
+ n : FLOAT
+ a,b,i : INTEGER
+ cadena1, s : STRING
+	a1, b2 : REAL
+ENDDEC
+
+
+beginp 
+i:=1.5	
+a:=15
+
+
+endp
+

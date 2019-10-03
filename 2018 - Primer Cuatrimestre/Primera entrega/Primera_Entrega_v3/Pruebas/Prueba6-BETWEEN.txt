@@ -1,0 +1,14 @@
+program  
+DEFVAR	
+ n : FLOAT
+ a,b,i1 : INTEGER
+ cadena, s : STRING
+ENDDEC	
+
+
+beginp 
+a:=15
+b:=30
+BETWEEN (a,[2;a*(b+4)])
+
+endp

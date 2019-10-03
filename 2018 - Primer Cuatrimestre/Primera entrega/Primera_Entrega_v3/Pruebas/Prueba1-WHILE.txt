@@ -1,0 +1,28 @@
+program  
+DEFVAR	
+ n : FLOAT
+ a,b,i : INTEGER
+ cadena, s : STRING
+ENDDEC
+
+
+beginp 
+i:=1	
+a:=15
+
+
+if (i=15) THEN
+
+	i:=16
+ELSE
+	while (a<7)
+		i:=5 + b
+	endw
+
+endif
+
+
+
+
+endp
+
