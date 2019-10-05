@@ -1,1 +1,78 @@
-
+valE
+2
+:=
+valS
+"Hola mundo"
+:=
+valR
+2.5
+:=
+a2
+1
+:=
+var1
+2
+1
+DIV
+:=
+var1
+valE
+valE
+MOD
+Celda 28
+10
+9
+Celda 28
+5
+:=
+10
+9
+CMP
+BLE
+Celda 38
+var1
+5
+1
++
+:=
+8
+9
+CMP
+BLE
+Celda 48
+var1
+5
+1
++
+:=
+8
+9
+CMP
+BLE
+Celda 58
+var1
+5
+1
++
+:=
+var1
+4
+1
++
+:=
+c
+20
+:=
+8
+9
+CMP
+BLE
+Celda 76
+var1
+5
+1
++
+:=
+a
+1
+:=

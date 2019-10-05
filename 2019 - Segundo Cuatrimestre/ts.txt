@@ -1,10 +1,12 @@
 Nombre                        Tipo        Valor                         Longitud    
 var1                         ID                                                    
 var2                         ID                                                    
+var3                         ID                                                    
+var4                         ID                                                    
 valE                         ID                                                    
 2                            CONST_INT                                             
 valS                         ID                                                    
-"Hola mundo"                 CONST_STR                                             
+"Hola mundo"                 CONST_STR                                 12          
 valR                         ID                                                    
 2.5                          CONST_REAL                                            
 a2                           ID                                                    
@@ -15,7 +17,8 @@ a                            ID
 5                            CONST_INT                                             
 8                            CONST_INT                                             
 4                            CONST_INT                                             
+"VEMOS"                      CONST_STR                                 7           
 c                            ID                                                    
 20                           CONST_INT                                             
-"hola mundo"                 CONST_STR                                             
+"hola mundo"                 CONST_STR                                 12          
 b                            ID                                                    

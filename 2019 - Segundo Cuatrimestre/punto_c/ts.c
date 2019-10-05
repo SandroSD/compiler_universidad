@@ -2,7 +2,7 @@
 
 int posicion_en_ts = 0; // Incremento Longitud en la estructura tabla de simbolos
 
-void insertarTokenEnTS(char *tipo, char *nombre)
+void insertarTokenEnTS(char *tipo, char *nombre, int longitud)
 {
 	int i;
 
@@ -17,6 +17,13 @@ void insertarTokenEnTS(char *tipo, char *nombre)
 	// En caso que el valor no exista, se agrega a la estructura
 	strcpy(tablaSimbolos[posicion_en_ts].tipo, tipo);
 	strcpy(tablaSimbolos[posicion_en_ts].nombre, nombre);
+
+	char longitudStr[10];
+	sprintf(longitudStr, "%d", longitud); 
+	if(strcmp(tablaSimbolos[i].tipo, "CONST_STR") == 0)
+	{
+		strcpy(tablaSimbolos[posicion_en_ts].longitud, longitudStr);
+	}
 	posicion_en_ts++;
 }
 
@@ -86,7 +93,7 @@ void debugTS()
 	printf("Lista de elementos: \n");
 	for (i = 0; i < posicion_en_ts; i++)
 	{
-		printf("%d => %s | %s | %s | %s \n", i, tablaSimbolos[i].nombre, tablaSimbolos[i].tipo, tablaSimbolos[i].valor, tablaSimbolos[i].longitud);
+		printf("%d => %s | %s | %s | %d \n", i, tablaSimbolos[i].nombre, tablaSimbolos[i].tipo, tablaSimbolos[i].valor, tablaSimbolos[i].longitud);
 	}
 
 	printf("\n====== FIN DEBUG TABLA SIMBOLOS ======\n\n");
