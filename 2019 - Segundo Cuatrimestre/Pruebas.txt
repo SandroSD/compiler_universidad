@@ -5,7 +5,7 @@ ENDVAR
 var1 := 5+1 MOD 2*3
 var2 := 6 DIV 8
 
-if(10>9)
+if(10>9) then
 {
 var1 := 5 + 1
 }
