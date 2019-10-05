@@ -2,7 +2,7 @@
 
 int posicion_en_ts = 0; // Incremento Longitud en la estructura tabla de simbolos
 
-void insertarTokenEnTS(char *tipo, char *nombre, int longitud)
+void insertarTokenEnTS(char *tipo, char *nombre, int longitud, char *valor)
 {
 	int i;
 
@@ -17,6 +17,7 @@ void insertarTokenEnTS(char *tipo, char *nombre, int longitud)
 	// En caso que el valor no exista, se agrega a la estructura
 	strcpy(tablaSimbolos[posicion_en_ts].tipo, tipo);
 	strcpy(tablaSimbolos[posicion_en_ts].nombre, nombre);
+	strcpy(tablaSimbolos[posicion_en_ts].valor, valor);
 
 	char longitudStr[10];
 	sprintf(longitudStr, "%d", longitud); 

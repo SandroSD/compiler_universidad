@@ -16,7 +16,7 @@ struct struct_tablaSimbolos
 };
 struct struct_tablaSimbolos tablaSimbolos[10000];
 
-void insertarTokenEnTS(char *, char *, int);
+void insertarTokenEnTS(char *, char *, int, char *);
 int existeTokenEnTS(char *);
 char *recuperarNombreTS(char *);
 char *recuperarTipoTS(char *);
