@@ -14,10 +14,10 @@ CONST valR=2.5
 a2:=1
 
 --/Prueba de DIV/--
---/var1:=2 DIV 1/--
+var1:=2 DIV 1
 
 --/Prueba de MOD/--
---/var1:=valE MOD valE/-- 
+var1:=valE MOD valE
 
 --/Prueba de iteraciones/--
 repeat(10>9)

@@ -222,16 +222,12 @@ asignacion:
 			expresion { insertarEnLista(":="); }
 	;
 
-
-sent_div: expresion DIV expresion	{ insertarEnLista("%"); }
-sent_mod: expresion MOD expresion	{ insertarEnLista("/"); }
-
 expresion:
 			expresion OP_RES termino	{ insertarEnLista("-"); }
 		|	expresion OP_SUM termino	{ insertarEnLista("+"); }
+		|	expresion DIV termino		{ insertarEnLista("DIV"); printf("Esto es un DIV");}
+		|	expresion MOD termino		{ insertarEnLista("MOD"); printf("Esto es un MOD");}
 		|	termino
-		|	sent_div
-		|	sent_mod
 	;
 	
 termino:
