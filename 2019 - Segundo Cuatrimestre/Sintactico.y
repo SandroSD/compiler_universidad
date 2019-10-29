@@ -30,6 +30,18 @@
 	char * pila[100];
 	int tope_pila_polaca = 0;
 	char * comparador;
+
+	//Tipos de datos para la tabla de simbolos
+  	#define _INT 1
+	#define _FLOAT 2
+	#define _STRING 3
+
+	//Variables globales para el control de la TS
+	//int 
+	int auxTipoDato[10000];
+	char * auxID[10000];
+	int posTipoDato = 0;
+	int posID = 0;
 %}
 
 %union {
@@ -110,16 +122,25 @@ declaracion:
 	;
 	
 linea_declaracion: 
-		CAR_CA lista CAR_CC
-	;
-	
+		CAR_CA lista CAR_CC { 
+			int i;
+			for(i = 0; i<posID; i++)
+				actualizarTipoDatoTS(auxID[i], auxTipoDato[i]);					
+		}
+	;	
 lista:
-			dec_tipo CAR_COMA lista CAR_COMA ID 
-		|	dec_tipo CAR_CC OP_DOSP CAR_CA ID 
+			dec_tipo CAR_COMA lista CAR_COMA ID  {printf("Regla recursiva 1 - %s\n", yylval.stringValue);
+			char * aux = (char *) malloc(sizeof(char) * (strlen(yylval.stringValue) + 1));
+			strcpy(aux, yylval.stringValue); auxID[posID] = aux; posID++;}
+			|	dec_tipo CAR_CC OP_DOSP CAR_CA ID    {printf("Regla recursiva 2 - %s\n", yylval.stringValue);
+			char * aux = (char *) malloc(sizeof(char) * (strlen(yylval.stringValue) + 1));
+			strcpy(aux, yylval.stringValue); auxID[posID] = aux; posID++;}
 	;
 	
 dec_tipo:
-		INT | STRING | FLOAT 
+		INT {printf("Esto es un INT\n"); auxTipoDato[posTipoDato] = _INT; posTipoDato++;}
+		| STRING {printf("Esto es un STRING\n"); auxTipoDato[posTipoDato] = _STRING; posTipoDato++;}
+		| FLOAT {printf("Esto es un FLOAT\n"); auxTipoDato[posTipoDato] = _FLOAT; posTipoDato++;}
 	;
 
 sentencias: sentencias sent | sent;

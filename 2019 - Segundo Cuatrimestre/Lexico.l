@@ -90,7 +90,7 @@ READ            		{return READ;}
 							return CONST_REAL;
 						}
 {CONST_STR}    			{	
-					        if(strlen(yytext) > COTA_STR) { 
+					        if (strlen(yytext) > COTA_STR) { 
 							    printf( "El string ingresado supera la cantidad maxima permitida. Cantidad: %d\n", COTA_STR);
 								exit(1);
 					        } else {

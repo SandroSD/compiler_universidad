@@ -37,9 +37,11 @@ var1
 :=
 8
 9
+9
+10
 CMP
 BLE
-Celda 48
+Celda 50
 var1
 5
 1
@@ -49,7 +51,7 @@ var1
 9
 CMP
 BLE
-Celda 58
+Celda 60
 var1
 5
 1
@@ -67,7 +69,7 @@ c
 9
 CMP
 BLE
-Celda 76
+Celda 78
 var1
 5
 1

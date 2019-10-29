@@ -148,7 +148,6 @@ int crearArchivoTS()
 	FILE *archivo;
 	int i;
 	archivo = fopen("ts.txt", "w");
-
 	if (!archivo)
 	{
 		return ERROR;
@@ -188,4 +187,25 @@ void imprimirTS()
 	{
 		printf("%-29s%-12s%-30s%-12s\n",tablaSimbolos[i].nombre, tablaSimbolos[i].tipo, tablaSimbolos[i].valor, tablaSimbolos[i].longitud);
 	}
+}
+
+void actualizarTipoDatoTS(char * auxID, int auxTipoDato)
+{
+	int i;
+	for(i = 0; i<obtenerTamTS();i++) {
+		if(strcmp(tablaSimbolos[i].nombre, auxID) == 0) {
+			switch (auxTipoDato)
+			{
+			case 1:
+				strcpy(tablaSimbolos[i].tipo, "INT\0");
+				break;
+			case 2:
+				strcpy(tablaSimbolos[i].tipo, "FLOAT\0");
+				break;
+			default:
+				strcpy(tablaSimbolos[i].tipo, "STRING\0");				
+			}
+			printf("Regla declaracion %s / %s \n", tablaSimbolos[i].nombre, tablaSimbolos[i].tipo);
+		}
+	}		
 }
