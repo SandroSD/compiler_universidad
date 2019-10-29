@@ -209,3 +209,16 @@ void actualizarTipoDatoTS(char * auxID, int auxTipoDato)
 		}
 	}		
 }
+
+int obtenerTipoDeDato(int pos) {
+	char * tipoDato = tablaSimbolos[pos].tipo;
+	
+	if(strcmpi("INT", tipoDato) == 0 || strcmpi("CTE_INT", tipoDato) == 0 )
+		return 1;
+
+	if(strcmpi("FLOAT", tipoDato) == 0 || strcmpi("CTE_FLOAT", tipoDato) == 0)
+		return 2;
+
+	if(strcmpi("STRING", tipoDato) == 0 || strcmpi("CTE_STRING", tipoDato) == 0)
+		return 3;
+}

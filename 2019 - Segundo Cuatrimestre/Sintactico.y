@@ -17,6 +17,9 @@
 	int crearArchivoIntermedia();
 	int insertarEnLista(char *);
 	void escribirEnLista(int , char *);
+	void verificarTipoDato(int);
+	void reiniciarTipoDato();
+	void verificarVariableDup(char *);
 
 	int desapilar();
 	void apilar(char * dato);
@@ -42,6 +45,7 @@
 	char * auxID[10000];
 	int posTipoDato = 0;
 	int posID = 0;
+	int tipoDatoActual = 0;
 %}
 
 %union {
@@ -131,10 +135,10 @@ linea_declaracion:
 lista:
 			dec_tipo CAR_COMA lista CAR_COMA ID  {printf("Regla recursiva 1 - %s\n", yylval.stringValue);
 			char * aux = (char *) malloc(sizeof(char) * (strlen(yylval.stringValue) + 1));
-			strcpy(aux, yylval.stringValue); auxID[posID] = aux; posID++;}
+			strcpy(aux, yylval.stringValue); verificarVariableDup(aux); auxID[posID] = aux; posID++;}
 			|	dec_tipo CAR_CC OP_DOSP CAR_CA ID    {printf("Regla recursiva 2 - %s\n", yylval.stringValue);
 			char * aux = (char *) malloc(sizeof(char) * (strlen(yylval.stringValue) + 1));
-			strcpy(aux, yylval.stringValue); auxID[posID] = aux; posID++;}
+			strcpy(aux, yylval.stringValue); verificarVariableDup(aux); auxID[posID] = aux; posID++;}
 	;
 	
 dec_tipo:
@@ -259,6 +263,8 @@ termino:
 	
 factor:
 			ID						{
+										int tipo = buscarTipoTS(yylval.stringValue);
+										verificarTipoDato(tipo);
 										insertarEnLista(yylval.stringValue);
 									}
 		|	tipo
@@ -267,9 +273,11 @@ factor:
 
 tipo: 
 			CONST_INT	{
+							verificarTipoDato(1);
 							insertarEnLista(yylval.intValue);
 						}
 		|	CONST_REAL	{
+							verificarTipoDato(2);
 							insertarEnLista(yylval.floatValue);
 						}
 	;
@@ -349,6 +357,59 @@ void escribirEnLista(int pos, char * val) {
 	listaTokens[pos] = aux;
 	
 	printf("\tEscribio en %i el valor %s\n",pos,aux);
+}
+
+int buscarTipoTS(char* nombreVar) {
+
+	int pos = existeTokenEnTS(nombreVar);
+	if (pos == 0) {
+		
+		char *nomCte = (char*) malloc(31*sizeof(char));
+		*nomCte = '\0';
+		strcat(nomCte, "_");
+		strcat(nomCte, nombreVar);
+	
+		char *original = nomCte;
+		while(*nomCte != '\0') {
+			if (*nomCte == ' ' || *nomCte == '"' || *nomCte == '!' 
+				|| *nomCte == '.') {
+				*nomCte = '_';
+			}
+			nomCte++;
+		}
+		nomCte = original;
+
+		int pos = existeTokenEnTS(nomCte);
+		if (pos == 0) {
+			yyerror("La variable no fue declarada");
+		}
+	}
+	
+	return obtenerTipoDeDato(pos);
+
+}
+
+void verificarTipoDato(int tipo) {
+
+	if(tipoDatoActual == 0) {
+		tipoDatoActual = tipo;
+		return;
+	}
+	
+	if(tipoDatoActual != tipo) {
+		yyerror("No se admiten operaciones aritmeticas con tipo de datos distintos");
+	}
+	
+}
+
+void reiniciarTipoDato() {
+	tipoDatoActual = 0;
+}
+
+void verificarVariableDup(char * aux){
+
+	if(existeTokenEnTS(aux))
+		yyerror("No se admiten variables duplicadas");
 }
 
 int desapilar(){

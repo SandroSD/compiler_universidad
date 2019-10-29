@@ -1,5 +1,6 @@
 VAR
-    [int, int, int, float]:[var1, var2, var3, var4]
+    [int, int, int, float, int, int]:[var1, var2, var3, var4, a, a2]
+    [int]:[var1]
 ENDVAR
 
 --/--/Comentario Anidado/--/--

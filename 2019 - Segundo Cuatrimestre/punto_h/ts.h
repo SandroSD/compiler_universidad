@@ -27,5 +27,6 @@ int obtenerTamTS();
 void prepararTSParaAssembler();
 void imprimirTS();
 void actualizarTipoDatoTS(char *, int);
+int obtenerTipoDeDato(int);
 
 #endif
