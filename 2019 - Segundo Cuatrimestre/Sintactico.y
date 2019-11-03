@@ -122,7 +122,10 @@ programa:
 ;
 
 declaracion: 
-		VAR linea_declaracion ENDVAR 		{printf("Regla de declaracion de variables\n");}
+		VAR linea_declaracion {if(strcmp(yylval.stringValue, "ENDVAR") != 0)
+								 yyerror("No se admiten multiples lineas de declaracion de variables");}
+		
+		ENDVAR 		{printf("Regla de declaracion de variables\n");}
 	;
 	
 linea_declaracion: 
@@ -135,10 +138,10 @@ linea_declaracion:
 lista:
 			dec_tipo CAR_COMA lista CAR_COMA ID  {printf("Regla recursiva 1 - %s\n", yylval.stringValue);
 			char * aux = (char *) malloc(sizeof(char) * (strlen(yylval.stringValue) + 1));
-			strcpy(aux, yylval.stringValue); verificarVariableDup(aux); auxID[posID] = aux; posID++;}
+			strcpy(aux, yylval.stringValue); auxID[posID] = aux; posID++;}
 			|	dec_tipo CAR_CC OP_DOSP CAR_CA ID    {printf("Regla recursiva 2 - %s\n", yylval.stringValue);
 			char * aux = (char *) malloc(sizeof(char) * (strlen(yylval.stringValue) + 1));
-			strcpy(aux, yylval.stringValue); verificarVariableDup(aux); auxID[posID] = aux; posID++;}
+			strcpy(aux, yylval.stringValue); auxID[posID] = aux; posID++;}
 	;
 	
 dec_tipo:

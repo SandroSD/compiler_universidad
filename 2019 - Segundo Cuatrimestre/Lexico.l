@@ -107,6 +107,7 @@ READ            		{return READ;}
 							}
 							yylval.stringValue = strdup(yytext);
 							printf( "Identificador en lexico: %s\n",yylval.stringValue);
+							verificarVariableDup(yylval.stringValue);
 							insertarTokenEnTS("ID", yylval.stringValue, strlen(yytext), "");
 							return ID;
                         }
