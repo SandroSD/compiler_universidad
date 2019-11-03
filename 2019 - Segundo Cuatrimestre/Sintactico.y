@@ -46,6 +46,20 @@
 	int posTipoDato = 0;
 	int posID = 0;
 	int tipoDatoActual = 0;
+
+	/*Generación Código Assembler*/
+	FILE * pfASM;
+	t_pila pila;
+	t_pila pVariables;
+
+	void generarASM();
+	void generarEncabezado();
+	void generarDatos();
+	void generarCodigo();
+	void imprimirInstrucciones();
+	void generarFin();
+
+	int startEtiqueta = 0;
 %}
 
 %union {
@@ -112,6 +126,7 @@ programa:
 	declaracion sentencias
 	{
 		crearArchivoTS();
+		generarASM();
 		if(crearArchivoIntermedia() == 1){
 			printf("Archivo de intermedia generado correctamente \n");
 		} else {
@@ -473,4 +488,23 @@ void yyerror(char *msg){
 	fflush(stderr);
     fprintf(stderr, "%s\n", msg);
     exit(1);
+}
+
+
+/* Generación de Assembler */
+
+void generarASM(){
+	pfASM = fopen("Final.asm", "w");
+
+	generarEncabezado();
+	generarDatos();
+}
+
+void generarEncabezado(){
+	//Encabezado del archivo
+    fprintf(pfASM, "\nINCLUDE macros2.asm\t\t ;incluye macros\n");
+    fprintf(pfASM, "INCLUDE number.asm\t\t ;incluye el asm para impresion de numeros\n");
+    fprintf(pfASM, "\n.MODEL LARGE ; tipo del modelo de memoria usado.\n");
+    fprintf(pfASM, ".386\n");
+    fprintf(pfASM, ".STACK 200h ; bytes en el stack\n"); 
 }
