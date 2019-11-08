@@ -129,6 +129,7 @@ programa:
 		generarASM();
 		if(crearArchivoIntermedia() == 1){
 			printf("Archivo de intermedia generado correctamente \n");
+			//generarASM();
 		} else {
 			printf("Hubo un error al generar el archivo de intermedia \n");
 		}
