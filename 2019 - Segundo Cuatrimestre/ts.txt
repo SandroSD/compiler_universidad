@@ -1,0 +1,11 @@
+Nombre                        Tipo        Valor                         Longitud    
+var1                         INT                                                   
+var2                         INT                                                   
+var3                         INT                                                   
+var4                         FLOAT                                                 
+a                            INT                                                   
+a2                           INT                                                   
+10                           CONST_INT   10                                        
+9                            CONST_INT   9                                         
+a3                           ID                                                    
+5                            CONST_INT   5                                         

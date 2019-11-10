@@ -115,7 +115,7 @@ programa:
 		//generarASM();
 		if(crearArchivoIntermedia() == 1){
 			printf("Archivo de intermedia generado correctamente \n");
-			//generarASM();
+			generarASM();
 		} else {
 			printf("Hubo un error al generar el archivo de intermedia \n");
 		}
@@ -124,8 +124,8 @@ programa:
 ;
 
 declaracion: 
-		VAR linea_declaracion {if(strcmp(yylval.stringValue, "ENDVAR") != 0)
-								 yyerror("No se admiten multiples lineas de declaracion de variables");}
+		VAR linea_declaracion /*{if(strcmp(yylval.stringValue, "ENDVAR") != 0)
+								 yyerror("No se admiten multiples lineas de declaracion de variables");}*/
 		
 		ENDVAR 		{printf("Regla de declaracion de variables\n");}
 	;

@@ -1,4 +1,4 @@
-#include "asm.h"
+#include "../punto_h/asm.h"
 #define TRUE 1
 #define FALSE 0
 #define PILA_LLENA -1
@@ -99,8 +99,8 @@ void generarDatos() {
 		cant_aux++;
 	}    
 	
-	if(!(pfTS = fopen("ts2.txt", "r+"))) {
-         informeError("Error al abrir el archivo ts2.txt, verifique los permisos de escritura.");
+	if(!(pfTS = fopen("ts.txt", "r+"))) {
+         informeError("Error al abrir el archivo ts.txt, verifique los permisos de escritura.");
     }
 	
 	int pos=1; //1=nombre/2=tipo/3=longitud/4=valor
@@ -639,7 +639,7 @@ char* obtenerTipoTS(char* nombre_elemento){
 	int encontro = 0;
 	int nro_linea=1;
 	
-	if(!(pfTS = fopen("ts2.txt", "r+"))) {
+	if(!(pfTS = fopen("ts.txt", "r+"))) {
          informeError("Error al abrir el archivo ts.txt, verifique los permisos de escritura.");
     }
 	
