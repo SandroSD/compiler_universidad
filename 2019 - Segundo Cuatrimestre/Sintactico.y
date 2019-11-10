@@ -124,11 +124,11 @@ programa:
 ;
 
 declaracion: 
-		VAR linea_declaracion /*{if(strcmp(yylval.stringValue, "ENDVAR") != 0)
-								 yyerror("No se admiten multiples lineas de declaracion de variables");}*/
-		
-		ENDVAR 		{printf("Regla de declaracion de variables\n");}
-	;
+		VAR lista_declaracion ENDVAR {printf("Regla de declaracion de variables\n");}
+
+lista_declaracion: lista_declaracion linea_declaracion;
+
+lista_declaracion: linea_declaracion;
 	
 linea_declaracion: 
 		CAR_CA lista CAR_CC { 
