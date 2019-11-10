@@ -1,4 +1,4 @@
-#include "asm.h"
+#include "../punto_h/asm.h"
 #define TRUE 1
 #define FALSE 0
 #define PILA_LLENA -1
