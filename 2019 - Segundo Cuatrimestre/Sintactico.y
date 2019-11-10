@@ -124,7 +124,7 @@ programa:
 ;
 
 declaracion: 
-		VAR lista_declaracion ENDVAR {printf("Regla de declaracion de variables\n");}
+		VAR lista_declaracion ENDVAR {printf("Regla de declaracion de variables\n");};
 
 lista_declaracion: lista_declaracion linea_declaracion;
 
