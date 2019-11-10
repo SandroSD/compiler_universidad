@@ -2,7 +2,6 @@
 #define CONSTANTES_H
 
 // Constantes para léxico
-#define STR_VALUE 255
 #define COTA_STR 30
 #define COTA_INT 65535
 #define COTA_FLOAT 9999999.9999999999
