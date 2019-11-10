@@ -5,8 +5,8 @@
 	#include <math.h>
 	#include "y.tab.h"
 	#include "punto_h/ts.h"
-	#include "punto_h/pila.h"
 	#include "punto_h/constantes.h"
+	#include "punto_h/asm.h"
 
 	int yylineno;
 	FILE  *yyin;
@@ -46,20 +46,6 @@
 	int posTipoDato = 0;
 	int posID = 0;
 	int tipoDatoActual = 0;
-
-	/*Generación Código Assembler*/
-	FILE * pfASM;
-	t_pila pila;
-	t_pila pVariables;
-
-	void generarASM();
-	void generarEncabezado();
-	void generarDatos();
-	void generarCodigo();
-	void imprimirInstrucciones();
-	void generarFin();
-
-	int startEtiqueta = 0;
 %}
 
 %union {
@@ -126,7 +112,7 @@ programa:
 	declaracion sentencias
 	{
 		crearArchivoTS();
-		generarASM();
+		//generarASM();
 		if(crearArchivoIntermedia() == 1){
 			printf("Archivo de intermedia generado correctamente \n");
 			//generarASM();
@@ -357,9 +343,6 @@ int insertarEnLista(char * val) {
 	listaTokens[puntero_tokens] = aux;
 	puntero_tokens++;
 	
-	//escribo en archivo
-	//fprintf(fintermedia,"%s\n",aux);
-	
 	// DEBUG por consola
 	if(strcmp(aux,"###")!=0){
 		printf("\tinsertar_en_polaca(%s)\n", aux);
@@ -489,23 +472,4 @@ void yyerror(char *msg){
 	fflush(stderr);
     fprintf(stderr, "%s\n", msg);
     exit(1);
-}
-
-
-/* Generación de Assembler */
-
-void generarASM(){
-	pfASM = fopen("Final.asm", "w");
-
-	generarEncabezado();
-	generarDatos();
-}
-
-void generarEncabezado(){
-	//Encabezado del archivo
-    fprintf(pfASM, "\nINCLUDE macros2.asm\t\t ;incluye macros\n");
-    fprintf(pfASM, "INCLUDE number.asm\t\t ;incluye el asm para impresion de numeros\n");
-    fprintf(pfASM, "\n.MODEL LARGE ; tipo del modelo de memoria usado.\n");
-    fprintf(pfASM, ".386\n");
-    fprintf(pfASM, ".STACK 200h ; bytes en el stack\n"); 
 }
