@@ -218,7 +218,7 @@ else_:
 	;
 
 iteracion:
-		REPEAT { 
+		REPEAT{ 
 			char sPosActual[5];
 			sprintf(sPosActual, "%d", puntero_tokens - 1);
 			apilar(sPosActual); } CAR_PA condiciones CAR_PC {
@@ -243,7 +243,12 @@ condiciones:
 	;
 		
 operador:
-			AND			{printf("and\n");}
+			AND			{	char sPosActual[5];
+							insertarEnLista("CMP");
+							insertarEnLista(comparador);
+							insertarEnLista("###");
+							sprintf(sPosActual, "%d", puntero_tokens - 1);
+							apilar(sPosActual); }
 		|	OR			{printf("or\n");}
 	;
 	

@@ -13,7 +13,7 @@ typedef struct s_elemento
     char* valor;
 }t_elemento;
 
-char * pila[TAM_PILA];       // pila 5
+char * pilaASM[TAM_PILA];       // pila 5
 int topePila=0;             // pila 0
 
 char* vec_etiquetas[100];
@@ -507,7 +507,7 @@ void ponerEnPila(char * str)
 
     char *aux = (char *) malloc(sizeof(char) * (strlen(str) + 1));     
 	strcpy(aux, str);
-	pila[topePila] = aux;
+	pilaASM[topePila] = aux;
 	//free(aux);
 
 	topePila++;
@@ -519,7 +519,7 @@ char* sacarDePila()
 {
     if(pVacia(topePila) == 0)
     {
-        char * dato = pila[topePila-1];
+        char * dato = pilaASM[topePila-1];
         topePila--; 
         //printf("\tsacarDePila en ASM -> %s\n",dato);
         return dato;      
@@ -569,7 +569,7 @@ void debugP(int tope)
     printf("El tope de la pila es %d \n",tope);        
     printf("Lista de elementos: \n");           
     for (i=0; i<e;i++){
-        printf("%d => %s\n",i,pila[i]);      
+        printf("%d => %s\n",i,pilaASM[i]);      
     }                    
     printf("\n====== FIN DEBUG PILA ======\n\n");   
     

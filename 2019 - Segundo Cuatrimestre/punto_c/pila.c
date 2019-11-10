@@ -1,4 +1,4 @@
-#include "../h_files/pila.h"
+#include "pila.h"
 
 void crear_pila(t_pila *pp)
 {
