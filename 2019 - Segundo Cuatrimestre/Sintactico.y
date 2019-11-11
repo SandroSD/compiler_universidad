@@ -46,6 +46,7 @@
 	int posTipoDato = 0;
 	int posID = 0;
 	int tipoDatoActual = 0;
+	int esDeclaracionVar = 0;
 %}
 
 %union {
@@ -124,7 +125,8 @@ programa:
 ;
 
 declaracion: 
-		VAR lista_declaracion ENDVAR {printf("Regla de declaracion de variables\n");};
+		VAR {esDeclaracionVar = 1;}
+		lista_declaracion ENDVAR {esDeclaracionVar = 0; printf("Regla de declaracion de variables\n");};
 
 lista_declaracion: lista_declaracion linea_declaracion;
 
@@ -415,7 +417,7 @@ void reiniciarTipoDato() {
 
 void verificarVariableDup(char * aux){
 
-	if(existeTokenEnTS(aux))
+	if(existeTokenEnTS(aux) && esDeclaracionVar)
 		yyerror("No se admiten variables duplicadas");
 }
 

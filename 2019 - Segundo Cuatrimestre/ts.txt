@@ -5,6 +5,9 @@ var3                         INT
 var4                         FLOAT                                                 
 a                            INT                                                   
 a2                           INT                                                   
+var7                         INT                                                   
+var8                         FLOAT                                                 
+var9                         INT                                                   
 10                           CONST_INT   10                                        
 9                            CONST_INT   9                                         
 a3                           ID                                                    
