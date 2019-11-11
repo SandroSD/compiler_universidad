@@ -10,5 +10,7 @@ var8                         FLOAT
 var9                         INT                                                   
 10                           CONST_INT   10                                        
 9                            CONST_INT   9                                         
-a3                           ID                                                    
+8                            CONST_INT   8                                         
+7                            CONST_INT   7                                         
+b                            ID                                                    
 5                            CONST_INT   5                                         

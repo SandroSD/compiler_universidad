@@ -6,7 +6,7 @@ ENDVAR
 
 
 --/Prueba de iteraciones/--
-if(10>9) then
+repeat(10>9 && 8>7) 
 {
-a3:=5
+b:=5
 }

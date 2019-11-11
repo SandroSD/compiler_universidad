@@ -2,7 +2,14 @@
 9
 CMP
 BLE
-Celda 9
-a3
+###
+8
+7
+CMP
+BLE
+16
+b
 5
 :=
+BI
+5

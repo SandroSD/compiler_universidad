@@ -47,6 +47,8 @@
 	int posID = 0;
 	int tipoDatoActual = 0;
 	int esDeclaracionVar = 0;
+	int flgCondCompuesta = 0;
+	int cantCond = 1;
 %}
 
 %union {
@@ -169,7 +171,7 @@ decision:
 				int x;
 				char sPosActual[5];
 				x = desapilar();
-				sprintf(sPosActual, "Celda %d", puntero_tokens);
+				sprintf(sPosActual, "%d", puntero_tokens);
 				escribirEnLista(x, sPosActual);
 			}
 		|	IF CAR_PA condiciones CAR_PC then_ CAR_LA sentencias CAR_LC else_ CAR_LA sentencias CAR_LC
@@ -177,7 +179,7 @@ decision:
 				int x;
 				char sPosActual[5];
 				x = desapilar();
-				sprintf(sPosActual, "Celda %d", puntero_tokens);
+				sprintf(sPosActual, "%d", puntero_tokens);
 				escribirEnLista(x, sPosActual);
 			}
 	;
@@ -199,7 +201,7 @@ else_:
 			int x;
 			char sPosActual[5];
 			x = desapilar();
-			sprintf(sPosActual, "Celda %d", puntero_tokens);
+			sprintf(sPosActual, "%d", puntero_tokens);
 			escribirEnLista(x, sPosActual);
 			apilar(sPosActual + 1);
 		}
@@ -208,20 +210,29 @@ else_:
 iteracion:
 		REPEAT{ 
 			char sPosActual[5];
-			sprintf(sPosActual, "%d", puntero_tokens - 1);
+			sprintf(sPosActual, "%d", puntero_tokens);
 			apilar(sPosActual); } CAR_PA condiciones CAR_PC {
 				char sPosActual[5];
-				sprintf(sPosActual, "%d", puntero_tokens - 1);
+				insertarEnLista("CMP");
+				insertarEnLista(comparador);
+				insertarEnLista("###");
+				sprintf(sPosActual, "%d", puntero_tokens-1);
 				apilar(sPosActual); } CAR_LA sentencias CAR_LC   {
 					int x;
+					char value[4];
 					char sPosActual[5];
-					x = desapilar() + 1;
-					sprintf(sPosActual, "Celda %d", puntero_tokens);
-					escribirEnLista(x, sPosActual);
+					insertarEnLista("BI");
 
 					x = desapilar();
-					sprintf(sPosActual, "Celda %d", puntero_tokens);
+					sprintf(sPosActual, "%d", puntero_tokens+1);
 					escribirEnLista(x, sPosActual);
+
+					
+					x = desapilar();
+					sprintf(value, "%d", x);
+					insertarEnLista(value);
+					sprintf(sPosActual, "%d", puntero_tokens);
+					//escribirEnLista(puntero_tokens, value);
 				}
 	;
 
@@ -352,7 +363,7 @@ int insertarEnLista(char * val) {
 	
 	// DEBUG por consola
 	if(strcmp(aux,"###")!=0){
-		printf("\tinsertar_en_polaca(%s)\n", aux);
+		printf("\tinsertar_en_polaca(%s), posicion -> %d\n", aux, puntero_tokens-1);
 	}
 	return (puntero_tokens-1); // devuelvo posicion
 }
@@ -436,7 +447,7 @@ int desapilar(){
 
 void apilar(char * dato) {
 	if(pilaLlena(tope_pila_polaca) == 1){
-		printf("Error: Se exedio el tamano de la pila.\n");
+		printf("Error: Se excedio el tamano de la pila.\n");
 		system ("Pause");
 		exit (1);
 	}

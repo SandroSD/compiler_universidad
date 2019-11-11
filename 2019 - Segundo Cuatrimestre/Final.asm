@@ -43,10 +43,23 @@ START: 		 ;Código assembler resultante de compilar el programa fuente.
 	ffree st(0)
 	sahf
 
-	JAE _etiqCelda 9
+_etiq5:
+	JAE _etiq###
+	;CMP
+	fld _7
+	fld _8
+	fxch
+	fcomp
+	fstsw ax
+	ffree st(0)
+	sahf
+
+	JAE _etiq16
 	;ASIGNACION
 	fld _5
-	fstp _a3
+	fstp _b
+	JMP _etiq5
+_etiq16:
 
 TERMINAR: ;Fin de ejecución.
 	mov ax, 4C00h ; termina la ejecución.
