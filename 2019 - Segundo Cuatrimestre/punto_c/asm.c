@@ -400,8 +400,8 @@ void imprimirInstruccionPolaca(char* linea){
 		strcpy(opp1, sacarDePila());
 		strcpy(opp2, sacarDePila());
 		
-		fprintf(pfASM, "\tfld %s\n",opp1);
-		fprintf(pfASM, "\tfstp %s\n",opp2); 
+		fprintf(pfASM, "\tfld %s\n",opp2);
+		fprintf(pfASM, "\tfstp %s\n",opp1); 
 		//fprintf(pfASM, "\t\nfmov\n");
 		
 		//fprintf(pfASM,"\tmov R1, %s\n",opp1);
