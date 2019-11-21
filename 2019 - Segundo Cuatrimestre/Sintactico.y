@@ -29,6 +29,7 @@
 	//Para funcionamiento de la Polaca
 	char * listaTokens[10000];
 	char * aux;
+	char * auxAsignacion;
 	int puntero_tokens = 1;
 	char * pila[100];
 	int tope_pila_polaca = 0;
@@ -211,13 +212,15 @@ iteracion:
 		REPEAT{ 
 			char sPosActual[5];
 			sprintf(sPosActual, "%d", puntero_tokens);
-			apilar(sPosActual); } CAR_PA condiciones CAR_PC {
+			apilar(sPosActual); } 
+			CAR_PA condiciones CAR_PC {
 				char sPosActual[5];
 				insertarEnLista("CMP");
 				insertarEnLista(comparador);
 				insertarEnLista("###");
 				sprintf(sPosActual, "%d", puntero_tokens-1);
-				apilar(sPosActual); } CAR_LA sentencias CAR_LC   {
+				apilar(sPosActual); } 
+			CAR_LA sentencias CAR_LC   {
 					int x;
 					char value[4];
 					char sPosActual[5];
@@ -233,7 +236,7 @@ iteracion:
 					insertarEnLista(value);
 					sprintf(sPosActual, "%d", puntero_tokens);
 					//escribirEnLista(puntero_tokens, value);
-				}
+			}
 	;
 
 condiciones:
@@ -265,16 +268,24 @@ operador:
 	;
 
 asignacion:
-			ID { insertarEnLista(yylval.stringValue); }
+			ID { 
+				 auxAsignacion = (char *) malloc(sizeof(char) * (strlen(yylval.stringValue) + 1));
+			 	 strcpy(auxAsignacion, yylval.stringValue);
+			   }
 			OP_ASIG
-			expresion { insertarEnLista(":="); }
+			expresion { insertarEnLista(auxAsignacion);
+			 			insertarEnLista(":="); }
 	;
 
 expresion:
 			expresion OP_RES termino	{ insertarEnLista("-"); }
 		|	expresion OP_SUM termino	{ insertarEnLista("+"); }
 		|	expresion DIV termino		{ insertarEnLista("DIV"); printf("Esto es un DIV");}
-		|	expresion MOD termino		{ insertarEnLista("MOD"); printf("Esto es un MOD");}
+		|	expresion { insertarEnLista("_mod0"); insertarEnLista(":=");} 
+			MOD termino	{ insertarEnLista("_mod1"); insertarEnLista(":="); 
+						   insertarEnLista("_mod0"); insertarEnLista("_mod1");
+						   insertarEnLista("_mod0"); insertarEnLista("_mod1");
+						   insertarEnLista("/"); insertarEnLista("*"); insertarEnLista("-"); printf("Esto es un MOD");}
 		|	termino
 	;
 	

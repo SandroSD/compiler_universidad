@@ -1,12 +1,8 @@
 VAR
     [int, int, int, float, int, int]:[var1, var2, var3, var4, a, a2]
     [int]:[var7]
-	[float, int, int]:[var8, var9, var1]
+	[float, int]:[var8, var9]
 ENDVAR
 
+var7 := var1 MOD var2
 
---/Prueba de iteraciones/--
-repeat(10>9 && 8>7) 
-{
-b:=5
-}
