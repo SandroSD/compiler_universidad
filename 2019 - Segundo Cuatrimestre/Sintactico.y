@@ -324,10 +324,12 @@ entrada_salida:
 
 cte_nombre: 
 			CONST ID	{
-							insertarEnLista(yylval.stringValue);
+							auxAsignacion = (char *) malloc(sizeof(char) * (strlen(yylval.stringValue) + 1));
+			 	 			strcpy(auxAsignacion, yylval.stringValue);
 						}
 			OP_IGUAL	
 			tipo_const	{
+							insertarEnLista(auxAsignacion);
 							insertarEnLista(":=");
 						}
 	;
