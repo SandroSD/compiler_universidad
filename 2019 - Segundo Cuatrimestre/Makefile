@@ -7,9 +7,9 @@ lex.yy.c: Lexico.l compilador.tab.h
 	flex Lexico.l
 
 compilar: lex.yy.c compilador.tab.c compilador.tab.h
-	gcc -o compilador.exe lex.yy.c y.tab.c
+	gcc -o Grupo05.exe lex.yy.c y.tab.c
 probar: compilar
-	./compilador.exe Pruebas.txt
+	./Grupo05.exe Pruebas.txt
 clean:
-	rm compilador.exe lex.yy.c 
+	rm Grupo05.exe lex.yy.c 
 
