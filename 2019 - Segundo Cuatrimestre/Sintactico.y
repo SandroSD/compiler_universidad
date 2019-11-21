@@ -281,10 +281,10 @@ expresion:
 			expresion OP_RES termino	{ insertarEnLista("-"); }
 		|	expresion OP_SUM termino	{ insertarEnLista("+"); }
 		|	expresion DIV termino		{ insertarEnLista("DIV"); printf("Esto es un DIV");}
-		|	expresion { insertarEnLista("_mod0"); insertarEnLista(":=");} 
-			MOD termino	{ insertarEnLista("_mod1"); insertarEnLista(":="); 
-						   insertarEnLista("_mod0"); insertarEnLista("_mod1");
-						   insertarEnLista("_mod0"); insertarEnLista("_mod1");
+		|	expresion { insertarEnLista("mod0"); insertarEnLista(":=");} 
+			MOD termino	{ insertarEnLista("mod1"); insertarEnLista(":="); 
+						   insertarEnLista("mod0"); insertarEnLista("mod1");
+						   insertarEnLista("mod0"); insertarEnLista("mod1");
 						   insertarEnLista("/"); insertarEnLista("*"); insertarEnLista("-"); printf("Esto es un MOD");}
 		|	termino
 	;
@@ -490,7 +490,6 @@ int main(int argc,char *argv[])
   else
   {
 	yyparse();
-	//EscribirArchivo();
   }
   fclose(yyin);
   return 0;

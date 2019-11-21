@@ -6,3 +6,8 @@ ENDVAR
 
 var7 := var1 MOD var2
 
+--/Prueba de iteraciones/--
+repeat(10>9)
+{
+a:=5
+}
