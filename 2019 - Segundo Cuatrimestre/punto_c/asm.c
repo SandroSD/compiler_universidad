@@ -1,4 +1,5 @@
 #include "../punto_h/asm.h"
+#include "../punto_h/ts.h"
 #define TRUE 1
 #define FALSE 0
 #define PILA_LLENA -1
@@ -37,7 +38,6 @@ void insertarEtiqueta(char* str);
 
 int concatenarString = 1;
 char* vecTablaSimbolos[500];
-char* obtenerTipoTS(char* nombre_elemento);
 void cargarVectorEtiquetas();
 
 
@@ -270,14 +270,14 @@ void imprimirInstruccionPolaca(char* linea){
 	}
 	
 	
-	//Siempre despues de un READ / WRITE viene un ID / CTE
+	//Siempre despues de un READ / PRINT viene un ID / CTE
 	if(flag_write==1){
-		fprintf(pfASM,"\t;WRITE\n");
-		opp1=(char *) malloc(sizeof(char) * 31); 
-		strcpy(opp1, obtenerTipoTS(linea));
-		//printf("\t***Obtuve Tipo %s",opp1);
-		if(strcmp(opp1,"CONST_INT")==0 || strcmp(opp1,"INTEGER")==0){
-			if(strcmp(opp1,"INTEGER")==0){
+		fprintf(pfASM,"\t;PRINT\n");
+		opp1=(char *) malloc(sizeof(char) * 31);
+		strcpy(opp1, recuperarTipoTS(linea));
+		printf("\t***Obtuve Tipo %s",opp1);
+		if(strcmp(opp1,"CONST_INT")==0 || strcmp(opp1,"INT")==0){
+			if(strcmp(opp1,"INT")==0){
 				fprintf(pfASM,"\tDisplayInteger _%s 2\n",linea);
 				fprintf(pfASM, "\tnewLine 1\n\n");    
 
@@ -286,8 +286,8 @@ void imprimirInstruccionPolaca(char* linea){
 				fprintf(pfASM, "\tnewLine 1\n\n");    
 			}
 		}else{
-			if(strcmp(opp1,"CONST_REAL")==0 || strcmp(opp1,"REAL")==0){
-				if(strcmp(opp1,"REAL")==0){
+			if(strcmp(opp1,"CONST_REAL")==0 || strcmp(opp1,"FLOAT")==0){
+				if(strcmp(opp1,"FLOAT")==0){
 					fprintf(pfASM,"\tDisplayFloat _%s 2\n",linea);
 					fprintf(pfASM, "\tnewLine 1\n\n");
 
@@ -313,7 +313,7 @@ void imprimirInstruccionPolaca(char* linea){
 	}
 	
 	//continuo leyendo instrucciones
-	if(strcmp(linea,"WRITE") == 0){
+	if(strcmp(linea,"PRINT") == 0){
 		flag_write=1;
 		return;
 	}
@@ -524,7 +524,7 @@ char* sacarDePila()
         //printf("\tsacarDePila en ASM -> %s\n",dato);
         return dato;      
     } else {
-        printf("Error: La pila esta vacia.\n");
+        printf("Error: La pila esta vaciaASM.\n");
         system ("Pause");
         exit (1);
     }
@@ -630,58 +630,3 @@ void cargarVectorEtiquetas(){
 	return;
 	
 }
-
-char* obtenerTipoTS(char* nombre_elemento){
-	FILE *pfTS;
-	char* token;
-	char* aux;
-	char linea[100];
-	int encontro = 0;
-	int nro_linea=1;
-	
-	if(!(pfTS = fopen("ts.txt", "r+"))) {
-         informeError("Error al abrir el archivo ts.txt, verifique los permisos de escritura.");
-    }
-	
-	int pos=1; //1=nombre/2=tipo/3=longitud/4=valor
-	size_t lin;
-	aux=(char *) malloc(sizeof(char) * 31); 
-	while(fgets(linea, 30, pfTS) != NULL) {
-	
-		lin = strlen(linea)-1;
-    	if(linea[lin] == '\n'){linea[lin] = '\0';}
-		
-		if(pos==6){pos=1;} // reinicio
-		
-		if(pos==1)
-		{
-			if(strcmp(linea,nombre_elemento)==0)
-			{
-				encontro=1;
-			}					
-		}
-		else
-		{
-			if(pos==2)
-			{
-				if(encontro==1)
-				{
-					//printf("\t****Se obtuvo tipo: %s\n",linea);
-					sprintf(aux,"%s",linea);
-					return aux;
-				}
-			}
-		}			
-		pos++;							
-		
-		nro_linea++;
-    }
-	
-	
-	fclose(pfTS);
-	return "";
-
-
-}
-
-

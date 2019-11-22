@@ -356,9 +356,9 @@ tipo:
 	;
 
 entrada_salida:
-			READ ID 			{printf("Regla de lectura de entrada READ\n");}
-		|	PRINT ID 			{printf("Regla de escritura de salida PRINT de variable\n");}
-		|	PRINT CONST_STR    {printf("Regla de escritura de salida PRINT de constante\n");}
+			READ ID 			{ insertarEnLista("READ"); insertarEnLista(yylval.stringValue); printf("Regla de lectura de entrada READ\n");}
+		|	PRINT ID 			{ insertarEnLista("PRINT"); insertarEnLista(yylval.stringValue); printf("Regla de escritura de salida PRINT de variable\n");}
+		|	PRINT CONST_STR    { insertarEnLista("PRINT"); insertarEnLista(yylval.stringValue); printf("Regla de escritura de salida PRINT de constante\n");}
 	;
 
 cte_nombre: 
