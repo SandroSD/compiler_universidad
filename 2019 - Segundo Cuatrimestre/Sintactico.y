@@ -207,6 +207,7 @@ then_:
 
 				sprintf(sPosActual, "%d", auxOR);
 				apilar(sPosActual);
+				flagOR = 0;
 			} 
 		}
 	;
@@ -228,6 +229,7 @@ else_:
 
 				sprintf(sPosActual, "%d", puntero_tokens - 1);
 				apilar(sPosActual);
+				flagAND = 0;
 			}else {
 				x = desapilar();
 				sprintf(sPosActual, "%d", puntero_tokens);
