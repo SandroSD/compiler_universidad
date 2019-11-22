@@ -25,6 +25,7 @@
 	void apilar(char * dato);
 	int pilaVacia(int tope);
 	int pilaLlena(int tope);
+	char * invertirComp(char* comp);
 	
 	//Para funcionamiento de la Polaca
 	char * listaTokens[10000];
@@ -48,7 +49,8 @@
 	int posID = 0;
 	int tipoDatoActual = 0;
 	int esDeclaracionVar = 0;
-	int flgCondCompuesta = 0;
+	int flagAND = 0;
+	int flagOR = 0;
 	int cantCond = 1;
 %}
 
@@ -194,6 +196,18 @@ then_:
 			insertarEnLista("###");
 			sprintf(sPosActual, "%d", puntero_tokens - 1);
 			apilar(sPosActual);
+
+			if(flagOR == 1){
+				int auxOR;
+				auxOR = desapilar();
+				int x;
+				x = desapilar();
+				sprintf(sPosActual, "%d", puntero_tokens);
+				escribirEnLista(x, sPosActual);
+
+				sprintf(sPosActual, "%d", auxOR);
+				apilar(sPosActual);
+			} 
 		}
 	;
 else_:
@@ -201,10 +215,26 @@ else_:
 		{
 			int x;
 			char sPosActual[5];
-			x = desapilar();
-			sprintf(sPosActual, "%d", puntero_tokens);
-			escribirEnLista(x, sPosActual);
-			apilar(sPosActual + 1);
+			insertarEnLista("BI");
+			insertarEnLista("###");
+			if(flagAND == 1)
+			{
+				x = desapilar();
+				sprintf(sPosActual, "%d", puntero_tokens);
+				escribirEnLista(x, sPosActual);
+				x = desapilar();
+				sprintf(sPosActual, "%d", puntero_tokens);
+				escribirEnLista(x, sPosActual);
+
+				sprintf(sPosActual, "%d", puntero_tokens - 1);
+				apilar(sPosActual);
+			}else {
+				x = desapilar();
+				sprintf(sPosActual, "%d", puntero_tokens);
+				escribirEnLista(x, sPosActual);
+				sprintf(sPosActual, "%d", puntero_tokens - 1);
+				apilar(sPosActual);
+			}
 		}
 	;
 
@@ -246,12 +276,19 @@ condiciones:
 		
 operador:
 			AND			{	char sPosActual[5];
+							flagAND = 1;
 							insertarEnLista("CMP");
 							insertarEnLista(comparador);
 							insertarEnLista("###");
 							sprintf(sPosActual, "%d", puntero_tokens - 1);
 							apilar(sPosActual); }
-		|	OR			{printf("or\n");}
+		|	OR			{ char sPosActual[5];
+							flagOR = 1;
+							insertarEnLista("CMP");
+							insertarEnLista(invertirComp(comparador));
+							insertarEnLista("###");
+							sprintf(sPosActual, "%d", puntero_tokens - 1);
+							apilar(sPosActual); }
 	;
 	
 condicion:
@@ -259,12 +296,12 @@ condicion:
 	;
 
 operador:
-			CMP_MAYOR		{ comparador = "BLE"; }
-		|	CMP_MAYORIGUAL	{ comparador = "BLT"; }
-		|	CMP_MENOR		{ comparador = "BGE"; }
-		|	CMP_MENORIGUAL	{ comparador = "BGT"; }
-		|	CMP_IGUAL		{ comparador = "BNE"; }
-		|	CMP_DISTINTO	{ comparador = "BEQ"; }
+			CMP_MAYOR		{ comparador = "BLE"; /*BGT*/ } 
+		|	CMP_MAYORIGUAL	{ comparador = "BLT"; /*BGE*/ }	
+		|	CMP_MENOR		{ comparador = "BGE"; /*BLT*/ }
+		|	CMP_MENORIGUAL	{ comparador = "BGT"; /*BLE*/ }
+		|	CMP_IGUAL		{ comparador = "BNE"; /*BEQ*/ }
+		|	CMP_DISTINTO	{ comparador = "BEQ"; /*BNE*/ }
 	;
 
 asignacion:
@@ -443,6 +480,31 @@ void verificarVariableDup(char * aux){
 
 	if(existeTokenEnTS(aux) && esDeclaracionVar)
 		yyerror("No se admiten variables duplicadas");
+}
+
+char* invertirComp(char* comp)
+{
+	char* aux = (char*) malloc(sizeof(char) * (strlen(comp) + 1));
+	strcpy(aux,comp);
+
+	if(strcmp(aux, "BGE") == 0){
+		return "BLT";
+	}
+	if(strcmp(aux, "BLT") == 0){
+		return "BGE";
+	}
+	if(strcmp(aux, "BGT") == 0){
+		return "BLE";
+	}
+	if(strcmp(aux, "BEQ") == 0){
+		return "BNE";
+	}
+	if(strcmp(aux, "BLE") == 0){
+		return "BGT";
+	}
+	if(strcmp(aux, "BNE") == 0){
+		return "BEQ";
+	}
 }
 
 int desapilar(){
