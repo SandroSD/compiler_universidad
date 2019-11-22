@@ -275,7 +275,7 @@ void imprimirInstruccionPolaca(char* linea){
 		fprintf(pfASM,"\t;PRINT\n");
 		opp1=(char *) malloc(sizeof(char) * 31);
 		strcpy(opp1, recuperarTipoTS(linea));
-		printf("\t***Obtuve Tipo %s",opp1);
+		//printf("\t***Obtuve Tipo %s",opp1);
 		if(strcmp(opp1,"CONST_INT")==0 || strcmp(opp1,"INT")==0){
 			if(strcmp(opp1,"INT")==0){
 				fprintf(pfASM,"\tDisplayInteger _%s 2\n",linea);
