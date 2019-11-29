@@ -32,6 +32,7 @@
 	char * aux;
 	char * auxAsignacion;
 	int puntero_tokens = 1;
+
 	char * pila[100];
 	int tope_pila_polaca = 0;
 	char * comparador;
@@ -310,6 +311,8 @@ asignacion:
 			ID { 
 				 auxAsignacion = (char *) malloc(sizeof(char) * (strlen(yylval.stringValue) + 1));
 			 	 strcpy(auxAsignacion, yylval.stringValue);
+			 	 int tipo = buscarTipoTS(yylval.stringValue);
+				 verificarTipoDato(tipo);
 			   }
 			OP_ASIG
 			expresion { insertarEnLista(auxAsignacion);
@@ -319,7 +322,7 @@ asignacion:
 expresion:
 			expresion OP_RES termino	{ insertarEnLista("-"); }
 		|	expresion OP_SUM termino	{ insertarEnLista("+"); }
-		|	expresion DIV termino		{ insertarEnLista("DIV"); printf("Esto es un DIV");}
+		|	expresion DIV termino		{ insertarEnLista("/"); printf("Esto es un DIV");}
 		|	expresion { insertarEnLista("mod0"); insertarEnLista(":=");} 
 			MOD termino	{ insertarEnLista("mod1"); insertarEnLista(":="); 
 						   insertarEnLista("mod0"); insertarEnLista("mod1");
