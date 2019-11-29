@@ -176,6 +176,11 @@ decision:
 				x = desapilar();
 				sprintf(sPosActual, "%d", puntero_tokens);
 				escribirEnLista(x, sPosActual);
+				if(flagAND == 1){
+					x = desapilar();
+					escribirEnLista(x, sPosActual);
+					flagAND = 0;
+				}
 			}
 		|	IF CAR_PA condiciones CAR_PC then_ CAR_LA sentencias CAR_LC else_ CAR_LA sentencias CAR_LC
 			{
