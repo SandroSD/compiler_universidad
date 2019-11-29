@@ -319,7 +319,7 @@ asignacion:
 expresion:
 			expresion OP_RES termino	{ insertarEnLista("-"); }
 		|	expresion OP_SUM termino	{ insertarEnLista("+"); }
-		|	expresion DIV termino		{ insertarEnLista("DIV"); printf("Esto es un DIV");}
+		|	expresion DIV termino		{ insertarEnLista("/"); printf("Esto es un DIV");}
 		|	expresion { insertarEnLista("mod0"); insertarEnLista(":=");} 
 			MOD termino	{ insertarEnLista("mod1"); insertarEnLista(":="); 
 						   insertarEnLista("mod0"); insertarEnLista("mod1");
