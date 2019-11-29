@@ -108,7 +108,7 @@
 %token CONST
 
 %token CONST_INT
-%token CONST_REAL
+%token CONST_FLOAT
 %token CONST_STR
 
 //Empezamos a definir la gramática
@@ -354,7 +354,7 @@ tipo:
 							verificarTipoDato(1);
 							insertarEnLista(yylval.intValue);
 						}
-		|	CONST_REAL	{
+		|	CONST_FLOAT	{
 							verificarTipoDato(2);
 							insertarEnLista(yylval.floatValue);
 						}
@@ -385,7 +385,7 @@ tipo_const:
 		|	CONST_INT	{
 							insertarEnLista(yylval.intValue);
 						}
-		|	CONST_REAL	{
+		|	CONST_FLOAT	{
 							insertarEnLista(yylval.floatValue);
 						}
 

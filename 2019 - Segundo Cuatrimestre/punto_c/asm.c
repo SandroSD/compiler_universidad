@@ -126,7 +126,7 @@ void generarDatos() {
 						fprintf(pfASM, "\t_%s db %s, '$', %s dup(?)\n", nombre_elemento, valor_elemento, longitud_elemento);
 					}
 				}else{
-					if(strcmp(tipo_elemento,"CONST_REAL")==0){
+					if(strcmp(tipo_elemento,"CONST_FLOAT")==0){
 						fprintf(pfASM, "\t%s dd %s\n",nombre_elemento,valor_elemento);
 					}else{
 						if(strcmp(tipo_elemento,"STRING")==0){
@@ -286,7 +286,7 @@ void imprimirInstruccionPolaca(char* linea){
 				fprintf(pfASM, "\tnewLine 1\n\n");    
 			}
 		}else{
-			if(strcmp(opp1,"CONST_REAL")==0 || strcmp(opp1,"FLOAT")==0){
+			if(strcmp(opp1,"CONST_FLOAT")==0 || strcmp(opp1,"FLOAT")==0){
 				if(strcmp(opp1,"FLOAT")==0){
 					fprintf(pfASM,"\tDisplayFloat _%s 2\n",linea);
 					fprintf(pfASM, "\tnewLine 1\n\n");

@@ -15,7 +15,7 @@ DIGITO_SIN_CERO			[1-9]
 LETRA					[a-zA-Z]
 ID						{LETRA}({LETRA}|{DIGITO_CON_CERO}|_)*
 CONST_INT				"-"{DIGITO_SIN_CERO}+|{DIGITO_CON_CERO}+
-CONST_REAL				"-"{DIGITO_CON_CERO}+"."{DIGITO_CON_CERO}*|{DIGITO_CON_CERO}*"."{DIGITO_CON_CERO}+|{DIGITO_CON_CERO}+"."{DIGITO_CON_CERO}*
+CONST_FLOAT				"-"{DIGITO_CON_CERO}+"."{DIGITO_CON_CERO}*|{DIGITO_CON_CERO}*"."{DIGITO_CON_CERO}+|{DIGITO_CON_CERO}+"."{DIGITO_CON_CERO}*
 CONST_STR          		"\""({CARACTER}|{ESPACIO})*"\""
 CARACTER        		[a-z,A-Z,0-9,=,>,<,!,:,+,-,*,/,@]
 ESPACIO         		[" "]
@@ -79,15 +79,15 @@ READ            		{return READ;}
 							printf( "Entero en lexico: %d\n", yylval.intValue); 
 							return CONST_INT;
 						}
-{CONST_REAL}      		{
+{CONST_FLOAT}      		{
 							if (atof(yytext) > COTA_FLOAT) {
 								printf( "El flotante ingresado supera la cantidad maxima permitida. Cantidad: %f\n", COTA_FLOAT);
 								exit(1);
 							}  
 							yylval.floatValue = yytext;
-							insertarTokenEnTS("CONST_REAL", strdup(yytext), 0, yytext);
+							insertarTokenEnTS("CONST_FLOAT", strdup(yytext), 0, yytext);
 							printf( "Float en lexico: %f\n", yylval.floatValue); 
-							return CONST_REAL;
+							return CONST_FLOAT;
 						}
 {CONST_STR}    			{	
 					        if (strlen(yytext) > COTA_STR) { 
