@@ -162,7 +162,7 @@ int crearArchivoTS()
 		if(tablaSimbolos[i].nombre[0] != '_')
 		{
 			if ((strcmp(tablaSimbolos[i].tipo, "INTEGER") == 0)
-			|| (strcmp(tablaSimbolos[i].tipo, "REAL") == 0) 
+			|| (strcmp(tablaSimbolos[i].tipo, "FLOAT") == 0) 
 			|| (strcmp(tablaSimbolos[i].tipo, "STRING") == 0))
 			{
 				fprintf(archivo, "%-30s%-12s\n", tablaSimbolos[i].nombre, tablaSimbolos[i].tipo);

@@ -109,7 +109,7 @@
 %token CONST
 
 %token CONST_INT
-%token CONST_REAL
+%token CONST_FLOAT
 %token CONST_STR
 
 //Empezamos a definir la gramática
@@ -177,6 +177,11 @@ decision:
 				x = desapilar();
 				sprintf(sPosActual, "%d", puntero_tokens);
 				escribirEnLista(x, sPosActual);
+				if(flagAND == 1){
+					x = desapilar();
+					escribirEnLista(x, sPosActual);
+					flagAND = 0;
+				}
 			}
 		|	IF CAR_PA condiciones CAR_PC then_ CAR_LA sentencias CAR_LC else_ CAR_LA sentencias CAR_LC
 			{
@@ -352,7 +357,7 @@ tipo:
 							verificarTipoDato(1);
 							insertarEnLista(yylval.intValue);
 						}
-		|	CONST_REAL	{
+		|	CONST_FLOAT	{
 							verificarTipoDato(2);
 							insertarEnLista(yylval.floatValue);
 						}
@@ -383,7 +388,7 @@ tipo_const:
 		|	CONST_INT	{
 							insertarEnLista(yylval.intValue);
 						}
-		|	CONST_REAL	{
+		|	CONST_FLOAT	{
 							insertarEnLista(yylval.floatValue);
 						}
 
