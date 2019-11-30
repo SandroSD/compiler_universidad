@@ -106,8 +106,8 @@ void prepararTSParaAssembler()
 	int contador = 1;
 	for (i = 0; i < posicion_en_ts; i++)
 	{
-		if ((strcmp(tablaSimbolos[i].tipo, "INTEGER") == 0)
-		|| (strcmp(tablaSimbolos[i].tipo, "REAL") == 0) 
+		if ((strcmp(tablaSimbolos[i].tipo, "INT") == 0)
+		|| (strcmp(tablaSimbolos[i].tipo, "FLOAT") == 0) 
 		|| (strcmp(tablaSimbolos[i].tipo, "STRING") == 0))
 		{
 			char nuevoNombre[100] = "";

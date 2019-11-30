@@ -74,7 +74,7 @@ void generarEncabezado() {
     fprintf(pfASM, ".STACK 200h ; bytes en el stack\n"); 
 }
 
-
+/*
 void generarDatos() {
 	FILE *pfTS;
 	int nro_linea=1;
@@ -173,6 +173,64 @@ void generarDatos() {
 	
 	
 }
+*/
+
+void generarDatos(){
+    //Encabezado del sector de datos
+    fprintf(pfASM, "\t\n.DATA\t\t ; comienzo de la zona de datos.\n");    
+    fprintf(pfASM, "\tTRUE equ 1\n");
+    fprintf(pfASM, "\tFALSE equ 0\n");
+    fprintf(pfASM, "\tMAXTEXTSIZE equ %d\n",COTA_STR);
+
+	fprintf(pfASM, "\tR1 dd ?\n",200);	
+	int cant_aux = 1;
+	while(cant_aux<=15){	
+		fprintf(pfASM, "\t@aux%d dd ?\n",cant_aux);
+		cant_aux++;
+	}
+
+    // fprintf(arch, "NEW_LINE DB 0AH,0DH,'$'\n");
+	// fprintf(arch, "CWprevio DW ?\n");
+
+	int i;
+	int tamTS = obtenerTamTS();
+	for(i=0; i<tamTS; i++)
+	{
+		if(strcmp(tablaSimbolos[i].tipo, "INT") == 0 )
+		{
+			fprintf(pfASM, "\t%s dd 0\n",tablaSimbolos[i].nombre);
+		}
+		if(strcmp(tablaSimbolos[i].tipo, "FLOAT") == 0 )
+		{
+			fprintf(pfASM, "\t%s dd 0.0\n",tablaSimbolos[i].nombre);
+		}
+		if(strcmp(tablaSimbolos[i].tipo, "STRING") == 0 )
+		{
+			//cambiar %s
+			fprintf(pfASM, "\t%s db MAXTEXTSIZE dup(?), '$'\n",tablaSimbolos[i].nombre);
+		}
+		if(strcmp(tablaSimbolos[i].tipo, "CONST_INT") == 0 || strcmp(tablaSimbolos[i].tipo, "CONST_FLOAT") == 0 )
+		{
+            fprintf(pfASM, "\t%s dd %s\n",tablaSimbolos[i].nombre, tablaSimbolos[i].valor);
+		}
+		if(strcmp(tablaSimbolos[i].tipo, "CONST_STR") == 0)
+		{
+			int longitud = strlen(tablaSimbolos[i].valor);
+			int size = COTA_STR - longitud;
+			fprintf(pfASM, "\t%s db %s, '$', %d dup(?)\n", tablaSimbolos[i].nombre, tablaSimbolos[i].valor, size);
+		}
+	}
+	// Auxiliares declarados
+	//int tamTercetos = obtenerIndiceActual();
+	//for(i=0; i<tamTercetos; i++)
+	//{
+	//	if(strstr(tercetos[i].operador, "ETIQ") == NULL)
+	//	{	
+	//		fprintf(pfASM, "\t@aux%d dd 0.0\n",i);
+	//	}
+	//}
+}
+
 
 void generarCodigo() {
 	//printf("** Inicio generar codigo **\n\n");

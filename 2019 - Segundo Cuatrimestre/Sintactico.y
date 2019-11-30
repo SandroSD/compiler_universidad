@@ -119,8 +119,8 @@
 programa:  
 	declaracion sentencias
 	{
+		prepararTSParaAssembler();
 		crearArchivoTS();
-		//generarASM();
 		if(crearArchivoIntermedia() == 1){
 			printf("Archivo de intermedia generado correctamente \n");
 			generarASM();
