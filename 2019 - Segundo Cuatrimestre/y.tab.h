@@ -81,7 +81,7 @@
      OP_IGUAL = 297,
      CONST = 298,
      CONST_INT = 299,
-     CONST_REAL = 300,
+     CONST_FLOAT = 300,
      CONST_STR = 301
    };
 #endif
@@ -128,7 +128,7 @@
 #define OP_IGUAL 297
 #define CONST 298
 #define CONST_INT 299
-#define CONST_REAL 300
+#define CONST_FLOAT 300
 #define CONST_STR 301
 
 
@@ -139,7 +139,7 @@ typedef union YYSTYPE
 {
 
 /* Line 1676 of yacc.c  */
-#line 58 "Sintactico.y"
+#line 59 "Sintactico.y"
 
 	char * intValue;
 	char * floatValue;

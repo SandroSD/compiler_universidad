@@ -53,6 +53,7 @@
 	int flagAND = 0;
 	int flagOR = 0;
 	int cantCond = 1;
+	int flgAsignacion = 0;
 %}
 
 %union {
@@ -318,10 +319,12 @@ asignacion:
 			 	 strcpy(auxAsignacion, yylval.stringValue);
 			 	 int tipo = buscarTipoTS(yylval.stringValue);
 				 verificarTipoDato(tipo);
+				 flgAsignacion = 1;
 			   }
 			OP_ASIG
 			expresion { insertarEnLista(auxAsignacion);
-			 			insertarEnLista(":="); }
+			 			insertarEnLista(":=");
+			 			flgAsignacion = 0; }
 	;
 
 expresion:
@@ -477,6 +480,11 @@ void verificarTipoDato(int tipo) {
 	}
 	
 	if(tipoDatoActual != tipo) {
+		if(flgAsignacion == 1){
+			flgAsignacion = 0;
+			yyerror("No se admiten asignaciones entre distintos tipos");
+			flgAsignacion = 0;
+		} 
 		yyerror("No se admiten operaciones aritmeticas con tipo de datos distintos");
 	}
 	

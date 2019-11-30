@@ -2,7 +2,7 @@ Nombre                        Tipo        Valor                         Longitud
 var1                         INT                                                   
 var2                         INT                                                   
 var3                         INT                                                   
-var4                         FLOAT                                                 
+var4                          FLOAT       
 a                            INT                                                   
 a2                           INT                                                   
 var7                         INT                                                   
@@ -11,13 +11,5 @@ valE                         ID
 valS                         ID                                                    
 "Hola mundo"                 CONST_STR   "Hola mundo"                  12          
 valR                         ID                                                    
-2.5                          CONST_REAL  2.5                                       
+2.5                          CONST_FLOAT 2.5                                       
 1                            CONST_INT   1                                         
-10                           CONST_INT   10                                        
-9                            CONST_INT   9                                         
-5                            CONST_INT   5                                         
-8                            CONST_INT   8                                         
-c                            ID                                                    
-20                           CONST_INT   20                                        
-"hola mundo"                 CONST_STR   "hola mundo"                  12          
-b                            ID                                                    
