@@ -99,8 +99,8 @@ void generarDatos() {
 		cant_aux++;
 	}    
 	
-	if(!(pfTS = fopen("ts.txt", "r+"))) {
-         informeError("Error al abrir el archivo ts.txt, verifique los permisos de escritura.");
+	if(!(pfTS = fopen("ts2.txt", "r+"))) {
+         informeError("Error al abrir el archivo ts2.txt, verifique los permisos de escritura.");
     }
 	
 	int pos=1; //1=nombre/2=tipo/3=longitud/4=valor
@@ -117,7 +117,7 @@ void generarDatos() {
 			pos=1;
 			
 			if(strcmp(tipo_elemento,"CONST_INT")==0){
-				fprintf(pfASM, "\t_%s dd %s\n",nombre_elemento,valor_elemento); 
+				fprintf(pfASM, "\t%s dd %s\n",nombre_elemento,valor_elemento); 
 			}else{
 				if(strcmp(tipo_elemento,"CONST_STR")==0){
 					if(strcmp(valor_elemento,"-") == 0){

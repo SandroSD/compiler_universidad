@@ -1,6 +1,5 @@
 #include "../punto_h/asm.h"
 #include "../punto_h/ts.h"
-#include <string.h>
 #define TRUE 1
 #define FALSE 0
 #define PILA_LLENA -1
@@ -34,7 +33,6 @@ char* sacarDePila();
 int pVacia(int tope);
 int pLlena(int tope);
 void debugP(int tope);
-char *replace_str(char *str, char *orig, char *rep);
 
 void insertarEtiqueta(char* str);
 
@@ -200,30 +198,26 @@ void generarDatos(){
 	{
 		if(strcmp(tablaSimbolos[i].tipo, "INT") == 0 )
 		{
-			fprintf(pfASM, "\t_%s dd 0\n",tablaSimbolos[i].nombre);
+			fprintf(pfASM, "\t%s dd 0\n",tablaSimbolos[i].nombre);
 		}
 		if(strcmp(tablaSimbolos[i].tipo, "FLOAT") == 0 )
 		{
-			fprintf(pfASM, "\t_%s dd 0.0\n",tablaSimbolos[i].nombre);
+			fprintf(pfASM, "\t%s dd 0.0\n",tablaSimbolos[i].nombre);
 		}
 		if(strcmp(tablaSimbolos[i].tipo, "STRING") == 0 )
 		{
 			//cambiar %s
-			fprintf(pfASM, "\t_%s db MAXTEXTSIZE dup(?), '$'\n",tablaSimbolos[i].nombre);
+			fprintf(pfASM, "\t%s db MAXTEXTSIZE dup(?), '$'\n",tablaSimbolos[i].nombre);
 		}
 		if(strcmp(tablaSimbolos[i].tipo, "CONST_INT") == 0 || strcmp(tablaSimbolos[i].tipo, "CONST_FLOAT") == 0 )
 		{
-            fprintf(pfASM, "\t_%s dd %s\n",tablaSimbolos[i].nombre, tablaSimbolos[i].valor);
+            fprintf(pfASM, "\t%s dd %s\n",tablaSimbolos[i].nombre, tablaSimbolos[i].valor);
 		}
 		if(strcmp(tablaSimbolos[i].tipo, "CONST_STR") == 0)
 		{
 			int longitud = strlen(tablaSimbolos[i].valor);
 			int size = COTA_STR - longitud;
-			fprintf(pfASM, "\t_%s db %s, '$', %d dup(?)\n", replace_str(replace_str(tablaSimbolos[i].nombre, " ", "_"), "\"", ""), tablaSimbolos[i].valor, size);
-		}
-		if(strcmp(tablaSimbolos[i].tipo, "ID") == 0)
-		{
-            fprintf(pfASM, "\t_%s dd %s\n",tablaSimbolos[i].nombre, tablaSimbolos[i].valor);
+			fprintf(pfASM, "\t%s db %s, '$', %d dup(?)\n", tablaSimbolos[i].nombre, tablaSimbolos[i].valor, size);
 		}
 	}
 	// Auxiliares declarados
@@ -637,22 +631,6 @@ void debugP(int tope)
     }                    
     printf("\n====== FIN DEBUG PILA ======\n\n");   
     
-}
-
-char *replace_str(char *str, char *orig, char *rep)
-{
-  static char buffer[4096];
-  char *p;
-
-  if(!(p = strstr(str, orig)))  // Is 'orig' even in 'str'?
-    return str;
-
-  strncpy(buffer, str, p-str); // Copy characters from 'str' start to 'orig' st$
-  buffer[p-str] = '\0';
-
-  sprintf(buffer+(p-str), "%s%s", rep, p+strlen(orig));
-
-  return buffer;
 }
 
 void cargarVectorEtiquetas(){

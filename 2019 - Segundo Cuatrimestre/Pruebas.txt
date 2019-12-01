@@ -13,3 +13,9 @@ CONST valR=2.5
 
 --/Prueba de asignacion/--
 a2:=1
+
+--/Prueba de DIV/--
+var1:=2 DIV 1
+
+--/Prueba de MOD/--
+var1:=valE MOD valE
