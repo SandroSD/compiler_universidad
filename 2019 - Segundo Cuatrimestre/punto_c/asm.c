@@ -39,6 +39,8 @@ void insertarEtiqueta(char* str);
 int concatenarString = 1;
 char* vecTablaSimbolos[500];
 void cargarVectorEtiquetas();
+char* eliminarPrimerCaracter(char* str);
+
 
 
 void generarASM() {
@@ -198,16 +200,16 @@ void generarDatos(){
 	{
 		if(strcmp(tablaSimbolos[i].tipo, "INT") == 0 )
 		{
-			fprintf(pfASM, "\t%s dd 0\n",tablaSimbolos[i].nombre);
+			fprintf(pfASM, "\t_%s dd 0\n",tablaSimbolos[i].nombre);
 		}
 		if(strcmp(tablaSimbolos[i].tipo, "FLOAT") == 0 )
 		{
-			fprintf(pfASM, "\t%s dd 0.0\n",tablaSimbolos[i].nombre);
+			fprintf(pfASM, "\t_%s dd 0.0\n",tablaSimbolos[i].nombre);
 		}
 		if(strcmp(tablaSimbolos[i].tipo, "STRING") == 0 )
 		{
 			//cambiar %s
-			fprintf(pfASM, "\t%s db MAXTEXTSIZE dup(?), '$'\n",tablaSimbolos[i].nombre);
+			fprintf(pfASM, "\t_%s db MAXTEXTSIZE dup(?), '$'\n",tablaSimbolos[i].nombre);
 		}
 		if(strcmp(tablaSimbolos[i].tipo, "CONST_INT") == 0 || strcmp(tablaSimbolos[i].tipo, "CONST_FLOAT") == 0 )
 		{
@@ -219,7 +221,13 @@ void generarDatos(){
 			int size = COTA_STR - longitud;
 			fprintf(pfASM, "\t%s db %s, '$', %d dup(?)\n", tablaSimbolos[i].nombre, tablaSimbolos[i].valor, size);
 		}
+		if(strcmp(tablaSimbolos[i].tipo, "ID") == 0 )
+		{
+            fprintf(pfASM, "\t_%s dd 0.0\n",tablaSimbolos[i].valor);
+		}
 	}
+	fprintf(pfASM, "\t_mod0 dd 0.0\n");
+	fprintf(pfASM, "\t_mod1 dd 0.0\n");
 	// Auxiliares declarados
 	//int tamTercetos = obtenerIndiceActual();
 	//for(i=0; i<tamTercetos; i++)
@@ -385,8 +393,38 @@ void imprimirInstruccionPolaca(char* linea){
 		strcpy(opp2, sacarDePila());
 		
 		// no esta asi en el apunte pero lo dejo x las dudas
-		fprintf(pfASM, "\tfld %s\n",opp1);
-		fprintf(pfASM, "\tfld %s\n",opp2);
+		char* auxOp1 = (char *) malloc(sizeof(char) * 31);
+		strcpy(auxOp1, opp1);
+		auxOp1 = eliminarPrimerCaracter(auxOp1);
+		if(strstr(recuperarNombreTS(auxOp1), "cte") != NULL){
+			char* nomOp1;
+			nomOp1 = recuperarNombreTS(auxOp1);
+			if(strstr(recuperarTipoTS(nomOp1), "ID") != NULL){
+				fprintf(pfASM, "\tfld %s\n", opp1);
+			} else {
+				fprintf(pfASM, "\tfld %s\n", nomOp1);
+			}			
+		} else {
+			fprintf(pfASM, "\tfld %s\n",opp1);
+		}		
+
+		char* auxOp2 = (char *) malloc(sizeof(char) * 31);
+		strcpy(auxOp2, opp2);
+		auxOp2 = eliminarPrimerCaracter(auxOp2); 
+		if(strstr(recuperarNombreTS(auxOp2), "cte") != NULL){
+			char* nomOp;
+			nomOp = recuperarNombreTS(auxOp2);
+			if(strstr(recuperarTipoTS(nomOp), "ID") != NULL){
+				fprintf(pfASM, "\tfld %s\n", opp2);
+			} else {
+				fprintf(pfASM, "\tfld %s\n", nomOp);
+			}				
+		} else {
+			fprintf(pfASM, "\tfld %s\n",opp2);
+		}
+
+		//fprintf(pfASM, "\tfld %s\n",opp1);
+		//fprintf(pfASM, "\tfld %s\n",opp2);
 		fprintf(pfASM, "\tfadd\n");
 		
 		//fprintf(pfASM, "\tmov R1, %s\n",opp1);
@@ -405,9 +443,46 @@ void imprimirInstruccionPolaca(char* linea){
 		opp2=(char *) malloc(sizeof(char) * 31); 
 		strcpy(opp1, sacarDePila());
 		strcpy(opp2, sacarDePila());
-				
-		fprintf(pfASM, "\tfld %s\n",opp1);
-		fprintf(pfASM, "\tfld %s\n",opp2);
+		
+		if(strstr(opp1, "mod") != NULL){
+			fprintf(pfASM, "\tfld %s\n",opp1);
+		} else {
+			char* auxOpResta1 = (char *) malloc(sizeof(char) * 31);
+			strcpy(auxOpResta1, opp1);
+			auxOpResta1 = eliminarPrimerCaracter(auxOpResta1);
+			if(strstr(recuperarNombreTS(auxOpResta1), "cte") != NULL){
+				char* nomOpResta1;
+				nomOpResta1 = recuperarNombreTS(auxOpResta1);
+				if(strstr(recuperarTipoTS(nomOpResta1), "ID") != NULL){
+					fprintf(pfASM, "\tfld %s\n", opp1);
+				} else {
+					fprintf(pfASM, "\tfld %s\n", nomOpResta1);
+				}			
+			} else {
+				fprintf(pfASM, "\tfld %s\n",opp1);
+			}	
+		}				
+
+		if(strstr(opp2, "mod") != NULL){
+			fprintf(pfASM, "\tfld %s\n",opp2);
+		} else {
+			char* auxOpResta2 = (char *) malloc(sizeof(char) * 31);
+			strcpy(auxOpResta2, opp2);
+			auxOpResta2 = eliminarPrimerCaracter(auxOpResta2); 
+			if(strstr(recuperarNombreTS(auxOpResta2), "cte") != NULL){
+				char* nomOpResta2;
+				nomOpResta2 = recuperarNombreTS(auxOpResta2);
+				if(strstr(recuperarTipoTS(nomOpResta2), "ID") != NULL){
+					fprintf(pfASM, "\tfld %s\n", opp2);
+				} else {
+					fprintf(pfASM, "\tfld %s\n", nomOpResta2);
+				}				
+			} else {
+				fprintf(pfASM, "\tfld %s\n",opp2);
+			}
+		}
+		
+		
 		fprintf(pfASM, "\tfsub\n");
 		sprintf(aux,"@aux%d",cont_aux); // armo string @aux		
 		fprintf(pfASM, "\tfstp %s\n",aux); 
@@ -422,9 +497,47 @@ void imprimirInstruccionPolaca(char* linea){
 		opp2=(char *) malloc(sizeof(char) * 31); 
 		strcpy(opp1, sacarDePila());
 		strcpy(opp2, sacarDePila());
-						
-		fprintf(pfASM, "\tfld %s\n",opp1);
-		fprintf(pfASM, "\tfld %s\n",opp2);
+		
+		if(strstr(opp1, "mod") != NULL){
+			fprintf(pfASM, "\tfld %s\n",opp1);
+		} else {				
+			char* auxOpResta1 = (char *) malloc(sizeof(char) * 31);
+			strcpy(auxOpResta1, opp1);
+			auxOpResta1 = eliminarPrimerCaracter(auxOpResta1);
+			if(strstr(recuperarNombreTS(auxOpResta1), "cte") != NULL){
+				char* nomOpResta1;
+				nomOpResta1 = recuperarNombreTS(auxOpResta1);
+				if(strstr(recuperarTipoTS(nomOpResta1), "ID") != NULL){
+					fprintf(pfASM, "\tfld %s\n", opp1);
+				} else {
+					fprintf(pfASM, "\tfld %s\n", nomOpResta1);
+				}			
+			} else {
+				fprintf(pfASM, "\tfld %s\n",opp1);
+			}	
+		}	
+
+		if(strstr(opp2, "mod") != NULL){
+			fprintf(pfASM, "\tfld %s\n",opp2);
+		} else {
+			char* auxOpResta2 = (char *) malloc(sizeof(char) * 31);
+			strcpy(auxOpResta2, opp2);
+			auxOpResta2 = eliminarPrimerCaracter(auxOpResta2); 
+			if(strstr(recuperarNombreTS(auxOpResta2), "cte") != NULL){
+				char* nomOpResta2;
+				nomOpResta2 = recuperarNombreTS(auxOpResta2);
+				if(strstr(recuperarTipoTS(nomOpResta2), "ID") != NULL){
+					fprintf(pfASM, "\tfld %s\n", opp2);
+				} else {
+					fprintf(pfASM, "\tfld %s\n", nomOpResta2);
+				}				
+			} else {
+				fprintf(pfASM, "\tfld %s\n",opp2);
+			}
+		}
+		
+		//fprintf(pfASM, "\tfld %s\n",opp1);
+		//fprintf(pfASM, "\tfld %s\n",opp2);
 		fprintf(pfASM, "\tfmul\n");
 		sprintf(aux,"@aux%d",cont_aux); // armo string @aux		
 		fprintf(pfASM, "\tfstp %s\n",aux); 
@@ -439,9 +552,47 @@ void imprimirInstruccionPolaca(char* linea){
 		opp2=(char *) malloc(sizeof(char) * 31); 
 		strcpy(opp1, sacarDePila());
 		strcpy(opp2, sacarDePila());
-						
-		fprintf(pfASM, "\tfld %s\n",opp1);
-		fprintf(pfASM, "\tfld %s\n",opp2);
+
+		if(strstr(opp1, "mod") != NULL){
+			fprintf(pfASM, "\tfld %s\n",opp1);
+		} else {				
+			char* auxOpResta1 = (char *) malloc(sizeof(char) * 31);
+			strcpy(auxOpResta1, opp1);
+			auxOpResta1 = eliminarPrimerCaracter(auxOpResta1);
+			if(strstr(recuperarNombreTS(auxOpResta1), "cte") != NULL){
+				char* nomOpResta1;
+				nomOpResta1 = recuperarNombreTS(auxOpResta1);
+				if(strstr(recuperarTipoTS(nomOpResta1), "ID") != NULL){
+					fprintf(pfASM, "\tfld %s\n", opp1);
+				} else {
+					fprintf(pfASM, "\tfld %s\n", nomOpResta1);
+				}			
+			} else {
+				fprintf(pfASM, "\tfld %s\n",opp1);
+			}	
+		}	
+
+		if(strstr(opp2, "mod") != NULL){
+			fprintf(pfASM, "\tfld %s\n",opp2);
+		} else {
+			char* auxOpResta2 = (char *) malloc(sizeof(char) * 31);
+			strcpy(auxOpResta2, opp2);
+			auxOpResta2 = eliminarPrimerCaracter(auxOpResta2); 
+			if(strstr(recuperarNombreTS(auxOpResta2), "cte") != NULL){
+				char* nomOpResta2;
+				nomOpResta2 = recuperarNombreTS(auxOpResta2);
+				if(strstr(recuperarTipoTS(nomOpResta2), "ID") != NULL){
+					fprintf(pfASM, "\tfld %s\n", opp2);
+				} else {
+					fprintf(pfASM, "\tfld %s\n", nomOpResta2);
+				}				
+			} else {
+				fprintf(pfASM, "\tfld %s\n",opp2);
+			}
+		}
+		
+		//fprintf(pfASM, "\tfld %s\n",opp1);
+		//fprintf(pfASM, "\tfld %s\n",opp2);
 		fprintf(pfASM, "\tfdiv\n");
 		sprintf(aux,"@aux%d",cont_aux); // armo string @aux		
 		fprintf(pfASM, "\tfstp %s\n",aux); 
@@ -457,15 +608,87 @@ void imprimirInstruccionPolaca(char* linea){
 		opp2=(char *) malloc(sizeof(char) * 31); 
 		strcpy(opp1, sacarDePila());
 		strcpy(opp2, sacarDePila());
+
+		//fprintf(pfASM, "\tfld %s\n", opp2);
 		
-		fprintf(pfASM, "\tfld %s\n",opp2);
-		fprintf(pfASM, "\tfstp %s\n",opp1); 
-		//fprintf(pfASM, "\t\nfmov\n");
+		//En el caso de CTE
+		if(strstr(opp2, "aux") != NULL) {
+			fprintf(pfASM, "\tfld %s\n", opp2);
+		} else {
+			char* auxOp2 = (char *) malloc(sizeof(char) * 31);
+			strcpy(auxOp2, opp2); 
+			auxOp2 = eliminarPrimerCaracter(auxOp2); 
+			if(strstr(recuperarNombreTS(auxOp2), "cte") != NULL){
+				char* nomOp;
+				nomOp = recuperarNombreTS(auxOp2);
+				if(strstr(recuperarTipoTS(nomOp), "ID") != NULL){
+					fprintf(pfASM, "\tfld %s\n", opp2);
+				} else {
+					fprintf(pfASM, "\tfld %s\n", nomOp);
+				}				
+			} else {
+				fprintf(pfASM, "\tfld %s\n", opp2);
+			}
+		}
 		
-		//fprintf(pfASM,"\tmov R1, %s\n",opp1);
-		//fprintf(pfASM,"\tmov %s, R1\n",opp2);
-		//fprintf(pfASM, "\tmov %s, %s\n", opp2, opp1); 
-		//printf("\t\nmov %s, %s\n", opp2, opp1);	
+
+		/*char* auxOp1 = (char *) malloc(sizeof(char) * 31);
+		strcpy(auxOp1, opp1);
+		auxOp1 = eliminarPrimerCaracter(auxOp1);
+		if(strstr(recuperarNombreTS(auxOp1), "cte") != NULL){
+			char* nomOp1;
+			nomOp1 = recuperarNombreTS(auxOp1);
+			if(strstr(recuperarTipoTS(nomOp1), "ID") != NULL){
+				fprintf(pfASM, "\tfstp %s\n", opp1);
+			} else {
+				fprintf(pfASM, "\tfstp %s\n", nomOp1);
+			}			
+		} else {
+			fprintf(pfASM, "\tfstp %s\n",opp1);
+		}*/ 
+		fprintf(pfASM, "\tfstp %s\n", opp1);
+		return;
+	}
+
+
+	if(strcmp(linea,"=")==0){
+		fprintf(pfASM,"\t;ASIGNACION CTE NOMBRE\n");
+		opp1=(char *) malloc(sizeof(char) * 31); 
+		opp2=(char *) malloc(sizeof(char) * 31); 
+		strcpy(opp1, sacarDePila());
+		strcpy(opp2, sacarDePila());
+
+		//En el caso de CTE
+		char* auxOp2 = (char *) malloc(sizeof(char) * 31);
+		strcpy(auxOp2, opp2);
+		auxOp2 = eliminarPrimerCaracter(auxOp2); 
+		if(strstr(recuperarNombreTS(auxOp2), "cte") != NULL){
+			char* nomOp;
+			nomOp = recuperarNombreTS(auxOp2);
+			if(strstr(recuperarTipoTS(nomOp), "ID") != NULL){
+				fprintf(pfASM, "\tfld %s\n", opp2);
+			} else {
+				fprintf(pfASM, "\tfld %s\n", nomOp);
+			}				
+		} else {
+			fprintf(pfASM, "\tfld %s\n",opp2);
+		}
+
+		char* auxOp1 = (char *) malloc(sizeof(char) * 31);
+		strcpy(auxOp1, opp1);
+		auxOp1 = eliminarPrimerCaracter(auxOp1);
+		if(strstr(recuperarNombreTS(auxOp1), "cte") != NULL){
+			char* nomOp1;
+			nomOp1 = recuperarNombreTS(auxOp1);
+			if(strstr(recuperarTipoTS(nomOp1), "ID") != NULL){
+				fprintf(pfASM, "\tfld %s\n", opp1);
+			} else {
+				fprintf(pfASM, "\tfstp %s\n", nomOp1);
+			}			
+		} else {
+			fprintf(pfASM, "\tfstp %s\n",opp1);
+		}
+	
 		return;
 	}
 
@@ -476,8 +699,41 @@ void imprimirInstruccionPolaca(char* linea){
 		strcpy(opp1, sacarDePila());
 		strcpy(opp2, sacarDePila());
 		
-		fprintf(pfASM, "\tfld %s\n",opp1);
-		fprintf(pfASM, "\tfld %s\n",opp2);  
+		//printf("valor cmp cte1%s\n", opp1);
+		//printf("valor cmp cte2%s\n", opp2);
+
+		char* auxOp1 = (char *) malloc(sizeof(char) * 31);
+		strcpy(auxOp1, opp1);
+		auxOp1 = eliminarPrimerCaracter(auxOp1);
+		if(strstr(recuperarNombreTS(auxOp1), "cte") != NULL){
+			char* nomOp1;
+			nomOp1 = recuperarNombreTS(auxOp1);
+			if(strstr(recuperarTipoTS(nomOp1), "ID") != NULL){
+				fprintf(pfASM, "\tfld %s\n", opp1);
+			} else {
+				fprintf(pfASM, "\tfld %s\n", nomOp1);
+			}			
+		} else {
+			fprintf(pfASM, "\tfstp %s\n",opp1);
+		}
+
+		char* auxOp2 = (char *) malloc(sizeof(char) * 31);
+		strcpy(auxOp2, opp2);
+		auxOp2 = eliminarPrimerCaracter(auxOp2); 
+		if(strstr(recuperarNombreTS(auxOp2), "cte") != NULL){
+			char* nomOp;
+			nomOp = recuperarNombreTS(auxOp2);
+			if(strstr(recuperarTipoTS(nomOp), "ID") != NULL){
+				fprintf(pfASM, "\tfld %s\n", opp2);
+			} else {
+				fprintf(pfASM, "\tfld %s\n", nomOp);
+			}				
+		} else {
+			fprintf(pfASM, "\tfld %s\n",opp2);
+		}
+
+		//fprintf(pfASM, "\tfld %s\n",opp1);
+		//fprintf(pfASM, "\tfld %s\n",opp2);  
 		fprintf(pfASM, "\tfxch\n");		
 		fprintf(pfASM, "\tfcomp\n");
 		fprintf(pfASM, "\tfstsw ax\n");
@@ -539,6 +795,17 @@ void imprimirInstruccionPolaca(char* linea){
 	
 }
 
+
+char* eliminarPrimerCaracter(char* str){
+	int i=1, len=strlen(str);
+	while(i<len)
+	{
+		str[i-1]=str[i];
+		i++;
+	}
+	str[i-1]='\0';
+	return str;
+}
 
 void generarFin(){
     //Fin de ejecución

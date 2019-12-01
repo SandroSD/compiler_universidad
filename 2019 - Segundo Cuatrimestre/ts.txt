@@ -8,8 +8,10 @@ a2                           INT         a2
 var7                         INT         var7                                      
 &cte1                        ID          valE                                      
 &cte2                        CONST_INT   2                                         
-&cte3                        ID          valS                                      
-&cte4                        CONST_STR   "Hola mundo"                  12          
-&cte5                        ID          valR                                      
-&cte6                        CONST_FLOAT 2.5                                       
-&cte7                        CONST_INT   1                                         
+&cte3                        ID          valR                                      
+&cte4                        CONST_FLOAT 2.5                                       
+&cte5                        CONST_INT   1                                         
+&cte6                        CONST_INT   10                                        
+&cte7                        CONST_INT   9                                         
+&cte8                        CONST_INT   5                                         
+&cte9                        CONST_INT   8                                         

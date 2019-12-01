@@ -380,7 +380,7 @@ cte_nombre:
 			OP_IGUAL	
 			tipo_const	{
 							insertarEnLista(auxAsignacion);
-							insertarEnLista(":=");
+							insertarEnLista("=");
 						}
 	;
 
