@@ -1,15 +1,15 @@
 Nombre                        Tipo        Valor                         Longitud    
-var1                         INT                                                   
-var2                         INT                                                   
-var3                         INT                                                   
+var1                         INT         var1                                      
+var2                         INT         var2                                      
+var3                         INT         var3                                      
 var4                          FLOAT       
-a                            INT                                                   
-a2                           INT                                                   
-var7                         INT                                                   
-valE                         ID                                                    
-2                            CONST_INT   2                                         
-valS                         ID                                                    
-"Hola mundo"                 CONST_STR   "Hola mundo"                  12          
-valR                         ID                                                    
-2.5                          CONST_FLOAT 2.5                                       
-1                            CONST_INT   1                                         
+a                            INT         a                                         
+a2                           INT         a2                                        
+var7                         INT         var7                                      
+&cte1                        ID          valE                                      
+&cte2                        CONST_INT   2                                         
+&cte3                        ID          valS                                      
+&cte4                        CONST_STR   "Hola mundo"                  12          
+&cte5                        ID          valR                                      
+&cte6                        CONST_FLOAT 2.5                                       
+&cte7                        CONST_INT   1                                         
