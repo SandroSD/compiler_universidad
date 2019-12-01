@@ -38,13 +38,17 @@ INCLUDE number.asm		 ;incluye el asm para impresion de numeros
 	_var7 dd 0
 	_valE dd 0.0
 	&cte2 dd 2
+	_valS dd 0.0
+	&cte4 db "Hola mundo", '$', 18 dup(?)
 	_valR dd 0.0
-	&cte4 dd 2.5
-	&cte5 dd 1
-	&cte6 dd 10
-	&cte7 dd 9
-	&cte8 dd 5
-	&cte9 dd 8
+	&cte6 dd 2.5
+	&cte7 dd 1
+	&cte8 dd 10
+	&cte9 dd 9
+	&cte10 dd 5
+	&cte11 dd 8
+	_c dd 0.0
+	&cte13 dd 20
 	_mod0 dd 0.0
 	_mod1 dd 0.0
 
@@ -57,12 +61,15 @@ START: 		 ;Código assembler resultante de compilar el programa fuente.
 	fld _valE
 	;ASIGNACION CTE NOMBRE
 	fld &cte4
+	fld _valS
+	;ASIGNACION CTE NOMBRE
+	fld &cte6
 	fld _valR
 	;ASIGNACION
-	fld &cte5
+	fld &cte7
 	fstp _a2
 	;DIVISION
-	fld &cte5
+	fld &cte7
 	fld &cte2
 	fdiv
 	fstp @aux1
@@ -70,50 +77,60 @@ START: 		 ;Código assembler resultante de compilar el programa fuente.
 	fld @aux1
 	fstp _var1
 	;CMP
-	fld &cte7
-	fld &cte6
+	fld &cte9
+	fld &cte8
 	fxch
 	fcomp
 	fstsw ax
 	ffree st(0)
 	sahf
 
-	JAE _etiq25
+	JAE _etiq28
 	;SUMA
-	fld &cte5
-	fld &cte8
+	fld &cte7
+	fld &cte10
 	fadd
 	fstp @aux2
 	;ASIGNACION
 	fld @aux2
 	fstp _var1
-_etiq25:
+_etiq28:
 	;CMP
-	fld &cte7
 	fld &cte9
+	fld &cte11
 	fxch
 	fcomp
 	fstsw ax
 	ffree st(0)
 	sahf
 
-	JAE _etiq37
+	JAE _etiq40
 	;SUMA
-	fld &cte5
-	fld &cte8
+	fld &cte7
+	fld &cte10
 	fadd
 	fstp @aux3
 	;ASIGNACION
 	fld @aux3
 	fstp _var1
-	JMP _etiq40
-_etiq37:
-	;ASIGNACION
-	fld &cte5
-	fstp _a
+	JMP _etiq43
 _etiq40:
-	;CMP
+	;ASIGNACION
 	fld &cte7
+	fstp _a
+_etiq43:
+	;CMP
+	fld &cte9
+	fld &cte11
+	fxch
+	fcomp
+	fstsw ax
+	ffree st(0)
+	sahf
+
+	JB _etiq53
+	;CMP
+	fld &cte8
 	fld &cte9
 	fxch
 	fcomp
@@ -121,39 +138,39 @@ _etiq40:
 	ffree st(0)
 	sahf
 
-	JB _etiq50
-	;CMP
-	fld &cte6
-	fld &cte7
-	fxch
-	fcomp
-	fstsw ax
-	ffree st(0)
-	sahf
-
-	JAE _etiq57
-_etiq50:
+	JAE _etiq60
+_etiq53:
 	;SUMA
-	fld &cte5
-	fld &cte8
+	fld &cte7
+	fld &cte10
 	fadd
 	fstp @aux4
 	;ASIGNACION
 	fld @aux4
 	fstp _var1
-	JMP _etiq62
-_etiq57:
+	JMP _etiq65
+_etiq60:
 	;SUMA
-	fld &cte5
-	fld &cte8
+	fld &cte7
+	fld &cte10
 	fadd
 	fstp @aux5
 	;ASIGNACION
 	fld @aux5
 	fstp _var1
-_etiq62:
+_etiq65:
 	;CMP
-	fld &cte7
+	fld &cte9
+	fld &cte11
+	fxch
+	fcomp
+	fstsw ax
+	ffree st(0)
+	sahf
+
+	JAE _etiq82
+	;CMP
+	fld &cte8
 	fld &cte9
 	fxch
 	fcomp
@@ -161,36 +178,29 @@ _etiq62:
 	ffree st(0)
 	sahf
 
-	JAE _etiq79
-	;CMP
-	fld &cte6
-	fld &cte7
-	fxch
-	fcomp
-	fstsw ax
-	ffree st(0)
-	sahf
-
-	JAE _etiq79
+	JAE _etiq82
 	;SUMA
-	fld &cte5
-	fld &cte8
+	fld &cte7
+	fld &cte10
 	fadd
 	fstp @aux6
 	;ASIGNACION
 	fld @aux6
 	fstp _var1
-	JMP _etiq84
-_etiq79:
+	JMP _etiq87
+_etiq82:
 	;SUMA
-	fld &cte5
-	fld &cte8
+	fld &cte7
+	fld &cte10
 	fadd
 	fstp @aux7
 	;ASIGNACION
 	fld @aux7
 	fstp _var1
-_etiq84:
+_etiq87:
+	;ASIGNACION
+	fld &cte13
+	fstp _c
 
 TERMINAR: ;Fin de ejecución.
 	mov ax, 4C00h ; termina la ejecución.

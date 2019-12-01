@@ -612,7 +612,7 @@ void imprimirInstruccionPolaca(char* linea){
 		//fprintf(pfASM, "\tfld %s\n", opp2);
 		
 		//En el caso de CTE
-		if(strstr(opp2, "aux") != NULL) {
+		if(strstr(opp2, "aux") != NULL || strstr(opp2, "mod") != NULL) {
 			fprintf(pfASM, "\tfld %s\n", opp2);
 		} else {
 			char* auxOp2 = (char *) malloc(sizeof(char) * 31);
