@@ -119,7 +119,7 @@
 programa:  
 	declaracion sentencias
 	{
-		prepararTSParaAssembler();
+		//prepararTSParaAssembler();
 		crearArchivoTS();
 		if(crearArchivoIntermedia() == 1){
 			printf("Archivo de intermedia generado correctamente \n");
